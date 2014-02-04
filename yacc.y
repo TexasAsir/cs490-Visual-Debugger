@@ -6,7 +6,7 @@ primary_expression
 	| CONSTANT
 	| STRING_LITERAL
 	| '(' expression ')'
-	;a
+	;
 
 postfix_expression
 	: primary_expression
