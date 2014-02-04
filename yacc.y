@@ -4,7 +4,7 @@
 %token OR OPENPAR CLOSEPAR OPENBRACKET CLOSEBRACKET TYPEDEF INCLUDE 
 %token RETURN BREAK IF ELSE STRUCT DO WHILE FOR STATIC SIZEOF VOID CONTINUE 
 %token CONST UNSIGNED INT CHAR SHORT LONG FLOAT DOUBLE BAZINGA CHARACTER WORD 
-%token IDENTIFIER
+%token IDENTIFIER DOT
 
 
 
@@ -14,17 +14,16 @@
 
 primary_expression
 	: IDENTIFIER
-	| CONSTANT
-	| STRING_LITERAL
-	| '(' expression ')'
+	| WORD
+  | OPENPAR expression CLOSEPAR
 	;
 
 postfix_expression
 	: primary_expression
-	| postfix_expression '[' expression ']'
-	| postfix_expression '(' ')'
-	| postfix_expression '(' argument_expression_list ')'
-	| postfix_expression '.' IDENTIFIER
+	| postfix_expression OPENBRACKET expression CLOSEBRACKET
+	| postfix_expression OPENPAR CLOSEPAR
+	| postfix_expression OPENPAR argument_expression_list CLOSEPAR
+	| postfix_expression DOT IDENTIFIER
 	| postfix_expression PTR_OP IDENTIFIER
 	| postfix_expression INC_OP
 	| postfix_expression DEC_OP
@@ -32,93 +31,83 @@ postfix_expression
 
 argument_expression_list
 	: assignment_expression
-	| argument_expression_list ',' assignment_expression
+	| argument_expression_list DOT assignment_expression
 	;
 
 unary_expression
 	: postfix_expression
-	| INC_OP unary_expression
-	| DEC_OP unary_expression
+	| PLUSPLUS unary_expression
+	| MINUSMINUS unary_expression
 	| unary_operator cast_expression
 	| SIZEOF unary_expression
-	| SIZEOF '(' type_name ')'
+	| SIZEOF OPENPAR type_name CLOSEPAR
 	;
 
 unary_operator
-	: '&'
-	| '*'
-	| '+'
-	| '-'
-	| '~'
-	| '!'
+	: STAR
+	| PLUS
+	| MINUS
+	| NOT
+  | DIVIDE
+  | MOD
 	;
 
 cast_expression
 	: unary_expression
-	| '(' type_name ')' cast_expression
+	| OPENPAR type_name CLOSEPAR cast_expression
 	;
 
 multiplicative_expression
 	: cast_expression
-	| multiplicative_expression '*' cast_expression
-	| multiplicative_expression '/' cast_expression
-	| multiplicative_expression '%' cast_expression
+	| multiplicative_expression STAR cast_expression
+	| multiplicative_expression DIVIDE cast_expression
+	| multiplicative_expression MOD cast_expression
 	;
 
 additive_expression
 	: multiplicative_expression
-	| additive_expression '+' multiplicative_expression
-	| additive_expression '-' multiplicative_expression
-	;
-
-shift_expression
-	: additive_expression
-	| shift_expression LEFT_OP additive_expression
-	| shift_expression RIGHT_OP additive_expression
+	| additive_expression PLUS multiplicative_expression
+	| additive_expression MINUS multiplicative_expression
 	;
 
 relational_expression
-	: shift_expression
-	| relational_expression '<' shift_expression
-	| relational_expression '>' shift_expression
-	| relational_expression LE_OP shift_expression
-	| relational_expression GE_OP shift_expression
+	: additive_expression
+	| relational_expression LESS additive_expression
+	| relational_expression GREAT additive_expression
+	| relational_expression LESSEQUAL additive_expression
+	| relational_expression GREATEQUAL additive_expression
 	;
 
 equality_expression
 	: relational_expression
-	| equality_expression EQ_OP relational_expression
-	| equality_expression NE_OP relational_expression
+	| equality_expression EQUALSEQUALS relational_expression
+	| equality_expression NOTEQUALS relational_expression
 	;
 
 and_expression
 	: equality_expression
-	| and_expression '&' equality_expression
 	;
 
 exclusive_or_expression
 	: and_expression
-	| exclusive_or_expression '^' and_expression
 	;
 
 inclusive_or_expression
 	: exclusive_or_expression
-	| inclusive_or_expression '|' exclusive_or_expression
 	;
 
 logical_and_expression
 	: inclusive_or_expression
-	| logical_and_expression AND_OP inclusive_or_expression
+	| logical_and_expression AND inclusive_or_expression
 	;
 
 logical_or_expression
 	: logical_and_expression
-	| logical_or_expression OR_OP logical_and_expression
+  | logical_or_expression OR logical_and_expression
 	;
 
 conditional_expression
 	: logical_or_expression
-	| logical_or_expression '?' expression ':' conditional_expression
 	;
 
 assignment_expression
@@ -127,22 +116,17 @@ assignment_expression
 	;
 
 assignment_operator
-	: '='
-	| MUL_ASSIGN
-	| DIV_ASSIGN
-	| MOD_ASSIGN
-	| ADD_ASSIGN
-	| SUB_ASSIGN
-	| LEFT_ASSIGN
-	| RIGHT_ASSIGN
-	| AND_ASSIGN
-	| XOR_ASSIGN
-	| OR_ASSIGN
+	: EQUALS
+	| MULEQUALS
+	| DIVEQUALS
+	| MODEQUALS
+	| PLUSEQUALS
+	| MINUSEQUALS
 	;
 
 expression
 	: assignment_expression
-	| expression ',' assignment_expression
+	| expression COMMA assignment_expression
 	;
 
 constant_expression
@@ -150,8 +134,8 @@ constant_expression
 	;
 
 declaration
-	: declaration_specifiers ';'
-	| declaration_specifiers init_declarator_list ';'
+	: declaration_specifiers SEMICOLON
+	| declaration_specifiers init_declarator_list SEMICOLON
 	;
 
 declaration_specifiers
@@ -165,20 +149,17 @@ declaration_specifiers
 
 init_declarator_list
 	: init_declarator
-	| init_declarator_list ',' init_declarator
+	| init_declarator_list COMMA init_declarator
 	;
 
 init_declarator
 	: declarator
-	| declarator '=' initializer
+	| declarator EQUALS initializer
 	;
 
 storage_class_specifier
 	: TYPEDEF
-	| EXTERN
 	| STATIC
-	| AUTO
-	| REGISTER
 	;
 
 type_specifier
@@ -193,18 +174,17 @@ type_specifier
 	| UNSIGNED
 	| struct_or_union_specifier
 	| enum_specifier
-	| TYPE_NAME
+	| IDENTIFIER
 	;
 
 struct_or_union_specifier
-	: struct_or_union IDENTIFIER '{' struct_declaration_list '}'
-	| struct_or_union '{' struct_declaration_list '}'
+	: struct_or_union IDENTIFIER OPENBRACE struct_declaration_list CLOSEBRACE
+	| struct_or_union OPENBRACE struct_declaration_list CLOSEBRACE
 	| struct_or_union IDENTIFIER
 	;
 
 struct_or_union
 	: STRUCT
-	| UNION
 	;
 
 struct_declaration_list
@@ -213,7 +193,7 @@ struct_declaration_list
 	;
 
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list ';'
+	: specifier_qualifier_list struct_declarator_list SEMICOLON
 	;
 
 specifier_qualifier_list
@@ -225,34 +205,31 @@ specifier_qualifier_list
 
 struct_declarator_list
 	: struct_declarator
-	| struct_declarator_list ',' struct_declarator
+	| struct_declarator_list COMMA struct_declarator
 	;
 
 struct_declarator
 	: declarator
-	| ':' constant_expression
-	| declarator ':' constant_expression
 	;
 
 enum_specifier
-	: ENUM '{' enumerator_list '}'
-	| ENUM IDENTIFIER '{' enumerator_list '}'
+	: ENUM OPENBRACE enumerator_list CLOSEBRACE
+	| ENUM IDENTIFIER OPENBRACE enumerator_list CLOSEBRACE
 	| ENUM IDENTIFIER
 	;
 
 enumerator_list
 	: enumerator
-	| enumerator_list ',' enumerator
+	| enumerator_list COMMA enumerator
 	;
 
 enumerator
 	: IDENTIFIER
-	| IDENTIFIER '=' constant_expression
+	| IDENTIFIER EQUALS constant_expression
 	;
 
 type_qualifier
 	: CONST
-	| VOLATILE
 	;
 
 declarator
@@ -262,19 +239,19 @@ declarator
 
 direct_declarator
 	: IDENTIFIER
-	| '(' declarator ')'
-	| direct_declarator '[' constant_expression ']'
-	| direct_declarator '[' ']'
-	| direct_declarator '(' parameter_type_list ')'
-	| direct_declarator '(' identifier_list ')'
-	| direct_declarator '(' ')'
+	| OPENPAR declarator CLOSEPAR
+	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET
+	| direct_declarator OPENBRACKET CLOSEBRACKET
+	| direct_declarator OPENPAR parameter_type_list CLOSEPAR
+	| direct_declarator OPENPAR identifier_list CLOSEPAR
+	| direct_declarator OPENPAR CLOSEPAR
 	;
 
 pointer
-	: '*'
-	| '*' type_qualifier_list
-	| '*' pointer
-	| '*' type_qualifier_list pointer
+	: STAR
+	| STAR type_qualifier_list
+	| STAR pointer
+	| STAR type_qualifier_list pointer
 	;
 
 type_qualifier_list
@@ -285,12 +262,12 @@ type_qualifier_list
 
 parameter_type_list
 	: parameter_list
-	| parameter_list ',' ELLIPSIS
+	| parameter_list COMMA
 	;
 
 parameter_list
 	: parameter_declaration
-	| parameter_list ',' parameter_declaration
+	| parameter_list COMMA parameter_declaration
 	;
 
 parameter_declaration
@@ -301,7 +278,7 @@ parameter_declaration
 
 identifier_list
 	: IDENTIFIER
-	| identifier_list ',' IDENTIFIER
+	| identifier_list COMMA IDENTIFIER
 	;
 
 type_name
@@ -316,26 +293,26 @@ abstract_declarator
 	;
 
 direct_abstract_declarator
-	: '(' abstract_declarator ')'
-	| '[' ']'
-	| '[' constant_expression ']'
-	| direct_abstract_declarator '[' ']'
-	| direct_abstract_declarator '[' constant_expression ']'
-	| '(' ')'
-	| '(' parameter_type_list ')'
-	| direct_abstract_declarator '(' ')'
-	| direct_abstract_declarator '(' parameter_type_list ')'
+	: OPENPAR abstract_declarator CLOSEPAR
+	| OPENBRACKET CLOSEBRACKET
+	| OPENBRACKET constant_expression CLOSEBRACKET
+	| direct_abstract_declarator OPENBRACKET CLOSEBRACKET
+	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET
+	| OPENPAR CLOSEPAR
+	| OPENPAR parameter_type_list CLOSEPAR
+	| direct_abstract_declarator OPENPAR CLOSEPAR
+	| direct_abstract_declarator OPENPAR parameter_type_list CLOSEPAR
 	;
 
 initializer
 	: assignment_expression
-	| '{' initializer_list '}'
-	| '{' initializer_list ',' '}'
+	| OPENBRACE initializer_list CLOSEBRACE
+	| OPENBRACE initializer_list COMMA CLOSEBRACE
 	;
 
 initializer_list
 	: initializer
-	| initializer_list ',' initializer
+	| initializer_list COMMA initializer
 	;
 
 statement
@@ -348,16 +325,14 @@ statement
 	;
 
 labeled_statement
-	: IDENTIFIER ':' statement
-	| CASE constant_expression ':' statement
-	| DEFAULT ':' statement
+	: IDENTIFIER COLON statement
 	;
 
 compound_statement
-	: '{' '}'
-	| '{' statement_list '}'
-	| '{' declaration_list '}'
-	| '{' declaration_list statement_list '}'
+	: OPENBRACE CLOSEBRACE
+	| OPENBRACE statement_list CLOSEBRACE
+	| OPENBRACE declaration_list CLOSEBRACE
+	| OPENBRACE declaration_list statement_list CLOSEBRACE
 	;
 
 declaration_list
@@ -371,30 +346,28 @@ statement_list
 	;
 
 expression_statement
-	: ';'
-	| expression ';'
+	: SEMICOLON
+	| expression SEMICOLON
 	;
 
 selection_statement
-	: IF '(' expression ')' statement
-	| IF '(' expression ')' statement ELSE statement
-	| SWITCH '(' expression ')' statement
+	: IF OPENPAR expression CLOSEPAR statement
+	| IF OPENPAR expression CLOSEPAR statement ELSE statement
 	;
 
 iteration_statement
-	: WHILE '(' expression ')' statement
-	| DO statement WHILE '(' expression ')' ';'
-	| FOR '(' expression_statement expression_statement ')' statement
-	| FOR '(' expression_statement expression_statement expression ')' 
+	: WHILE OPENPAR expression CLOSEPAR statement
+	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON
+	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement
+	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR 
 statement
 	;
 
 jump_statement
-	: GOTO IDENTIFIER ';'
-	| CONTINUE ';'
-	| BREAK ';'
-	| RETURN ';'
-	| RETURN expression ';'
+	: CONTINUE SEMICOLON
+	| BREAK SEMICOLON
+	| RETURN SEMICOLON
+	| RETURN expression SEMICOLON
 	;
 
 translation_unit

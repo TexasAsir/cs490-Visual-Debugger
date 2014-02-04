@@ -102,9 +102,6 @@ int main(int argc, char* argv[])
 ","     {
 		//return COMMA;
 	}
-"!"	{
-		//return NOT;
-	}
 "*"     {
 		//return STAR;
 	}
@@ -214,6 +211,12 @@ int main(int argc, char* argv[])
 [0-9]+ {
   //return NUMERAL;
 }
+"." {
+    //return DOT;
+}
+":" {
+   //return COLON; 
+}    
 .	{
 		printf(".\n");
 		//return NOTOKEN;
