@@ -132,8 +132,8 @@ int main(int argc, char* argv[])
 "include"    {
 		//return INCLUDE;
 	}
-"//return" 	{
-		//return //return;
+"return" 	{
+		//return RETURN;
 	}
 "break" {
 		//return BREAK;
@@ -201,7 +201,7 @@ int main(int argc, char* argv[])
 
 \'[^\n\']?\' {
 		printf("c\n");
-		//return CHAR;
+		//return CHARACTER;
 	}
 \"[^\n\"]*\" {
 		printf("asfd\n");
@@ -210,6 +210,9 @@ int main(int argc, char* argv[])
 [a-z|A-Z|_][a-z|A-Z|_|0-9]* {
 	printf("id %s\n",yytext);
 	//return IDENTIFIER;
+}
+[0-9]+ {
+  //return NUMERAL;
 }
 .	{
 		printf(".\n");
