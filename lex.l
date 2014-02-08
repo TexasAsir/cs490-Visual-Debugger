@@ -6,13 +6,7 @@
 
 
 ////////////  Start added code ///////////
-int main(int argc, char* argv[])
-{
-    /* Call the lexer, then quit. */
-    yyin = fopen(argv[1],"r");
-    yylex();
-    return 0;
-}
+
 
 /////////// End added code ///////////
 
@@ -25,200 +19,212 @@ int main(int argc, char* argv[])
 %%
 
 \n|\'\\n\' {
-		printf("nl\n");
+		//printf("nl\n");
 		//return NEWLINE;
 	}
 
 ([ \t]|[" "]|\r|\f)+ {
-		printf("white space\n");
+		//printf("white space\n");
      	}	
 
 ">" 	{
-		printf("great\n");
-		//return GREAT;
+		//printf("great\n");
+		return GREAT;
 	}
 "<"     {
-		printf("less\n");
-		//return LESS;
+		//printf("less\n");
+		return LESS;
 	}
 ">=" 	{
-		//return GREATEQUALS;
+		return GREATEQUALS;
 	}
 "<="     {
-		printf("less equals\n");
-		//return LESSEQUALS;
+		//printf("less equals\n");
+		return LESSEQUALS;
 	}
 "{"     {
-		//return OPENBRACE;
+		return OPENBRACE;
 	}
 "}"	{
-		//return CLOSEBRACE;
+		return CLOSEBRACE;
+	}
+"->" {
+		return ARROW;
 	}
 ";"	{
-		//return SEMICOLON;
+		return SEMICOLON;
 	}
 "+"	{
-		//return PLUS;
+		return PLUS;
 	}	
 "-"	{
-		//return MINUS;
+		return MINUS;
 	}	
 "/"	{
-		//return DIVIDE;
+		return DIVIDE;
 	}
 "%"	{
-		//return MOD;
+		return MOD;
 	}
 "++"	{
-		//return PLUSPLUS;
+		return PLUSPLUS;
 	}
 "--"	{
-		//return MINUSMINUS;
+		return MINUSMINUS;
 	}
 "!"	{
-		//return NOT;
+		return NOT;
 	}
 "=="	{
-		//return EQUALSEQUALS;
+		return EQUALSEQUALS;
 	}
 "="	{
-		//return EQUALS;
+		return EQUALS;
 	}
 "!="	{
-		//return NOTEQUALS;
+		return NOTEQUALS;
 	}
 "+=" 	{
-		//return PLUSEQUALS;
+		return PLUSEQUALS;
 	}
 "-="    {
-		//return MINUSEQUALS;
+		return MINUSEQUALS;
 	}
 "*=" 	{
-		//return MULEQUALS;
+		return MULEQUALS;
 	}
 "/="    {
-		//return DIVEQUALS;
+		return DIVEQUALS;
+	}
+"%="	{
+		return MODEQUALS;
 	}
 ","     {
-		//return COMMA;
+		return COMMA;
 	}
 "*"     {
-		//return STAR;
+		return STAR;
 	}
 "&&"    {
-		//return AND;
+		return AND;
 	}
 "||"    {
-		//return OR;
+		return OR;
 	}
 "(" 	{
-		//return OPENPAR;
+		return OPENPAR;
 	}
 ")"     {
-		//return CLOSEPAR;
+		return CLOSEPAR;
 	}
 "[" 	{
-		//return OPENBRACKET;
+		return OPENBRACKET;
 	}
 "]"     {
-		//return CLOSEBRACKET;
+		return CLOSEBRACKET;
 	}
 "typedef" 	{
-		//return TYPEDEF;
+		return TYPEDEF;
 	}
 "include"    {
-		//return INCLUDE;
+		return INCLUDE;
 	}
 "return" 	{
-		//return RETURN;
+		return RETURN;
 	}
 "break" {
-		//return BREAK;
+		return BREAK;
+	}
+"signed" {
+		return SIGNED;
+	}
+"enum" {
+		return ENUM;
 	}
 "if"    {
-		//return IF;
+		return IF;
 	}
 "else"  {
-		//return ELSE;
+		return ELSE;
 	}
 "struct" {
-		//return STRUCT;
+		return STRUCT;
 	}
 "do"    {
-		//return DO;
+		return DO;
 	}
 "while" {
-		//return WHILE;
+		return WHILE;
 	}
 "for"   {
-		//return FOR;
+		return FOR;
 	}
 "static" {
-		//return STATIC;
+		return STATIC;
 	}
 "sizeof" {
-		//return SIZEOF;
+		return SIZEOF;
 	}
 "void" {
-		//return VOID;
+		return VOID;
 	}
 "continue" {
-		//return CONTINUE;
+		return CONTINUE;
 	}
 "const" {
-		//return CONST;
+		return CONST;
 	}
 "unsigned" {
-		//return UNSIGNED;
+		return UNSIGNED;
 	}
 "int"   {
-		//return INT;
+		return INT;
 	}
 "char"  {
-		//return CHAR;
+		return CHAR;
 	}
 "short" {
-		//return SHORT;	
+		return SHORT;	
 	}
 "long" {
-		//return LONG;
+		return LONG;
 	}
 "float" {
-		//return FLOAT;
+		return FLOAT;
 	}
 "double" {
-		//return DOUBLE;
+		return DOUBLE;
 	}
 \/\/[^\n]*\n {
 		
 	}
 "//#!" {
-		//return BAZINGA;
+		return BAZINGA;
 	}
 
 \'[^\n\']?\' {
 		printf("c\n");
-		//return CHARACTER;
+		return CHARACTER;
 	}
 \"[^\n\"]*\" {
 		printf("asfd\n");
-		//return WORD;
+		return WORD;
 	}
 [a-z|A-Z|_][a-z|A-Z|_|0-9]* {
-	printf("id %s\n",yytext);
-	//return IDENTIFIER;
+	//printf("id %s\n",yytext);
+	return IDENTIFIER;
 }
 [0-9]+ {
-  //return NUMERAL;
+  return NUMERAL;
 }
 "." {
-    //return DOT;
+    return DOT;
 }
 ":" {
-   //return COLON; 
+   return COLON; 
 }    
 .	{
-		printf(".\n");
+		//printf(".\n");
 		//return NOTOKEN;
 	}
 

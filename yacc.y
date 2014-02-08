@@ -4,7 +4,7 @@
 %token OR OPENPAR CLOSEPAR OPENBRACKET CLOSEBRACKET TYPEDEF INCLUDE 
 %token RETURN BREAK IF ELSE STRUCT DO WHILE FOR STATIC SIZEOF VOID CONTINUE 
 %token CONST UNSIGNED INT CHAR SHORT LONG FLOAT DOUBLE BAZINGA CHARACTER WORD 
-%token IDENTIFIER DOT
+%token IDENTIFIER DOT ARROW MODEQUALS SIGNED ENUM COLON NUMERAL
 
 
 
@@ -24,9 +24,9 @@ postfix_expression
 	| postfix_expression OPENPAR CLOSEPAR
 	| postfix_expression OPENPAR argument_expression_list CLOSEPAR
 	| postfix_expression DOT IDENTIFIER
-	| postfix_expression PTR_OP IDENTIFIER
-	| postfix_expression INC_OP
-	| postfix_expression DEC_OP
+	| postfix_expression ARROW IDENTIFIER
+	| postfix_expression PLUSPLUS
+	| postfix_expression MINUSMINUS
 	;
 
 argument_expression_list
@@ -74,8 +74,8 @@ relational_expression
 	: additive_expression
 	| relational_expression LESS additive_expression
 	| relational_expression GREAT additive_expression
-	| relational_expression LESSEQUAL additive_expression
-	| relational_expression GREATEQUAL additive_expression
+	| relational_expression LESSEQUALS additive_expression
+	| relational_expression GREATEQUALS additive_expression
 	;
 
 equality_expression
@@ -392,11 +392,20 @@ compound_statement
 #include <stdio.h>
 
 extern char yytext[];
-extern int column;
+extern FILE * yyin;
+//extern int column;
 //comment
 yyerror(s)
 char *s;
 {
 	fflush(stdout);
-	printf("\n%*s\n%*s\n", column, "^", column, s);
+	//printf("\n%*s\n%*s\n", column, "^", column, s);
+}
+
+int main(int argc, char* argv[])
+{
+    /* Call the lexer, then quit. */
+    yyin = fopen(argv[1],"r");
+    yyparse();
+    return 0;
 }

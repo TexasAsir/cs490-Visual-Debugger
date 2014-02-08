@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <cstdarg>
 int myprintf(const char* format, ...){
 	va_list arguments;
 	va_start(arguments,format);
