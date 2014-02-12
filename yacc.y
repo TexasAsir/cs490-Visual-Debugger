@@ -4,7 +4,7 @@
 %token OR OPENPAR CLOSEPAR OPENBRACKET CLOSEBRACKET TYPEDEF INCLUDE 
 %token RETURN BREAK IF ELSE STRUCT DO WHILE FOR STATIC SIZEOF VOID CONTINUE 
 %token CONST UNSIGNED INT CHAR SHORT LONG FLOAT DOUBLE BAZINGA CHARACTER WORD 
-%token IDENTIFIER DOT ARROW MODEQUALS SIGNED ENUM COLON NUMERAL
+%token IDENTIFIER DOT ARROW MODEQUALS SIGNED ENUM COLON NUMERAL ADDR INCLUDE QUOTE
 
 
 
@@ -14,8 +14,12 @@
 
 primary_expression
 	: IDENTIFIER
+	| NUMERAL {
+		//printf("numeral\n");
+	}
+	| CHARACTER
 	| WORD
-  | OPENPAR expression CLOSEPAR
+    | OPENPAR expression CLOSEPAR
 	;
 
 postfix_expression
@@ -31,7 +35,7 @@ postfix_expression
 
 argument_expression_list
 	: assignment_expression
-	| argument_expression_list DOT assignment_expression
+	| argument_expression_list COMMA assignment_expression
 	;
 
 unary_expression
@@ -48,8 +52,7 @@ unary_operator
 	| PLUS
 	| MINUS
 	| NOT
-  | DIVIDE
-  | MOD
+	| ADDR
 	;
 
 cast_expression
@@ -59,15 +62,25 @@ cast_expression
 
 multiplicative_expression
 	: cast_expression
-	| multiplicative_expression STAR cast_expression
-	| multiplicative_expression DIVIDE cast_expression
-	| multiplicative_expression MOD cast_expression
+	| multiplicative_expression STAR cast_expression {
+		//printf("multiply\n");
+	}
+	| multiplicative_expression DIVIDE cast_expression {
+		//printf("divide\n");
+	}
+	| multiplicative_expression MOD cast_expression {
+		//printf("mod\n");
+	}
 	;
 
 additive_expression
 	: multiplicative_expression
-	| additive_expression PLUS multiplicative_expression
-	| additive_expression MINUS multiplicative_expression
+	| additive_expression PLUS multiplicative_expression {
+		//printf("addition\n");
+	}
+	| additive_expression MINUS multiplicative_expression {
+		//printf("subtraction\n");
+	}
 	;
 
 relational_expression
@@ -103,7 +116,7 @@ logical_and_expression
 
 logical_or_expression
 	: logical_and_expression
-  | logical_or_expression OR logical_and_expression
+    | logical_or_expression OR logical_and_expression
 	;
 
 conditional_expression
@@ -112,7 +125,9 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression
-	| unary_expression assignment_operator assignment_expression
+	| unary_expression assignment_operator assignment_expression {
+		//printf("Assignment\n");
+	}
 	;
 
 assignment_operator
@@ -173,8 +188,8 @@ type_specifier
 	| SIGNED
 	| UNSIGNED
 	| struct_or_union_specifier
-	| enum_specifier
-	| IDENTIFIER
+	| enum_specifier //the problem was here we had identifier where he had type name
+	| include_statement
 	;
 
 struct_or_union_specifier
@@ -208,8 +223,10 @@ struct_declarator_list
 	| struct_declarator_list COMMA struct_declarator
 	;
 
-struct_declarator
+struct_declarator//might need changed?
 	: declarator
+	| ':' constant_expression
+	| declarator ':' constant_expression
 	;
 
 enum_specifier
@@ -238,7 +255,9 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER
+	: IDENTIFIER {
+		//printf("direct declarator\n");
+	}
 	| OPENPAR declarator CLOSEPAR
 	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET
 	| direct_declarator OPENBRACKET CLOSEBRACKET
@@ -260,7 +279,7 @@ type_qualifier_list
 	;
 
 
-parameter_type_list
+parameter_type_list//no ellipsis
 	: parameter_list
 	| parameter_list COMMA
 	;
@@ -317,6 +336,7 @@ initializer_list
 
 statement
 	: labeled_statement
+	| declaration
 	| compound_statement
 	| expression_statement
 	| selection_statement
@@ -324,7 +344,7 @@ statement
 	| jump_statement
 	;
 
-labeled_statement
+labeled_statement//maby issues here?
 	: IDENTIFIER COLON statement
 	;
 
@@ -349,7 +369,14 @@ expression_statement
 	: SEMICOLON
 	| expression SEMICOLON
 	;
-
+include_statement
+	: INCLUDE LESS include_expression GREAT
+	| INCLUDE QUOTE include_expression QUOTE
+	;
+include_expression
+	: IDENTIFIER DOT IDENTIFIER
+	| IDENTIFIER
+	;
 selection_statement
 	: IF OPENPAR expression CLOSEPAR statement
 	| IF OPENPAR expression CLOSEPAR statement ELSE statement
@@ -359,20 +386,25 @@ iteration_statement
 	: WHILE OPENPAR expression CLOSEPAR statement
 	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON
 	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement
-	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR 
-statement
+	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement
 	;
 
 jump_statement
 	: CONTINUE SEMICOLON
 	| BREAK SEMICOLON
 	| RETURN SEMICOLON
-	| RETURN expression SEMICOLON
+	| RETURN expression SEMICOLON {
+		//printf("return expr semi\n");
+	}
 	;
 
 translation_unit
-	: external_declaration
-	| translation_unit external_declaration
+	: external_declaration {
+		//printf("translation unit\n");
+	}
+	| translation_unit external_declaration {
+		//printf("translation unit\n");
+	}
 	;
 
 external_declaration
@@ -381,8 +413,7 @@ external_declaration
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list 
-compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement
 	| declaration_specifiers declarator compound_statement
 	| declarator declaration_list compound_statement
 	| declarator compound_statement
@@ -393,19 +424,23 @@ compound_statement
 
 extern char yytext[];
 extern FILE * yyin;
-//extern int column;
+extern int column;
 //comment
 yyerror(s)
 char *s;
 {
 	fflush(stdout);
-	//printf("\n%*s\n%*s\n", column, "^", column, s);
+	////printf("error %s\n",s);
+	printf("\n%*s\n%*s\n", column, "^", column, s);
 }
 
 int main(int argc, char* argv[])
 {
     /* Call the lexer, then quit. */
     yyin = fopen(argv[1],"r");
-    yyparse();
+    perror("fopen");
+    printf("input file: %s %d\n",argv[1],yyin);
+    printf("%d\n",yyparse());
+    perror("yyparse");
     return 0;
 }

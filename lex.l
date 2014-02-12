@@ -19,213 +19,268 @@
 %%
 
 \n|\'\\n\' {
-		//printf("nl\n");
-		//return NEWLINE;
+		////printf("nl\n");
+		//count(); return NEWLINE;
 	}
-
-([ \t]|[" "]|\r|\f)+ {
+"/*" {
+		comment();
+	}
+"#include" {
+		return INCLUDE;
+}
+(\t|" "|\r|\f|\v) {
 		//printf("white space\n");
      	}	
 
 ">" 	{
-		//printf("great\n");
-		return GREAT;
+		////printf("great\n");
+		count(); return GREAT;
 	}
 "<"     {
-		//printf("less\n");
-		return LESS;
+		////printf("less\n");
+		count(); return LESS;
 	}
 ">=" 	{
-		return GREATEQUALS;
+		count(); return GREATEQUALS;
 	}
 "<="     {
-		//printf("less equals\n");
-		return LESSEQUALS;
+		////printf("less equals\n");
+		count(); return LESSEQUALS;
+	}
+"\""	{
+		return QUOTE;
 	}
 "{"     {
-		return OPENBRACE;
+		//printf("openbrace\n");
+		count(); return OPENBRACE;
 	}
 "}"	{
-		return CLOSEBRACE;
+		//printf("closebrace\n");
+		count(); return CLOSEBRACE;
 	}
 "->" {
-		return ARROW;
+		count(); return ARROW;
 	}
 ";"	{
-		return SEMICOLON;
+		//printf("semicolon\n");
+		count(); return SEMICOLON;
 	}
 "+"	{
-		return PLUS;
+		count(); return PLUS;
 	}	
 "-"	{
-		return MINUS;
+		count(); return MINUS;
 	}	
 "/"	{
-		return DIVIDE;
+		count(); return DIVIDE;
 	}
 "%"	{
-		return MOD;
+		count(); return MOD;
 	}
 "++"	{
-		return PLUSPLUS;
+		count(); return PLUSPLUS;
 	}
 "--"	{
-		return MINUSMINUS;
+		count(); return MINUSMINUS;
 	}
 "!"	{
-		return NOT;
+		count(); return NOT;
 	}
 "=="	{
-		return EQUALSEQUALS;
+		count(); return EQUALSEQUALS;
 	}
 "="	{
-		return EQUALS;
+		count(); return EQUALS;
 	}
 "!="	{
-		return NOTEQUALS;
+		count(); return NOTEQUALS;
 	}
 "+=" 	{
-		return PLUSEQUALS;
+		count(); return PLUSEQUALS;
 	}
 "-="    {
-		return MINUSEQUALS;
+		count(); return MINUSEQUALS;
 	}
 "*=" 	{
-		return MULEQUALS;
+		count(); return MULEQUALS;
 	}
 "/="    {
-		return DIVEQUALS;
+		count(); return DIVEQUALS;
 	}
 "%="	{
-		return MODEQUALS;
+		count(); return MODEQUALS;
 	}
 ","     {
-		return COMMA;
+		count(); return COMMA;
 	}
 "*"     {
-		return STAR;
+		count(); return STAR;
 	}
 "&&"    {
-		return AND;
+		count(); return AND;
+	}
+"&" 	{
+		count(); return ADDR;
 	}
 "||"    {
-		return OR;
+		//printf("OR\n");
+		count(); return OR;
 	}
 "(" 	{
-		return OPENPAR;
+		//printf("openpar\n");
+		count(); return OPENPAR;
 	}
 ")"     {
-		return CLOSEPAR;
+		//printf("closepar\n");
+		count(); return CLOSEPAR;
 	}
 "[" 	{
-		return OPENBRACKET;
+		count(); return OPENBRACKET;
 	}
 "]"     {
-		return CLOSEBRACKET;
+		count(); return CLOSEBRACKET;
 	}
 "typedef" 	{
-		return TYPEDEF;
+		count(); return TYPEDEF;
 	}
 "include"    {
-		return INCLUDE;
+		count(); return INCLUDE;
 	}
 "return" 	{
-		return RETURN;
+		count(); return RETURN;
 	}
 "break" {
-		return BREAK;
+		count(); return BREAK;
 	}
 "signed" {
-		return SIGNED;
+		count(); return SIGNED;
 	}
 "enum" {
-		return ENUM;
+		count(); return ENUM;
 	}
 "if"    {
-		return IF;
+		count(); return IF;
 	}
 "else"  {
-		return ELSE;
+		count(); return ELSE;
 	}
 "struct" {
-		return STRUCT;
+		count(); return STRUCT;
 	}
 "do"    {
-		return DO;
+		count(); return DO;
 	}
 "while" {
-		return WHILE;
+		count(); return WHILE;
 	}
 "for"   {
-		return FOR;
+		count(); return FOR;
 	}
 "static" {
-		return STATIC;
+		count(); return STATIC;
 	}
 "sizeof" {
-		return SIZEOF;
+		count(); return SIZEOF;
 	}
 "void" {
-		return VOID;
+		count(); return VOID;
 	}
 "continue" {
-		return CONTINUE;
+		count(); return CONTINUE;
 	}
 "const" {
-		return CONST;
+		count(); return CONST;
 	}
 "unsigned" {
-		return UNSIGNED;
+		count(); return UNSIGNED;
 	}
 "int"   {
-		return INT;
+		//printf("int \n");
+		count(); return INT;
 	}
 "char"  {
-		return CHAR;
+		count(); return CHAR;
 	}
 "short" {
-		return SHORT;	
+		count(); return SHORT;	
 	}
 "long" {
-		return LONG;
+		count(); return LONG;
 	}
 "float" {
-		return FLOAT;
+		count(); return FLOAT;
 	}
 "double" {
-		return DOUBLE;
+		count(); return DOUBLE;
 	}
 \/\/[^\n]*\n {
 		
 	}
 "//#!" {
-		return BAZINGA;
+		count(); return BAZINGA;
 	}
 
 \'[^\n\']?\' {
-		printf("c\n");
-		return CHARACTER;
+		count(); return CHARACTER;
 	}
 \"[^\n\"]*\" {
-		printf("asfd\n");
-		return WORD;
+		//printf("asfd\n");
+		count(); return WORD;
 	}
-[a-z|A-Z|_][a-z|A-Z|_|0-9]* {
-	//printf("id %s\n",yytext);
-	return IDENTIFIER;
-}
 [0-9]+ {
-  return NUMERAL;
+	//printf("numeral %s\n",yytext);
+  count(); return NUMERAL;
 }
+[a-zA-Z_][a-zA-Z_0-9]* {
+	//printf("\nid %s\n",yytext);
+	count(); return IDENTIFIER;
+}
+
 "." {
-    return DOT;
+	//printf("dot\n");
+    count(); return DOT;
 }
 ":" {
-   return COLON; 
+   count(); return COLON; 
 }    
 .	{
-		//printf(".\n");
-		//return NOTOKEN;
+		////printf(".\n");
+		//count(); return NOTOKEN;
 	}
 
 %%
+
+int column = 0;
+
+comment()
+{
+	char c, c1;
+
+loop:
+	while ((c = input()) != '*' && c != 0)
+		putchar(c);
+
+	if ((c1 = input()) != '/' && c != 0)
+	{
+		unput(c1);
+		goto loop;
+	}
+
+	if (c != 0)
+		putchar(c1);
+}
+
+void count()
+{
+	int i;
+
+	for (i = 0; yytext[i] != '\0'; i++)
+		if (yytext[i] == '\n')
+			column = 0;
+		else if (yytext[i] == '\t')
+			column += 8 - (column % 8);
+		else
+			column++;
+
+	ECHO;
+}

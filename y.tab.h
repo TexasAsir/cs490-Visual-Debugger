@@ -99,7 +99,9 @@
      SIGNED = 316,
      ENUM = 317,
      COLON = 318,
-     NUMERAL = 319
+     NUMERAL = 319,
+     ADDR = 320,
+     QUOTE = 321
    };
 #endif
 /* Tokens.  */
@@ -165,6 +167,8 @@
 #define ENUM 317
 #define COLON 318
 #define NUMERAL 319
+#define ADDR 320
+#define QUOTE 321
 
 
 
