@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <cstdarg>
+#include <stdarg.h>
 
 int myprintf(const char* format, ...){
 	va_list arguments;
@@ -40,4 +40,5 @@ FILE * myfopen(const char * filename,const char* mode){
 int myfclose(FILE * cfile){
 	return fclose(cfile);
 }
+
 

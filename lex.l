@@ -229,10 +229,23 @@
 	}
 [0-9]+ {
 	//printf("numeral %s\n",yytext);
+	//printf("yylval %d",yylval);
+	yylval.dbl = atoi(yytext);
   count(); return NUMERAL;
+}
+[0-9]+\.[0-9]* {
+	//sscanf(yytext,"%lf",&yylval);
+	//perror("scanf");
+	yylval.dbl=atof(yytext);
+	printf("yytext val %s\n",yytext);
+	double val = 0.0;
+	val = atof(yytext);
+	printf("yylval %lf\n",val);
+	count(); return NUMERAL;
 }
 [a-zA-Z_][a-zA-Z_0-9]* {
 	//printf("\nid %s\n",yytext);
+	
 	count(); return IDENTIFIER;
 }
 

@@ -3,11 +3,23 @@
 %token NOTEQUALS PLUSEQUALS MINUSEQUALS MULEQUALS DIVEQUALS COMMA STAR AND 
 %token OR OPENPAR CLOSEPAR OPENBRACKET CLOSEBRACKET TYPEDEF INCLUDE 
 %token RETURN BREAK IF ELSE STRUCT DO WHILE FOR STATIC SIZEOF VOID CONTINUE 
-%token CONST UNSIGNED INT CHAR SHORT LONG FLOAT DOUBLE BAZINGA CHARACTER WORD 
-%token IDENTIFIER DOT ARROW MODEQUALS SIGNED ENUM COLON NUMERAL ADDR INCLUDE QUOTE
+%token CONST UNSIGNED INT CHAR SHORT LONG FLOAT DOUBLE BAZINGA 
+%token DOT ARROW MODEQUALS SIGNED ENUM COLON ADDR QUOTE
+%token <dbl> NUMERAL
+%token <dbl> IDENTIFIER
+%token <dbl> WORD
+%token <dbl> CHARACTER
 
+%union	{
+	double dbl;
+}
 
-
+%{
+	//#include "functions.cpp"
+	double rightside = 0;
+	int start=0;
+	
+%}
 
 %start translation_unit
 %%
@@ -15,8 +27,8 @@
 primary_expression
 	: IDENTIFIER
 	| NUMERAL {
-		//printf("numeral\n");
-	}
+		//printf("numeral %d\n",$1);
+	} 
 	| CHARACTER
 	| WORD
     | OPENPAR expression CLOSEPAR
@@ -63,23 +75,53 @@ cast_expression
 multiplicative_expression
 	: cast_expression
 	| multiplicative_expression STAR cast_expression {
-		//printf("multiply\n");
+		printf("multiply %lf\n",rightside);
+		if(!start){
+			rightside = $<dbl>1;
+			start=1;
+		}
+		rightside = rightside*$<dbl>3;
 	}
 	| multiplicative_expression DIVIDE cast_expression {
-		//printf("divide\n");
+		printf("divide  %lf\n",rightside);
+		if(!start){
+			rightside = $<dbl>1;
+			start=1;
+		}
+		rightside = rightside/$<dbl>3;
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
+		if(!start){
+			rightside = $<dbl>1;
+			start=1;
+		}
+		rightside = (int)rightside%(int)$<dbl>3;
 	}
 	;
 
 additive_expression
 	: multiplicative_expression
 	| additive_expression PLUS multiplicative_expression {
-		//printf("addition\n");
+		printf("addition %lf\n",rightside,$<dbl>3);
+		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
+		if(!start){
+			rightside = $<dbl>1;
+			start=1;
+		}
+		rightside = rightside+$<dbl>3;
 	}
 	| additive_expression MINUS multiplicative_expression {
-		//printf("subtraction\n");
+		printf("subtraction %lf\n",rightside);
+		if(!start){
+			rightside = $<dbl>1;
+			start=1;
+		}
+		//printf("%d subtraction %lf %lf\n",start, rightside,$<dbl>3);
+		//printf("diff %lf\n",(double)rightside-(double)$<dbl>3);
+		//rightside = (double)$<dbl>2-(double)$<dbl>3 - rightside;
+		//printf("final = %lf\n",rightside);
+		rightside=rightside-$<dbl>3;
 	}
 	;
 
@@ -125,8 +167,13 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression
+	| type_specifier unary_expression assignment_operator assignment_expression {
+		printf("\ntype specifier Assignment value %lf\n",rightside);
+		start=0;
+	}
 	| unary_expression assignment_operator assignment_expression {
-		//printf("Assignment\n");
+		printf("\nAssignment vaule %lf\n",rightside);
+		start=0;
 	}
 	;
 
@@ -308,7 +355,9 @@ type_name
 abstract_declarator
 	: pointer
 	| direct_abstract_declarator
-	| pointer direct_abstract_declarator
+	| pointer direct_abstract_declarator {
+		printf("hi?\n");
+	}
 	;
 
 direct_abstract_declarator
@@ -431,16 +480,18 @@ char *s;
 {
 	fflush(stdout);
 	////printf("error %s\n",s);
-	printf("\n%*s\n%*s\n", column, "^", column, s);
+	printf("hue\n%*s\n%*s\n", column, "^", column, s);
 }
 
+printnumeral(){
+}
 int main(int argc, char* argv[])
 {
     /* Call the lexer, then quit. */
     yyin = fopen(argv[1],"r");
-    perror("fopen");
-    printf("input file: %s %d\n",argv[1],yyin);
-    printf("%d\n",yyparse());
-    perror("yyparse");
+    //perror("fopen");
+    //printf("input file: %s %d\n",argv[1],yyin);
+    printf("hue%d\n",yyparse());
+    //perror("yyparse");
     return 0;
 }

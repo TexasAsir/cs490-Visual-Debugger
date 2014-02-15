@@ -90,18 +90,18 @@
      FLOAT = 307,
      DOUBLE = 308,
      BAZINGA = 309,
-     CHARACTER = 310,
-     WORD = 311,
-     IDENTIFIER = 312,
-     DOT = 313,
-     ARROW = 314,
-     MODEQUALS = 315,
-     SIGNED = 316,
-     ENUM = 317,
-     COLON = 318,
-     NUMERAL = 319,
-     ADDR = 320,
-     QUOTE = 321
+     DOT = 310,
+     ARROW = 311,
+     MODEQUALS = 312,
+     SIGNED = 313,
+     ENUM = 314,
+     COLON = 315,
+     ADDR = 316,
+     QUOTE = 317,
+     NUMERAL = 318,
+     IDENTIFIER = 319,
+     WORD = 320,
+     CHARACTER = 321
    };
 #endif
 /* Tokens.  */
@@ -157,24 +157,36 @@
 #define FLOAT 307
 #define DOUBLE 308
 #define BAZINGA 309
-#define CHARACTER 310
-#define WORD 311
-#define IDENTIFIER 312
-#define DOT 313
-#define ARROW 314
-#define MODEQUALS 315
-#define SIGNED 316
-#define ENUM 317
-#define COLON 318
-#define NUMERAL 319
-#define ADDR 320
-#define QUOTE 321
+#define DOT 310
+#define ARROW 311
+#define MODEQUALS 312
+#define SIGNED 313
+#define ENUM 314
+#define COLON 315
+#define ADDR 316
+#define QUOTE 317
+#define NUMERAL 318
+#define IDENTIFIER 319
+#define WORD 320
+#define CHARACTER 321
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1685 of yacc.c  */
+#line 13 "yacc.y"
+
+	double dbl;
+
+
+
+/* Line 1685 of yacc.c  */
+#line 189 "y.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
