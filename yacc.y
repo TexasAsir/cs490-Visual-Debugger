@@ -31,7 +31,7 @@ primary_expression
 	} 
 	| CHARACTER
 	| WORD
-    | OPENPAR expression CLOSEPAR
+    	| OPENPAR expression CLOSEPAR
 	;
 
 postfix_expression
@@ -217,6 +217,7 @@ init_declarator_list
 init_declarator
 	: declarator
 	| declarator EQUALS initializer
+	| declarator IDENTIFIER
 	;
 
 storage_class_specifier
