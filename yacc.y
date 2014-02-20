@@ -82,6 +82,7 @@ multiplicative_expression
 		}
 		rightside = rightside*$<dbl>3;
 		$<dbl>$=$<dbl>$*$<dbl>3;
+		printf("multiply %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression DIVIDE cast_expression {
 		printf("divide  %lf\n",$<dbl>$);
@@ -91,6 +92,7 @@ multiplicative_expression
 		}
 		rightside = rightside/$<dbl>3;
 		$<dbl>$=$<dbl>$/$<dbl>3;
+		printf("divide  %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
@@ -114,6 +116,7 @@ additive_expression
 		}
 		rightside = rightside+$<dbl>3;
 		$<dbl>$=$<dbl>$+$<dbl>3;
+		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 	}
 	| additive_expression MINUS multiplicative_expression {
 		printf("subtraction %lf\n",$<dbl>$);
@@ -127,6 +130,7 @@ additive_expression
 		//printf("final = %lf\n",rightside);
 		rightside=rightside-$<dbl>3;
 		$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("subtraction %lf\n",$<dbl>$);
 	}
 	;
 
