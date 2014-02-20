@@ -1,6 +1,6 @@
 
 int main(){
-	//int y;
+	int y;
 	double x = 5 + 6.3;
 	double x = 5 + 6;
 	double x = 5.21 + 6.3;
