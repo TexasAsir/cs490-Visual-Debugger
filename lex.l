@@ -225,6 +225,9 @@
 	}
 \"[^\n\"]*\" {
 		//printf("asfd\n");
+		strcpy(yytext,yytext+1);
+		yytext[strlen(yytext)-1]=0;
+		yylval.wd = strdup(yytext);
 		count(); return WORD;
 	}
 [0-9]+ {

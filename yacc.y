@@ -12,12 +12,11 @@
 
 %union	{
 	double dbl;
+	char * wd;
 }
 
 %{
 	//#include "functions.cpp"
-	double rightside = 0;
-	int start=0;
 	
 %}
 
@@ -30,8 +29,10 @@ primary_expression
 		//printf("numeral %d\n",$1);
 	} 
 	| CHARACTER
-	| WORD
-    	| OPENPAR expression CLOSEPAR
+	| WORD {
+		printf("word yo %s\n",$<wd>1);
+	}
+    | OPENPAR expression CLOSEPAR
 	;
 
 postfix_expression
@@ -60,7 +61,9 @@ unary_expression
 	;
 
 unary_operator
-	: STAR
+	: STAR{
+		printf("pointer dereferenced\n");
+	}
 	| PLUS
 	| MINUS
 	| NOT
@@ -76,31 +79,16 @@ multiplicative_expression
 	: cast_expression
 	| multiplicative_expression STAR cast_expression {
 		printf("multiply %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside*$<dbl>3;
 		$<dbl>$=$<dbl>$*$<dbl>3;
 		printf("multiply %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression DIVIDE cast_expression {
 		printf("divide  %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside/$<dbl>3;
 		$<dbl>$=$<dbl>$/$<dbl>3;
 		printf("divide  %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = (int)rightside%(int)$<dbl>3;
 		$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
 	}
 	;
@@ -110,25 +98,11 @@ additive_expression
 	| additive_expression PLUS multiplicative_expression {
 		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside+$<dbl>3;
 		$<dbl>$=$<dbl>$+$<dbl>3;
 		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 	}
 	| additive_expression MINUS multiplicative_expression {
 		printf("subtraction %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		//printf("%d subtraction %lf %lf\n",start, rightside,$<dbl>3);
-		//printf("diff %lf\n",(double)rightside-(double)$<dbl>3);
-		//rightside = (double)$<dbl>2-(double)$<dbl>3 - rightside;
-		//printf("final = %lf\n",rightside);
-		rightside=rightside-$<dbl>3;
 		$<dbl>$=$<dbl>$-$<dbl>3;
 		printf("subtraction %lf\n",$<dbl>$);
 	}
@@ -176,15 +150,13 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression
-	| type_specifier unary_expression assignment_operator assignment_expression {
+	|  declaration_specifiers unary_expression assignment_operator assignment_expression {
 		printf("\ntype specifier Assignment value %lf\n",$<dbl>4);
-		start=0;
 	}
 	| unary_expression assignment_operator assignment_expression {
-		printf("\nAssignment vaule %lf\n",$<dbl>$);
-		start=0;
+		printf("\nAssignment vaule %lf\n",$<dbl>3);
 	}
-	;
+
 
 assignment_operator
 	: EQUALS
@@ -212,6 +184,9 @@ declaration
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
+	| type_specifier STAR{
+		printf("pointer declared\n");
+	}
 	| type_specifier
 	| type_specifier declaration_specifiers
 	| type_qualifier
@@ -225,7 +200,9 @@ init_declarator_list
 
 init_declarator
 	: declarator
-	| declarator EQUALS initializer
+	| declarator EQUALS initializer {
+		printf("init assignment %lf\n",$<dbl>3);
+	}
 	| declarator IDENTIFIER
 	;
 
@@ -307,7 +284,9 @@ type_qualifier
 	;
 
 declarator
-	: pointer direct_declarator
+	: pointer direct_declarator{
+		printf("pointer found h4h4h4h4h4hh4\n");
+	}
 	| direct_declarator
 	;
 
@@ -409,11 +388,17 @@ labeled_statement//maby issues here?
 
 compound_statement
 	: OPENBRACE CLOSEBRACE
-	| OPENBRACE statement_list CLOSEBRACE
-	| OPENBRACE declaration_list CLOSEBRACE
-	| OPENBRACE declaration_list statement_list CLOSEBRACE
+	| OPENBRACE decstat_list CLOSEBRACE
 	;
 
+decstat
+	: statement_list
+	| declaration_list
+	;
+decstat_list
+	: decstat
+	| decstat decstat_list
+	;
 declaration_list
 	: declaration
 	| declaration_list declaration
