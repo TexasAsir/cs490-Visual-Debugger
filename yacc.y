@@ -17,14 +17,37 @@
 
 %{
 	//#include "functions.cpp"
+	extern int linecount;
+	char * var[2];
+	struct varble{
+		char * name;
+		char * type;
+		double value;
+	};
+
+	struct function{
+		int startpoint;
+		int numargs;
+		char *type;
+		char *name;
+	};
 	
+	struct varble** globls;
+	//globls=malloc(sizeof(struct varble)*100);
+	struct function **funcs;
+	int globalcount =0;
+	int globalmax =100;
+	int funcmax = 50;
+	int funcount=0;
 %}
 
 %start translation_unit
 %%
 
 primary_expression
-	: IDENTIFIER
+	: IDENTIFIER {
+		//printf("identifier %s\n",$<wd>1);
+	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
 	} 
@@ -178,7 +201,10 @@ constant_expression
 
 declaration
 	: declaration_specifiers SEMICOLON
-	| declaration_specifiers init_declarator_list SEMICOLON
+	| declaration_specifiers init_declarator_list SEMICOLON{
+		var[0]=$<wd>1;
+		var[1]=$<wd>2;
+	}
 	;
 
 declaration_specifiers
@@ -194,16 +220,22 @@ declaration_specifiers
 	;
 
 init_declarator_list
-	: init_declarator
+	: init_declarator{
+		//printf("declarator %s\n",$<wd>1);
+	}
 	| init_declarator_list COMMA init_declarator
 	;
 
 init_declarator
-	: declarator
+	: declarator{
+		//printf("declarator %s\n",$<wd>1);
+	}
 	| declarator EQUALS initializer {
 		printf("init assignment %lf\n",$<dbl>3);
 	}
-	| declarator IDENTIFIER
+	| declarator IDENTIFIER {
+		//printf("identifier %s\n",$<wd>1);
+	}
 	;
 
 storage_class_specifier
@@ -212,17 +244,35 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
+	: VOID{
+		$<wd>$="void";
+	}
+	| CHAR{
+		$<wd>$="char";
+	}
+	| SHORT{
+		$<wd>$="short";
+	}
+	| INT {
+		$<wd>$="int";
+	}
+	| LONG{
+		$<wd>$="long";
+	}	
+	| FLOAT{
+		$<wd>$="float";
+	}
+	| DOUBLE{
+		$<wd>$="double";
+	}
+	| SIGNED{
+		$<wd>$="signed";
+	}
+	| UNSIGNED{
+		$<wd>$="unsigned";
+	}
 	| struct_or_union_specifier
-	| enum_specifier //the problem was here we had identifier where he had type name
+	| enum_specifier
 	| include_statement
 	;
 
@@ -287,12 +337,16 @@ declarator
 	: pointer direct_declarator{
 		printf("pointer found h4h4h4h4h4hh4\n");
 	}
-	| direct_declarator
+	| direct_declarator {
+		//printf("declarator %s\n",$<wd>1);
+		$<wd>$=$<wd>1;
+	}
 	;
 
 direct_declarator
 	: IDENTIFIER {
-		//printf("direct declarator\n");
+		//printf("direct declarator %s\n",$<wd>1);
+		$<wd>$=$<wd>1;
 	}
 	| OPENPAR declarator CLOSEPAR
 	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET
@@ -453,14 +507,38 @@ translation_unit
 
 external_declaration
 	: function_definition
-	| declaration
+	| declaration {
+		printf("global variable %s %s\n",var[0], var[1]);
+		((struct varble *)(globls+globalcount))->name=var[1];
+		((struct varble *)(globls+globalcount))->type=var[0];
+		globalcount++;
+		if(globalcount >=globalmax){
+			globalmax *=2;
+			globls = realloc(globls,sizeof(struct varble)*globalmax);
+		}
+	}
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement{
+	}
+	| declaration_specifiers declarator{
+		printf("function line %d %s %s %s %s\n",linecount,$<wd>1,$<wd>2);
+		((struct function *)(funcs+funcount))->startpoint=linecount;
+		((struct function *)(funcs+funcount))->type=$<wd>1;
+		((struct function *)(funcs+funcount))->name=$<wd>2;
+		funcount++;
+		if(funcount >=funcmax){
+			funcmax *=2;
+			funcs = realloc(funcs,sizeof(struct function)*funcmax);
+		}
+	}compound_statement{
+		//printf("function definition2\n");
+	}
+	| declarator declaration_list compound_statement{
+	}
+	| declarator compound_statement{
+	}
 	;
 
 %%
@@ -486,6 +564,8 @@ int main(int argc, char* argv[])
     yyin = fopen(argv[1],"r");
     //perror("fopen");
     //printf("input file: %s %d\n",argv[1],yyin);
+	globls=(struct varble **) malloc(sizeof(struct varble)*100);
+	funcs = (struct func **) malloc(sizeof(struct function)*50);
     printf("hue%d\n",yyparse());
     //perror("yyparse");
     return 0;

@@ -1,5 +1,7 @@
-
-int main(){
+int x;
+int y;
+int z;
+int main(int argc, char *argv){
 	int y;
 	double x = 5*5+2*4-20/3;
 	double x = 5 + 6;
@@ -20,19 +22,16 @@ int main(){
 				} while(1);
 			}
 		}
-		//hahahahahahahahahahah
 	}
 	long z = 10-3-2-1;		
 	int x;
-	
 	int y;
 	float b = 4*4;
 	float a = 4*4/3*20/3;
 	int *x = 7;
 	*x = 5 + 0;
 	return 3;
-	
-}//comment
+}
 int y(){
 	int x;
 }

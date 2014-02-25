@@ -9,7 +9,7 @@
 
 
 /////////// End added code ///////////
-
+int linecount=1;
 
 
 %}
@@ -18,8 +18,9 @@
 
 %%
 
-\n|\'\\n\' {
+\n {
 		////printf("nl\n");
+		linecount++;
 		//count(); return NEWLINE;
 	}
 "/*" {
@@ -248,7 +249,7 @@
 }
 [a-zA-Z_][a-zA-Z_0-9]* {
 	//printf("\nid %s\n",yytext);
-	
+	yylval.wd=strdup(yytext);
 	count(); return IDENTIFIER;
 }
 
