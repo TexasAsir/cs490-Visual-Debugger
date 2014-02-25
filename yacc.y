@@ -509,8 +509,8 @@ external_declaration
 	: function_definition
 	| declaration {
 		printf("global variable %s %s\n",var[0], var[1]);
-		((struct varble *)(globls+globalcount))->name=var[1];
-		((struct varble *)(globls+globalcount))->type=var[0];
+		(((struct varble *)globls+globalcount))->name=var[1];
+		(((struct varble *)globls+globalcount))->type=var[0];
 		globalcount++;
 		if(globalcount >=globalmax){
 			globalmax *=2;
@@ -524,9 +524,9 @@ function_definition
 	}
 	| declaration_specifiers declarator{
 		printf("function line %d %s %s %s %s\n",linecount,$<wd>1,$<wd>2);
-		((struct function *)(funcs+funcount))->startpoint=linecount;
-		((struct function *)(funcs+funcount))->type=$<wd>1;
-		((struct function *)(funcs+funcount))->name=$<wd>2;
+		(((struct function *)funcs+funcount))->startpoint=linecount;
+		(((struct function *)funcs+funcount))->type=$<wd>1;
+		(((struct function *)funcs+funcount))->name=$<wd>2;
 		funcount++;
 		if(funcount >=funcmax){
 			funcmax *=2;

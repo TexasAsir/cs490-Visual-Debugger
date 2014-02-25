@@ -2376,8 +2376,8 @@ yyreduce:
 #line 510 "yacc.y"
     {
 		printf("global variable %s %s\n",var[0], var[1]);
-		((struct varble *)(globls+globalcount))->name=var[1];
-		((struct varble *)(globls+globalcount))->type=var[0];
+		(((struct varble *)globls+globalcount))->name=var[1];
+		(((struct varble *)globls+globalcount))->type=var[0];
 		globalcount++;
 		if(globalcount >=globalmax){
 			globalmax *=2;
@@ -2400,9 +2400,9 @@ yyreduce:
 #line 525 "yacc.y"
     {
 		printf("function line %d %s %s %s %s\n",linecount,(yyvsp[(1) - (2)].wd),(yyvsp[(2) - (2)].wd));
-		((struct function *)(funcs+funcount))->startpoint=linecount;
-		((struct function *)(funcs+funcount))->type=(yyvsp[(1) - (2)].wd);
-		((struct function *)(funcs+funcount))->name=(yyvsp[(2) - (2)].wd);
+		(((struct function *)funcs+funcount))->startpoint=linecount;
+		(((struct function *)funcs+funcount))->type=(yyvsp[(1) - (2)].wd);
+		(((struct function *)funcs+funcount))->name=(yyvsp[(2) - (2)].wd);
 		funcount++;
 		if(funcount >=funcmax){
 			funcmax *=2;
