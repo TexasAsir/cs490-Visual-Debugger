@@ -75,20 +75,22 @@ cast_expression
 multiplicative_expression
 	: cast_expression
 	| multiplicative_expression STAR cast_expression {
-		printf("multiply %lf\n",rightside);
+		printf("multiply %lf\n",$<dbl>$);
 		if(!start){
 			rightside = $<dbl>1;
 			start=1;
 		}
 		rightside = rightside*$<dbl>3;
+		$<dbl>$=$<dbl>$*$<dbl>3;
 	}
 	| multiplicative_expression DIVIDE cast_expression {
-		printf("divide  %lf\n",rightside);
+		printf("divide  %lf\n",$<dbl>$);
 		if(!start){
 			rightside = $<dbl>1;
 			start=1;
 		}
 		rightside = rightside/$<dbl>3;
+		$<dbl>$=$<dbl>$/$<dbl>3;
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
@@ -97,22 +99,24 @@ multiplicative_expression
 			start=1;
 		}
 		rightside = (int)rightside%(int)$<dbl>3;
+		$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
 	}
 	;
 
 additive_expression
 	: multiplicative_expression
 	| additive_expression PLUS multiplicative_expression {
-		printf("addition %lf\n",rightside,$<dbl>3);
+		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
 		if(!start){
 			rightside = $<dbl>1;
 			start=1;
 		}
 		rightside = rightside+$<dbl>3;
+		$<dbl>$=$<dbl>$+$<dbl>3;
 	}
 	| additive_expression MINUS multiplicative_expression {
-		printf("subtraction %lf\n",rightside);
+		printf("subtraction %lf\n",$<dbl>$);
 		if(!start){
 			rightside = $<dbl>1;
 			start=1;
@@ -122,6 +126,7 @@ additive_expression
 		//rightside = (double)$<dbl>2-(double)$<dbl>3 - rightside;
 		//printf("final = %lf\n",rightside);
 		rightside=rightside-$<dbl>3;
+		$<dbl>$=$<dbl>$-$<dbl>3;
 	}
 	;
 
@@ -168,11 +173,11 @@ conditional_expression
 assignment_expression
 	: conditional_expression
 	| type_specifier unary_expression assignment_operator assignment_expression {
-		printf("\ntype specifier Assignment value %lf\n",rightside);
+		printf("\ntype specifier Assignment value %lf\n",$<dbl>4);
 		start=0;
 	}
 	| unary_expression assignment_operator assignment_expression {
-		printf("\nAssignment vaule %lf\n",rightside);
+		printf("\nAssignment vaule %lf\n",$<dbl>$);
 		start=0;
 	}
 	;

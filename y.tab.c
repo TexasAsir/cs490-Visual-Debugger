@@ -633,23 +633,23 @@ static const yytype_uint16 yyrline[] =
        0,    28,    28,    29,    32,    33,    34,    38,    39,    40,
       41,    42,    43,    44,    45,    49,    50,    54,    55,    56,
       57,    58,    59,    63,    64,    65,    66,    67,    71,    72,
-      76,    77,    85,    93,   104,   105,   114,   129,   130,   131,
-     132,   133,   137,   138,   139,   143,   147,   151,   155,   156,
-     160,   161,   165,   169,   170,   174,   181,   182,   183,   184,
-     185,   186,   190,   191,   195,   199,   200,   204,   205,   206,
-     207,   208,   209,   213,   214,   218,   219,   220,   224,   225,
-     229,   230,   231,   232,   233,   234,   235,   236,   237,   238,
-     239,   240,   244,   245,   246,   250,   254,   255,   259,   263,
-     264,   265,   266,   270,   271,   275,   276,   277,   281,   282,
-     283,   287,   288,   292,   293,   297,   301,   302,   306,   309,
-     310,   311,   312,   313,   314,   318,   319,   320,   321,   325,
-     326,   331,   332,   336,   337,   341,   342,   343,   347,   348,
-     352,   353,   357,   358,   359,   365,   366,   367,   368,   369,
-     370,   371,   372,   373,   377,   378,   379,   383,   384,   388,
-     389,   390,   391,   392,   393,   394,   398,   402,   403,   404,
-     405,   409,   410,   414,   415,   419,   420,   423,   424,   427,
-     428,   431,   432,   436,   437,   438,   439,   443,   444,   445,
-     446,   452,   455,   461,   462,   466,   467,   468,   469
+      76,    77,    86,    95,   107,   108,   118,   134,   135,   136,
+     137,   138,   142,   143,   144,   148,   152,   156,   160,   161,
+     165,   166,   170,   174,   175,   179,   186,   187,   188,   189,
+     190,   191,   195,   196,   200,   204,   205,   209,   210,   211,
+     212,   213,   214,   218,   219,   223,   224,   225,   229,   230,
+     234,   235,   236,   237,   238,   239,   240,   241,   242,   243,
+     244,   245,   249,   250,   251,   255,   259,   260,   264,   268,
+     269,   270,   271,   275,   276,   280,   281,   282,   286,   287,
+     288,   292,   293,   297,   298,   302,   306,   307,   311,   314,
+     315,   316,   317,   318,   319,   323,   324,   325,   326,   330,
+     331,   336,   337,   341,   342,   346,   347,   348,   352,   353,
+     357,   358,   362,   363,   364,   370,   371,   372,   373,   374,
+     375,   376,   377,   378,   382,   383,   384,   388,   389,   393,
+     394,   395,   396,   397,   398,   399,   403,   407,   408,   409,
+     410,   414,   415,   419,   420,   424,   425,   428,   429,   432,
+     433,   436,   437,   441,   442,   443,   444,   448,   449,   450,
+     451,   457,   460,   466,   467,   471,   472,   473,   474
 };
 #endif
 
@@ -2081,33 +2081,35 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 77 "yacc.y"
     {
-		printf("multiply %lf\n",rightside);
+		printf("multiply %lf\n",(yyval.dbl));
 		if(!start){
 			rightside = (yyvsp[(1) - (3)].dbl);
 			start=1;
 		}
 		rightside = rightside*(yyvsp[(3) - (3)].dbl);
+		(yyval.dbl)=(yyval.dbl)*(yyvsp[(3) - (3)].dbl);
 	}
     break;
 
   case 32:
 
 /* Line 1464 of yacc.c  */
-#line 85 "yacc.y"
+#line 86 "yacc.y"
     {
-		printf("divide  %lf\n",rightside);
+		printf("divide  %lf\n",(yyval.dbl));
 		if(!start){
 			rightside = (yyvsp[(1) - (3)].dbl);
 			start=1;
 		}
 		rightside = rightside/(yyvsp[(3) - (3)].dbl);
+		(yyval.dbl)=(yyval.dbl)/(yyvsp[(3) - (3)].dbl);
 	}
     break;
 
   case 33:
 
 /* Line 1464 of yacc.c  */
-#line 93 "yacc.y"
+#line 95 "yacc.y"
     {
 		//printf("mod\n");
 		if(!start){
@@ -2115,30 +2117,32 @@ yyreduce:
 			start=1;
 		}
 		rightside = (int)rightside%(int)(yyvsp[(3) - (3)].dbl);
+		(yyval.dbl)=(int)(yyval.dbl)%(int)(yyvsp[(3) - (3)].dbl);
 	}
     break;
 
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 105 "yacc.y"
+#line 108 "yacc.y"
     {
-		printf("addition %lf\n",rightside,(yyvsp[(3) - (3)].dbl));
+		printf("addition %lf\n",(yyval.dbl),(yyvsp[(3) - (3)].dbl));
 		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
 		if(!start){
 			rightside = (yyvsp[(1) - (3)].dbl);
 			start=1;
 		}
 		rightside = rightside+(yyvsp[(3) - (3)].dbl);
+		(yyval.dbl)=(yyval.dbl)+(yyvsp[(3) - (3)].dbl);
 	}
     break;
 
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 114 "yacc.y"
+#line 118 "yacc.y"
     {
-		printf("subtraction %lf\n",rightside);
+		printf("subtraction %lf\n",(yyval.dbl));
 		if(!start){
 			rightside = (yyvsp[(1) - (3)].dbl);
 			start=1;
@@ -2148,15 +2152,16 @@ yyreduce:
 		//rightside = (double)$<dbl>2-(double)$<dbl>3 - rightside;
 		//printf("final = %lf\n",rightside);
 		rightside=rightside-(yyvsp[(3) - (3)].dbl);
+		(yyval.dbl)=(yyval.dbl)-(yyvsp[(3) - (3)].dbl);
 	}
     break;
 
   case 54:
 
 /* Line 1464 of yacc.c  */
-#line 170 "yacc.y"
+#line 175 "yacc.y"
     {
-		printf("\ntype specifier Assignment value %lf\n",rightside);
+		printf("\ntype specifier Assignment value %lf\n",(yyvsp[(4) - (4)].dbl));
 		start=0;
 	}
     break;
@@ -2164,9 +2169,9 @@ yyreduce:
   case 55:
 
 /* Line 1464 of yacc.c  */
-#line 174 "yacc.y"
+#line 179 "yacc.y"
     {
-		printf("\nAssignment vaule %lf\n",rightside);
+		printf("\nAssignment vaule %lf\n",(yyval.dbl));
 		start=0;
 	}
     break;
@@ -2174,7 +2179,7 @@ yyreduce:
   case 118:
 
 /* Line 1464 of yacc.c  */
-#line 306 "yacc.y"
+#line 311 "yacc.y"
     {
 		//printf("direct declarator\n");
 	}
@@ -2183,7 +2188,7 @@ yyreduce:
   case 144:
 
 /* Line 1464 of yacc.c  */
-#line 359 "yacc.y"
+#line 364 "yacc.y"
     {
 		printf("hi?\n");
 	}
@@ -2192,7 +2197,7 @@ yyreduce:
   case 190:
 
 /* Line 1464 of yacc.c  */
-#line 446 "yacc.y"
+#line 451 "yacc.y"
     {
 		//printf("return expr semi\n");
 	}
@@ -2201,7 +2206,7 @@ yyreduce:
   case 191:
 
 /* Line 1464 of yacc.c  */
-#line 452 "yacc.y"
+#line 457 "yacc.y"
     {
 		//printf("translation unit\n");
 	}
@@ -2210,7 +2215,7 @@ yyreduce:
   case 192:
 
 /* Line 1464 of yacc.c  */
-#line 455 "yacc.y"
+#line 460 "yacc.y"
     {
 		//printf("translation unit\n");
 	}
@@ -2219,7 +2224,7 @@ yyreduce:
 
 
 /* Line 1464 of yacc.c  */
-#line 2223 "y.tab.c"
+#line 2228 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2431,7 +2436,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 472 "yacc.y"
+#line 477 "yacc.y"
 
 #include <stdio.h>
 
