@@ -12,26 +12,50 @@
 
 %union	{
 	double dbl;
+	char * wd;
 }
 
 %{
 	//#include "functions.cpp"
-	double rightside = 0;
-	int start=0;
+	extern int linecount;
+	char * var[2];
+	struct varble{
+		char * name;
+		char * type;
+		double value;
+	};
+
+	struct function{
+		int startpoint;
+		int numargs;
+		char *type;
+		char *name;
+	};
 	
+	struct varble** globls;
+	//globls=malloc(sizeof(struct varble)*100);
+	struct function **funcs;
+	int globalcount =0;
+	int globalmax =100;
+	int funcmax = 50;
+	int funcount=0;
 %}
 
 %start translation_unit
 %%
 
 primary_expression
-	: IDENTIFIER
+	: IDENTIFIER {
+		//printf("identifier %s\n",$<wd>1);
+	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
 	} 
 	| CHARACTER
-	| WORD
-    	| OPENPAR expression CLOSEPAR
+	| WORD {
+		printf("word yo %s\n",$<wd>1);
+	}
+    | OPENPAR expression CLOSEPAR
 	;
 
 postfix_expression
@@ -60,7 +84,9 @@ unary_expression
 	;
 
 unary_operator
-	: STAR
+	: STAR{
+		printf("pointer dereferenced\n");
+	}
 	| PLUS
 	| MINUS
 	| NOT
@@ -76,29 +102,16 @@ multiplicative_expression
 	: cast_expression
 	| multiplicative_expression STAR cast_expression {
 		printf("multiply %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside*$<dbl>3;
 		$<dbl>$=$<dbl>$*$<dbl>3;
+		printf("multiply %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression DIVIDE cast_expression {
 		printf("divide  %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside/$<dbl>3;
 		$<dbl>$=$<dbl>$/$<dbl>3;
+		printf("divide  %lf\n",$<dbl>$);
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = (int)rightside%(int)$<dbl>3;
 		$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
 	}
 	;
@@ -108,25 +121,13 @@ additive_expression
 	| additive_expression PLUS multiplicative_expression {
 		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		rightside = rightside+$<dbl>3;
 		$<dbl>$=$<dbl>$+$<dbl>3;
+		printf("addition %lf\n",$<dbl>$,$<dbl>3);
 	}
 	| additive_expression MINUS multiplicative_expression {
 		printf("subtraction %lf\n",$<dbl>$);
-		if(!start){
-			rightside = $<dbl>1;
-			start=1;
-		}
-		//printf("%d subtraction %lf %lf\n",start, rightside,$<dbl>3);
-		//printf("diff %lf\n",(double)rightside-(double)$<dbl>3);
-		//rightside = (double)$<dbl>2-(double)$<dbl>3 - rightside;
-		//printf("final = %lf\n",rightside);
-		rightside=rightside-$<dbl>3;
 		$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("subtraction %lf\n",$<dbl>$);
 	}
 	;
 
@@ -172,15 +173,13 @@ conditional_expression
 
 assignment_expression
 	: conditional_expression
-	| type_specifier unary_expression assignment_operator assignment_expression {
+	|  declaration_specifiers unary_expression assignment_operator assignment_expression {
 		printf("\ntype specifier Assignment value %lf\n",$<dbl>4);
-		start=0;
 	}
 	| unary_expression assignment_operator assignment_expression {
-		printf("\nAssignment vaule %lf\n",$<dbl>$);
-		start=0;
+		printf("\nAssignment vaule %lf\n",$<dbl>3);
 	}
-	;
+
 
 assignment_operator
 	: EQUALS
@@ -202,12 +201,18 @@ constant_expression
 
 declaration
 	: declaration_specifiers SEMICOLON
-	| declaration_specifiers init_declarator_list SEMICOLON
+	| declaration_specifiers init_declarator_list SEMICOLON{
+		var[0]=$<wd>1;
+		var[1]=$<wd>2;
+	}
 	;
 
 declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
+	| type_specifier STAR{
+		printf("pointer declared\n");
+	}
 	| type_specifier
 	| type_specifier declaration_specifiers
 	| type_qualifier
@@ -215,14 +220,22 @@ declaration_specifiers
 	;
 
 init_declarator_list
-	: init_declarator
+	: init_declarator{
+		//printf("declarator %s\n",$<wd>1);
+	}
 	| init_declarator_list COMMA init_declarator
 	;
 
 init_declarator
-	: declarator
-	| declarator EQUALS initializer
-	| declarator IDENTIFIER
+	: declarator{
+		//printf("declarator %s\n",$<wd>1);
+	}
+	| declarator EQUALS initializer {
+		printf("init assignment %lf\n",$<dbl>3);
+	}
+	| declarator IDENTIFIER {
+		//printf("identifier %s\n",$<wd>1);
+	}
 	;
 
 storage_class_specifier
@@ -231,17 +244,35 @@ storage_class_specifier
 	;
 
 type_specifier
-	: VOID
-	| CHAR
-	| SHORT
-	| INT
-	| LONG
-	| FLOAT
-	| DOUBLE
-	| SIGNED
-	| UNSIGNED
+	: VOID{
+		$<wd>$="void";
+	}
+	| CHAR{
+		$<wd>$="char";
+	}
+	| SHORT{
+		$<wd>$="short";
+	}
+	| INT {
+		$<wd>$="int";
+	}
+	| LONG{
+		$<wd>$="long";
+	}	
+	| FLOAT{
+		$<wd>$="float";
+	}
+	| DOUBLE{
+		$<wd>$="double";
+	}
+	| SIGNED{
+		$<wd>$="signed";
+	}
+	| UNSIGNED{
+		$<wd>$="unsigned";
+	}
 	| struct_or_union_specifier
-	| enum_specifier //the problem was here we had identifier where he had type name
+	| enum_specifier
 	| include_statement
 	;
 
@@ -303,13 +334,19 @@ type_qualifier
 	;
 
 declarator
-	: pointer direct_declarator
-	| direct_declarator
+	: pointer direct_declarator{
+		printf("pointer found h4h4h4h4h4hh4\n");
+	}
+	| direct_declarator {
+		//printf("declarator %s\n",$<wd>1);
+		$<wd>$=$<wd>1;
+	}
 	;
 
 direct_declarator
 	: IDENTIFIER {
-		//printf("direct declarator\n");
+		//printf("direct declarator %s\n",$<wd>1);
+		$<wd>$=$<wd>1;
 	}
 	| OPENPAR declarator CLOSEPAR
 	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET
@@ -405,11 +442,17 @@ labeled_statement//maby issues here?
 
 compound_statement
 	: OPENBRACE CLOSEBRACE
-	| OPENBRACE statement_list CLOSEBRACE
-	| OPENBRACE declaration_list CLOSEBRACE
-	| OPENBRACE declaration_list statement_list CLOSEBRACE
+	| OPENBRACE decstat_list CLOSEBRACE
 	;
 
+decstat
+	: statement_list
+	| declaration_list
+	;
+decstat_list
+	: decstat
+	| decstat decstat_list
+	;
 declaration_list
 	: declaration
 	| declaration_list declaration
@@ -464,14 +507,38 @@ translation_unit
 
 external_declaration
 	: function_definition
-	| declaration
+	| declaration {
+		printf("global variable %s %s\n",var[0], var[1]);
+		(((struct varble *)globls+globalcount))->name=var[1];
+		(((struct varble *)globls+globalcount))->type=var[0];
+		globalcount++;
+		if(globalcount >=globalmax){
+			globalmax *=2;
+			globls = realloc(globls,sizeof(struct varble)*globalmax);
+		}
+	}
 	;
 
 function_definition
-	: declaration_specifiers declarator declaration_list compound_statement
-	| declaration_specifiers declarator compound_statement
-	| declarator declaration_list compound_statement
-	| declarator compound_statement
+	: declaration_specifiers declarator declaration_list compound_statement{
+	}
+	| declaration_specifiers declarator{
+		printf("function line %d %s %s %s %s\n",linecount,$<wd>1,$<wd>2);
+		(((struct function *)funcs+funcount))->startpoint=linecount;
+		(((struct function *)funcs+funcount))->type=$<wd>1;
+		(((struct function *)funcs+funcount))->name=$<wd>2;
+		funcount++;
+		if(funcount >=funcmax){
+			funcmax *=2;
+			funcs = realloc(funcs,sizeof(struct function)*funcmax);
+		}
+	}compound_statement{
+		//printf("function definition2\n");
+	}
+	| declarator declaration_list compound_statement{
+	}
+	| declarator compound_statement{
+	}
 	;
 
 %%
@@ -497,6 +564,8 @@ int main(int argc, char* argv[])
     yyin = fopen(argv[1],"r");
     //perror("fopen");
     //printf("input file: %s %d\n",argv[1],yyin);
+	globls=(struct varble **) malloc(sizeof(struct varble)*100);
+	funcs = (struct func **) malloc(sizeof(struct function)*50);
     printf("hue%d\n",yyparse());
     //perror("yyparse");
     return 0;

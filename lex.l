@@ -9,7 +9,7 @@
 
 
 /////////// End added code ///////////
-
+int linecount=1;
 
 
 %}
@@ -18,8 +18,9 @@
 
 %%
 
-\n|\'\\n\' {
+\n {
 		////printf("nl\n");
+		linecount++;
 		//count(); return NEWLINE;
 	}
 "/*" {
@@ -225,6 +226,9 @@
 	}
 \"[^\n\"]*\" {
 		//printf("asfd\n");
+		strcpy(yytext,yytext+1);
+		yytext[strlen(yytext)-1]=0;
+		yylval.wd = strdup(yytext);
 		count(); return WORD;
 	}
 [0-9]+ {
@@ -245,7 +249,7 @@
 }
 [a-zA-Z_][a-zA-Z_0-9]* {
 	//printf("\nid %s\n",yytext);
-	
+	yylval.wd=strdup(yytext);
 	count(); return IDENTIFIER;
 }
 
