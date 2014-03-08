@@ -523,7 +523,7 @@ function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
 	}
 	| declaration_specifiers declarator{
-		printf("function line %d %s %s %s %s\n",linecount,$<wd>1,$<wd>2);
+		printf("function line %d %s %s\n",linecount,$<wd>1,$<wd>2);
 		(((struct function *)funcs+funcount))->startpoint=linecount;
 		(((struct function *)funcs+funcount))->type=$<wd>1;
 		(((struct function *)funcs+funcount))->name=$<wd>2;

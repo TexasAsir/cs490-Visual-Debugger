@@ -2399,7 +2399,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 525 "yacc.y"
     {
-		printf("function line %d %s %s %s %s\n",linecount,(yyvsp[(1) - (2)].wd),(yyvsp[(2) - (2)].wd));
+		printf("function line %d %s %s\n",linecount,(yyvsp[(1) - (2)].wd),(yyvsp[(2) - (2)].wd));
 		(((struct function *)funcs+funcount))->startpoint=linecount;
 		(((struct function *)funcs+funcount))->type=(yyvsp[(1) - (2)].wd);
 		(((struct function *)funcs+funcount))->name=(yyvsp[(2) - (2)].wd);
