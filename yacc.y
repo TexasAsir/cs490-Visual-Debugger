@@ -17,28 +17,15 @@
 
 %{
 	//#include "functions.cpp"
+	#include <stdio.h>
+	#include "stack.h"
+	extern "C" int yylex();
 	extern int linecount;
 	char * var[2];
-	struct varble{
-		char * name;
-		char * type;
-		double value;
-	};
-
-	struct function{
-		int startpoint;
-		int numargs;
-		char *type;
-		char *name;
-	};
-	
-	struct varble** globls;
-	//globls=malloc(sizeof(struct varble)*100);
-	struct function **funcs;
-	int globalcount =0;
-	int globalmax =100;
-	int funcmax = 50;
-	int funcount=0;
+	int yyerror(char* s);
+	//struct varble** globls;
+	//int globalcount =0;
+	//int globalmax =100;
 %}
 
 %start translation_unit
@@ -509,13 +496,13 @@ external_declaration
 	: function_definition
 	| declaration {
 		printf("global variable %s %s\n",var[0], var[1]);
-		(((struct varble *)globls+globalcount))->name=var[1];
-		(((struct varble *)globls+globalcount))->type=var[0];
-		globalcount++;
-		if(globalcount >=globalmax){
-			globalmax *=2;
-			globls = realloc(globls,sizeof(struct varble)*globalmax);
-		}
+		//(((struct varble *)globls+globalcount))->name=var[1];
+		//(((struct varble *)globls+globalcount))->type=var[0];
+		//globalcount++;
+		//if(globalcount >=globalmax){
+		//	globalmax *=2;
+		//	globls = realloc(globls,sizeof(struct varble)*globalmax);
+		//}
 	}
 	;
 
@@ -524,13 +511,14 @@ function_definition
 	}
 	| declaration_specifiers declarator{
 		printf("function line %d %s %s\n",linecount,$<wd>1,$<wd>2);
-		(((struct function *)funcs+funcount))->startpoint=linecount;
-		(((struct function *)funcs+funcount))->type=$<wd>1;
-		(((struct function *)funcs+funcount))->name=$<wd>2;
-		funcount++;
-		if(funcount >=funcmax){
-			funcmax *=2;
-			funcs = realloc(funcs,sizeof(struct function)*funcmax);
+		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
+		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->startpoint=linecount;
+		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->type=$<wd>1;
+		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->name=$<wd>2;
+		cstack::thiscstack.funcount++;
+		if(cstack::thiscstack.funcount >=cstack::thiscstack.funcmax){
+			cstack::thiscstack.funcmax *=2;
+			cstack::thiscstack.funcs = (function **)realloc(cstack::thiscstack.funcs,sizeof(function *)*cstack::thiscstack.funcmax);
 		}
 	}compound_statement{
 		//printf("function definition2\n");
@@ -548,25 +536,10 @@ extern char yytext[];
 extern FILE * yyin;
 extern int column;
 //comment
-yyerror(s)
-char *s;
+int yyerror(char * s)
 {
 	fflush(stdout);
 	////printf("error %s\n",s);
 	printf("hue\n%*s\n%*s\n", column, "^", column, s);
 }
 
-printnumeral(){
-}
-int main(int argc, char* argv[])
-{
-    /* Call the lexer, then quit. */
-    yyin = fopen(argv[1],"r");
-    //perror("fopen");
-    //printf("input file: %s %d\n",argv[1],yyin);
-	globls=(struct varble **) malloc(sizeof(struct varble)*100);
-	funcs = (struct func **) malloc(sizeof(struct function)*50);
-    printf("hue%d\n",yyparse());
-    //perror("yyparse");
-    return 0;
-}

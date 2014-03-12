@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "y.tab.h"
 
-
+void count();
 ////////////  Start added code ///////////
 
 
