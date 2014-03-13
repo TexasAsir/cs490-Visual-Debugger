@@ -1,0 +1,39 @@
+all variable names
+types
+values
+
+members of structs
+name of structs
+struct data type
+member values
+
+
+
+
+
+---------Variables---------
+[type]		[name]		[value]
+  int		   y           5
+  
+  
+  
+  
+  
+  
+  
+  
+-------struct node [tree2]------------
+[type]    [name]      [value]
+  int       y           3
+  node *    left       0x45563ca
+  node *    right      0x45563ce
+  
+  
+  
+  
+  
+  int main(){
+  	int x;
+  	if(x){
+  		int x;
+  	}
