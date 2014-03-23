@@ -1,7 +1,12 @@
-
-
+//!#LL
+struct node {
+	int val;
+	struct node * next;
+};
+//this is a comment yo dawg
 int main(){
-	int y;
+	
+	/*int y;
 	double x;
 	double x = 5 + 6.3;
 	//int y;
@@ -25,16 +30,22 @@ int main(){
 			}
 		}
 	}
-	long z = 10-3-2-1;		
+	long z = 10-3-2-1;
 	int x;
 	int y;
 	float b = 4*4;
 	float a = 4*4/3*20/3;
 	int *x = 7;
 	*x = 5 + 0;
-	return 3;
+	return 3;*/
+	int i;
+	int x = 0;
+	for(i = 0; i < 5; i++){
+		x = i;
+	}
+	
 }
-int y(){
+/*int y(){
 	int x;
-}
-//declarator broke, int x; etc dont work yo
+}*/
+
