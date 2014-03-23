@@ -182,11 +182,12 @@ typedef union YYSTYPE
 
 	double dbl;
 	char * wd;
+	int leaf;
 
 
 
 /* Line 1685 of yacc.c  */
-#line 190 "y.tab.h"
+#line 191 "y.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

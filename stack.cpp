@@ -29,12 +29,14 @@ frame* cstack::getframe(int i){
 
 //extern char yytext[];
 extern FILE * yyin;
+extern int expcount;
 cstack cstack::thiscstack;
 int yyparse(void);
 int main(int argc, char* argv[])
 {
     /* Call the lexer, then quit. */
     yyin = fopen(argv[1],"r");
+    expcount=0;
     //perror("fopen");
     //printf("input file: %s %d\n",argv[1],yyin);
 	cstack::thiscstack.funcs = (struct function **) malloc(sizeof(function *)*50);

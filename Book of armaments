@@ -1,0 +1,13 @@
+while:
+"//while1//eqeqxy////////endw1"
+if:
+"//if1//////endf1//else1///////ende1"
+
+for:
+//firstexpr //while2 //less i 5 //plusplus i ///////// //endw2
+
+dowhile:
+//do1 ////break//// //endd1 //gt //assg x //add x y 5 
+
+binaryops:
+"//add//times//int5//int6//int7" => 7+5*6||5*6+7

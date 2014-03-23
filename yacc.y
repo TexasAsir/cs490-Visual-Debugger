@@ -13,14 +13,17 @@
 %union	{
 	double dbl;
 	char * wd;
+	int leaf;
 }
 
 %{
 	//#include "functions.cpp"
 	#include <stdio.h>
 	#include "stack.h"
+	#include <string.h>
 	extern "C" int yylex();
 	extern int linecount;
+	int expcount;
 	char * var[2];
 	int yyerror(char* s);
 	//struct varble** globls;
@@ -37,6 +40,20 @@ primary_expression
 	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
+		if(!strchr($<wd>1,'.')){
+			int size = strlen($<wd>1);
+			size=size+6;
+			$<wd>$=(char *)malloc(sizeof(char)*size);
+			strcat($<wd>$,"//int");
+			strcat($<wd>$,$<wd>1);
+		}
+		else{
+			int size = strlen($<wd>1);
+			size=size+6;
+			$<wd>$=(char *)malloc(sizeof(char)*size);
+			strcat($<wd>$,"//dbl");
+			strcat($<wd>$,$<wd>1);
+		}
 	} 
 	| CHARACTER
 	| WORD {
@@ -88,33 +105,59 @@ cast_expression
 multiplicative_expression
 	: cast_expression
 	| multiplicative_expression STAR cast_expression {
-		printf("multiply %lf\n",$<dbl>$);
-		$<dbl>$=$<dbl>$*$<dbl>3;
-		printf("multiply %lf\n",$<dbl>$);
+		//printf("multiply %lf\n",$<dbl>$);
+		//$<dbl>$=$<dbl>$*$<dbl>3;
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//time");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("multiply %s\n",$<wd>$);
 	}
 	| multiplicative_expression DIVIDE cast_expression {
-		printf("divide  %lf\n",$<dbl>$);
-		$<dbl>$=$<dbl>$/$<dbl>3;
-		printf("divide  %lf\n",$<dbl>$);
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//divi");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$/$<dbl>3;
+		printf("divide  %s\n",$<wd>$);
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
-		$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//mod");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
 	}
 	;
 
 additive_expression
 	: multiplicative_expression
 	| additive_expression PLUS multiplicative_expression {
-		printf("addition %lf\n",$<dbl>$,$<dbl>3);
-		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
-		$<dbl>$=$<dbl>$+$<dbl>3;
-		printf("addition %lf\n",$<dbl>$,$<dbl>3);
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//add");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$+$<dbl>3;
+		printf("addition %s\n",$<wd>$);
 	}
 	| additive_expression MINUS multiplicative_expression {
-		printf("subtraction %lf\n",$<dbl>$);
-		$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("subtraction %lf\n",$<dbl>$);
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//sub");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("subtraction %s\n",$<wd>$);
 	}
 	;
 

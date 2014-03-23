@@ -36,4 +36,14 @@ member values
   	int x;
   	if(x){
   		int x;
+  		
   	}
+ }  	
+  	
+  	
+  	
+program list:in string form
+
+type of statement (assignment,loop,etc,value)
+arguments
+example: "//add//times//int5//int6//int7" => 7+5*6||5*6+7

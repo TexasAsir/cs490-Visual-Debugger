@@ -239,11 +239,12 @@ typedef union YYSTYPE
 
 	double dbl;
 	char * wd;
+	int leaf;
 
 
 
 /* Line 214 of yacc.c  */
-#line 247 "y.tab.c"
+#line 248 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -254,13 +255,15 @@ typedef union YYSTYPE
 /* Copy the second part of user declarations.  */
 
 /* Line 264 of yacc.c  */
-#line 18 "yacc.y"
+#line 19 "yacc.y"
 
 	//#include "functions.cpp"
 	#include <stdio.h>
 	#include "stack.h"
+	#include <string.h>
 	extern "C" int yylex();
 	extern int linecount;
+	int expcount;
 	char * var[2];
 	int yyerror(char* s);
 	//struct varble** globls;
@@ -269,7 +272,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 273 "y.tab.c"
+#line 276 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -639,27 +642,27 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    35,    35,    38,    41,    42,    45,    49,    50,    51,
-      52,    53,    54,    55,    56,    60,    61,    65,    66,    67,
-      68,    69,    70,    74,    77,    78,    79,    80,    84,    85,
-      89,    90,    95,   100,   107,   108,   114,   122,   123,   124,
-     125,   126,   130,   131,   132,   136,   140,   144,   148,   149,
-     153,   154,   158,   162,   163,   166,   172,   173,   174,   175,
-     176,   177,   181,   182,   186,   190,   191,   198,   199,   200,
-     203,   204,   205,   206,   210,   213,   217,   220,   223,   229,
-     230,   234,   237,   240,   243,   246,   249,   252,   255,   258,
-     261,   262,   263,   267,   268,   269,   273,   277,   278,   282,
-     286,   287,   288,   289,   293,   294,   298,   299,   300,   304,
-     305,   306,   310,   311,   315,   316,   320,   324,   327,   334,
-     338,   339,   340,   341,   342,   343,   347,   348,   349,   350,
-     354,   355,   360,   361,   365,   366,   370,   371,   372,   376,
-     377,   381,   382,   386,   387,   388,   394,   395,   396,   397,
-     398,   399,   400,   401,   402,   406,   407,   408,   412,   413,
-     417,   418,   419,   420,   421,   422,   423,   427,   431,   432,
-     436,   437,   440,   441,   444,   445,   449,   450,   454,   455,
-     458,   459,   462,   463,   466,   467,   471,   472,   473,   474,
-     478,   479,   480,   481,   487,   490,   496,   497,   510,   512,
-     512,   526,   528
+       0,    38,    38,    41,    58,    59,    62,    66,    67,    68,
+      69,    70,    71,    72,    73,    77,    78,    82,    83,    84,
+      85,    86,    87,    91,    94,    95,    96,    97,   101,   102,
+     106,   107,   114,   119,   126,   127,   133,   141,   142,   143,
+     144,   145,   149,   150,   151,   155,   159,   163,   167,   168,
+     172,   173,   177,   181,   182,   185,   191,   192,   193,   194,
+     195,   196,   200,   201,   205,   209,   210,   217,   218,   219,
+     222,   223,   224,   225,   229,   232,   236,   239,   242,   248,
+     249,   253,   256,   259,   262,   265,   268,   271,   274,   277,
+     280,   281,   282,   286,   287,   288,   292,   296,   297,   301,
+     305,   306,   307,   308,   312,   313,   317,   318,   319,   323,
+     324,   325,   329,   330,   334,   335,   339,   343,   346,   353,
+     357,   358,   359,   360,   361,   362,   366,   367,   368,   369,
+     373,   374,   379,   380,   384,   385,   389,   390,   391,   395,
+     396,   400,   401,   405,   406,   407,   413,   414,   415,   416,
+     417,   418,   419,   420,   421,   425,   426,   427,   431,   432,
+     436,   437,   438,   439,   440,   441,   442,   446,   450,   451,
+     455,   456,   459,   460,   463,   464,   468,   469,   473,   474,
+     477,   478,   481,   482,   485,   486,   490,   491,   492,   493,
+     497,   498,   499,   500,   506,   509,   515,   516,   529,   531,
+     531,   545,   547
 };
 #endif
 
@@ -2050,7 +2053,7 @@ yyreduce:
         case 2:
 
 /* Line 1464 of yacc.c  */
-#line 35 "yacc.y"
+#line 38 "yacc.y"
     {
 		//printf("identifier %s\n",$<wd>1);
 	}
@@ -2059,16 +2062,30 @@ yyreduce:
   case 3:
 
 /* Line 1464 of yacc.c  */
-#line 38 "yacc.y"
+#line 41 "yacc.y"
     {
 		//printf("numeral %d\n",$1);
+		if(!strchr((yyvsp[(1) - (1)].wd),'.')){
+			int size = strlen((yyvsp[(1) - (1)].wd));
+			size=size+3;
+			(yyval.wd)=(char *)malloc(sizeof(char)*size);
+			strcat((yyval.wd),"//int");
+			strcat((yyval.wd),(yyvsp[(1) - (1)].wd));
+		}
+		else{
+			int size = strlen((yyvsp[(1) - (1)].wd));
+			size=size+3;
+			(yyval.wd)=(char *)malloc(sizeof(char)*size);
+			strcat((yyval.wd),"//dbl");
+			strcat((yyval.wd),(yyvsp[(1) - (1)].wd));
+		}
 	}
     break;
 
   case 5:
 
 /* Line 1464 of yacc.c  */
-#line 42 "yacc.y"
+#line 59 "yacc.y"
     {
 		printf("word yo %s\n",(yyvsp[(1) - (1)].wd));
 	}
@@ -2077,7 +2094,7 @@ yyreduce:
   case 23:
 
 /* Line 1464 of yacc.c  */
-#line 74 "yacc.y"
+#line 91 "yacc.y"
     {
 		printf("pointer dereferenced\n");
 	}
@@ -2086,10 +2103,12 @@ yyreduce:
   case 31:
 
 /* Line 1464 of yacc.c  */
-#line 90 "yacc.y"
+#line 107 "yacc.y"
     {
 		printf("multiply %lf\n",(yyval.dbl));
 		(yyval.dbl)=(yyval.dbl)*(yyvsp[(3) - (3)].dbl);
+		(yyval.leaf)=expcount;
+		expcount++;
 		printf("multiply %lf\n",(yyval.dbl));
 	}
     break;
@@ -2097,7 +2116,7 @@ yyreduce:
   case 32:
 
 /* Line 1464 of yacc.c  */
-#line 95 "yacc.y"
+#line 114 "yacc.y"
     {
 		printf("divide  %lf\n",(yyval.dbl));
 		(yyval.dbl)=(yyval.dbl)/(yyvsp[(3) - (3)].dbl);
@@ -2108,7 +2127,7 @@ yyreduce:
   case 33:
 
 /* Line 1464 of yacc.c  */
-#line 100 "yacc.y"
+#line 119 "yacc.y"
     {
 		//printf("mod\n");
 		(yyval.dbl)=(int)(yyval.dbl)%(int)(yyvsp[(3) - (3)].dbl);
@@ -2118,7 +2137,7 @@ yyreduce:
   case 35:
 
 /* Line 1464 of yacc.c  */
-#line 108 "yacc.y"
+#line 127 "yacc.y"
     {
 		printf("addition %lf\n",(yyval.dbl),(yyvsp[(3) - (3)].dbl));
 		//printf("sum %lf\n",(double)$<dbl>1+(double)$<dbl>3);
@@ -2130,7 +2149,7 @@ yyreduce:
   case 36:
 
 /* Line 1464 of yacc.c  */
-#line 114 "yacc.y"
+#line 133 "yacc.y"
     {
 		printf("subtraction %lf\n",(yyval.dbl));
 		(yyval.dbl)=(yyval.dbl)-(yyvsp[(3) - (3)].dbl);
@@ -2141,7 +2160,7 @@ yyreduce:
   case 54:
 
 /* Line 1464 of yacc.c  */
-#line 163 "yacc.y"
+#line 182 "yacc.y"
     {
 		printf("\ntype specifier Assignment value %lf\n",(yyvsp[(4) - (4)].dbl));
 	}
@@ -2150,7 +2169,7 @@ yyreduce:
   case 55:
 
 /* Line 1464 of yacc.c  */
-#line 166 "yacc.y"
+#line 185 "yacc.y"
     {
 		printf("\nAssignment vaule %lf\n",(yyvsp[(3) - (3)].dbl));
 	}
@@ -2159,7 +2178,7 @@ yyreduce:
   case 66:
 
 /* Line 1464 of yacc.c  */
-#line 191 "yacc.y"
+#line 210 "yacc.y"
     {
 		var[0]=(yyvsp[(1) - (3)].wd);
 		var[1]=(yyvsp[(2) - (3)].wd);
@@ -2169,7 +2188,7 @@ yyreduce:
   case 69:
 
 /* Line 1464 of yacc.c  */
-#line 200 "yacc.y"
+#line 219 "yacc.y"
     {
 		printf("pointer declared\n");
 	}
@@ -2178,7 +2197,7 @@ yyreduce:
   case 74:
 
 /* Line 1464 of yacc.c  */
-#line 210 "yacc.y"
+#line 229 "yacc.y"
     {
 		//printf("declarator %s\n",$<wd>1);
 	}
@@ -2187,7 +2206,7 @@ yyreduce:
   case 76:
 
 /* Line 1464 of yacc.c  */
-#line 217 "yacc.y"
+#line 236 "yacc.y"
     {
 		//printf("declarator %s\n",$<wd>1);
 	}
@@ -2196,7 +2215,7 @@ yyreduce:
   case 77:
 
 /* Line 1464 of yacc.c  */
-#line 220 "yacc.y"
+#line 239 "yacc.y"
     {
 		printf("init assignment %lf\n",(yyvsp[(3) - (3)].dbl));
 	}
@@ -2205,7 +2224,7 @@ yyreduce:
   case 78:
 
 /* Line 1464 of yacc.c  */
-#line 223 "yacc.y"
+#line 242 "yacc.y"
     {
 		//printf("identifier %s\n",$<wd>1);
 	}
@@ -2214,7 +2233,7 @@ yyreduce:
   case 81:
 
 /* Line 1464 of yacc.c  */
-#line 234 "yacc.y"
+#line 253 "yacc.y"
     {
 		(yyval.wd)="void";
 	}
@@ -2223,7 +2242,7 @@ yyreduce:
   case 82:
 
 /* Line 1464 of yacc.c  */
-#line 237 "yacc.y"
+#line 256 "yacc.y"
     {
 		(yyval.wd)="char";
 	}
@@ -2232,7 +2251,7 @@ yyreduce:
   case 83:
 
 /* Line 1464 of yacc.c  */
-#line 240 "yacc.y"
+#line 259 "yacc.y"
     {
 		(yyval.wd)="short";
 	}
@@ -2241,7 +2260,7 @@ yyreduce:
   case 84:
 
 /* Line 1464 of yacc.c  */
-#line 243 "yacc.y"
+#line 262 "yacc.y"
     {
 		(yyval.wd)="int";
 	}
@@ -2250,7 +2269,7 @@ yyreduce:
   case 85:
 
 /* Line 1464 of yacc.c  */
-#line 246 "yacc.y"
+#line 265 "yacc.y"
     {
 		(yyval.wd)="long";
 	}
@@ -2259,7 +2278,7 @@ yyreduce:
   case 86:
 
 /* Line 1464 of yacc.c  */
-#line 249 "yacc.y"
+#line 268 "yacc.y"
     {
 		(yyval.wd)="float";
 	}
@@ -2268,7 +2287,7 @@ yyreduce:
   case 87:
 
 /* Line 1464 of yacc.c  */
-#line 252 "yacc.y"
+#line 271 "yacc.y"
     {
 		(yyval.wd)="double";
 	}
@@ -2277,7 +2296,7 @@ yyreduce:
   case 88:
 
 /* Line 1464 of yacc.c  */
-#line 255 "yacc.y"
+#line 274 "yacc.y"
     {
 		(yyval.wd)="signed";
 	}
@@ -2286,7 +2305,7 @@ yyreduce:
   case 89:
 
 /* Line 1464 of yacc.c  */
-#line 258 "yacc.y"
+#line 277 "yacc.y"
     {
 		(yyval.wd)="unsigned";
 	}
@@ -2295,7 +2314,7 @@ yyreduce:
   case 117:
 
 /* Line 1464 of yacc.c  */
-#line 324 "yacc.y"
+#line 343 "yacc.y"
     {
 		printf("pointer found h4h4h4h4h4hh4\n");
 	}
@@ -2304,7 +2323,7 @@ yyreduce:
   case 118:
 
 /* Line 1464 of yacc.c  */
-#line 327 "yacc.y"
+#line 346 "yacc.y"
     {
 		//printf("declarator %s\n",$<wd>1);
 		(yyval.wd)=(yyvsp[(1) - (1)].wd);
@@ -2314,7 +2333,7 @@ yyreduce:
   case 119:
 
 /* Line 1464 of yacc.c  */
-#line 334 "yacc.y"
+#line 353 "yacc.y"
     {
 		//printf("direct declarator %s\n",$<wd>1);
 		(yyval.wd)=(yyvsp[(1) - (1)].wd);
@@ -2324,7 +2343,7 @@ yyreduce:
   case 145:
 
 /* Line 1464 of yacc.c  */
-#line 388 "yacc.y"
+#line 407 "yacc.y"
     {
 		printf("hi?\n");
 	}
@@ -2333,7 +2352,7 @@ yyreduce:
   case 193:
 
 /* Line 1464 of yacc.c  */
-#line 481 "yacc.y"
+#line 500 "yacc.y"
     {
 		//printf("return expr semi\n");
 	}
@@ -2342,7 +2361,7 @@ yyreduce:
   case 194:
 
 /* Line 1464 of yacc.c  */
-#line 487 "yacc.y"
+#line 506 "yacc.y"
     {
 		//printf("translation unit\n");
 	}
@@ -2351,7 +2370,7 @@ yyreduce:
   case 195:
 
 /* Line 1464 of yacc.c  */
-#line 490 "yacc.y"
+#line 509 "yacc.y"
     {
 		//printf("translation unit\n");
 	}
@@ -2360,7 +2379,7 @@ yyreduce:
   case 197:
 
 /* Line 1464 of yacc.c  */
-#line 497 "yacc.y"
+#line 516 "yacc.y"
     {
 		printf("global variable %s %s\n",var[0], var[1]);
 		//(((struct varble *)globls+globalcount))->name=var[1];
@@ -2376,7 +2395,7 @@ yyreduce:
   case 198:
 
 /* Line 1464 of yacc.c  */
-#line 510 "yacc.y"
+#line 529 "yacc.y"
     {
 	}
     break;
@@ -2384,7 +2403,7 @@ yyreduce:
   case 199:
 
 /* Line 1464 of yacc.c  */
-#line 512 "yacc.y"
+#line 531 "yacc.y"
     {
 		printf("function line %d %s %s\n",linecount,(yyvsp[(1) - (2)].wd),(yyvsp[(2) - (2)].wd));
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
@@ -2402,7 +2421,7 @@ yyreduce:
   case 200:
 
 /* Line 1464 of yacc.c  */
-#line 523 "yacc.y"
+#line 542 "yacc.y"
     {
 		//printf("function definition2\n");
 	}
@@ -2411,7 +2430,7 @@ yyreduce:
   case 201:
 
 /* Line 1464 of yacc.c  */
-#line 526 "yacc.y"
+#line 545 "yacc.y"
     {
 	}
     break;
@@ -2419,7 +2438,7 @@ yyreduce:
   case 202:
 
 /* Line 1464 of yacc.c  */
-#line 528 "yacc.y"
+#line 547 "yacc.y"
     {
 	}
     break;
@@ -2427,7 +2446,7 @@ yyreduce:
 
 
 /* Line 1464 of yacc.c  */
-#line 2431 "y.tab.c"
+#line 2450 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2639,7 +2658,7 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
-#line 532 "yacc.y"
+#line 551 "yacc.y"
 
 #include <stdio.h>
 
