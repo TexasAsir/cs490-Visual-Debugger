@@ -21,6 +21,7 @@ union stack{
 
 struct frame{
 	stack * sstack;
+	frame * pframe;
 };
 struct cstack{
 	function **funcs;
