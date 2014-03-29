@@ -25,6 +25,7 @@ binaryops:
 //le leftstatement rightstatement
 //ge leftstatement rightstatement
 //eqeq leftstatement rightstatement
+//neq leftstatement rightstatement
 //cast type expression
 
 unary ops
@@ -39,3 +40,16 @@ postfix ops
 //--pf expression
 //dot expression
 //arrow expression
+
+numeral
+//dbl value
+//int value
+
+charactor
+//char charactor
+
+assignment
+//assg destination op expression
+
+declaration
+//dec specifiers 
