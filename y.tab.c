@@ -642,6 +642,7 @@ static const yytype_int16 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
+<<<<<<< HEAD
        0,    38,    38,    46,    63,    64,    67,    72,    73,    74,
       75,    76,    77,    78,    86,    97,    98,   102,   103,   111,
      119,   128,   129,   133,   137,   140,   143,   146,   152,   153,
@@ -663,6 +664,29 @@ static const yytype_uint16 yyrline[] =
      607,   608,   611,   612,   615,   616,   620,   621,   622,   623,
      627,   628,   629,   630,   636,   639,   645,   646,   659,   661,
      661,   675,   677
+=======
+       0,    38,    38,    41,    58,    59,    62,    68,    69,    70,
+      71,    74,    83,    92,   100,   111,   112,   116,   117,   125,
+     133,   142,   150,   161,   165,   168,   171,   174,   180,   181,
+     193,   194,   205,   215,   228,   229,   239,   252,   253,   263,
+     273,   283,   296,   297,   307,   320,   324,   328,   332,   333,
+     345,   346,   358,   363,   364,   367,   373,   374,   375,   376,
+     377,   378,   382,   383,   387,   391,   392,   399,   400,   401,
+     404,   405,   406,   407,   411,   414,   418,   421,   424,   430,
+     431,   435,   438,   441,   444,   447,   450,   453,   456,   459,
+     462,   463,   464,   468,   469,   470,   474,   478,   479,   483,
+     487,   488,   489,   490,   494,   495,   499,   500,   501,   505,
+     506,   507,   511,   512,   516,   517,   521,   525,   528,   535,
+     539,   540,   541,   542,   543,   544,   548,   549,   550,   551,
+     555,   556,   561,   562,   566,   567,   571,   572,   573,   577,
+     578,   582,   583,   587,   588,   589,   595,   596,   597,   598,
+     599,   600,   601,   602,   603,   607,   608,   609,   613,   614,
+     618,   619,   620,   621,   622,   623,   624,   628,   632,   633,
+     637,   638,   641,   642,   645,   646,   650,   651,   655,   656,
+     659,   660,   663,   664,   667,   668,   672,   673,   674,   675,
+     679,   680,   681,   682,   688,   691,   697,   698,   711,   713,
+     713,   727,   729
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
 };
 #endif
 
@@ -2099,15 +2123,65 @@ yyreduce:
   case 6:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 67 "yacc.y"
     {
     }
+=======
+#line 62 "yacc.y"
+    {
+		(yyval.wd) = (yyvsp[(2) - (3)].wd);
+	}
+    break;
+
+  case 10:
+
+/* Line 1464 of yacc.c  */
+#line 71 "yacc.y"
+    {
+		printf("TYPE\n");
+	}
+    break;
+
+  case 11:
+
+/* Line 1464 of yacc.c  */
+#line 74 "yacc.y"
+    {
+		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
+		size=size+7;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//dot ");
+		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
+		strcat((yyval.wd),(yyvsp[(3) - (3)].wd));
+		printf("DOT %s\n",(yyval.wd));
+	}
+    break;
+
+  case 12:
+
+/* Line 1464 of yacc.c  */
+#line 83 "yacc.y"
+    {
+		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
+		size=size+9;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//arrow ");
+		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
+		strcat((yyval.wd),(yyvsp[(3) - (3)].wd));
+		printf("ARROW %s\n",(yyval.wd));
+	}
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     break;
 
   case 13:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 78 "yacc.y"
+=======
+#line 92 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyvsp[(2) - (2)].wd));
 		size=size+8;
@@ -2121,7 +2195,11 @@ yyreduce:
   case 14:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 86 "yacc.y"
+=======
+#line 100 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyvsp[(2) - (2)].wd));
 		size=size+8;
@@ -2135,7 +2213,11 @@ yyreduce:
   case 18:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 103 "yacc.y"
+=======
+#line 117 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyvsp[(2) - (2)].wd));
 		size=size+6;
@@ -2149,7 +2231,11 @@ yyreduce:
   case 19:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 111 "yacc.y"
+=======
+#line 125 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyvsp[(2) - (2)].wd));
 		size=size+6;
@@ -2163,7 +2249,11 @@ yyreduce:
   case 20:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 119 "yacc.y"
+=======
+#line 133 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(2) - (2)].wd));
 		size=size+8;
@@ -2175,10 +2265,42 @@ yyreduce:
 	}
     break;
 
+  case 21:
+
+/* Line 1464 of yacc.c  */
+#line 142 "yacc.y"
+    {
+		int size = strlen((yyvsp[(2) - (2)].wd));
+		size=size+10;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//sizeof ");
+		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
+		printf("sizeof %s\n",(yyval.wd));
+	}
+    break;
+
+  case 22:
+
+/* Line 1464 of yacc.c  */
+#line 150 "yacc.y"
+    {
+		int size = strlen((yyvsp[(3) - (4)].wd));
+		size=size+14;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//sizeoftype ");
+		strcat((yyval.wd),(yyvsp[(3) - (4)].wd));
+		printf("sizeoftype %s\n",(yyval.wd));
+	}
+    break;
+
   case 23:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 133 "yacc.y"
+=======
+#line 161 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("pointer dereferenced\n");
 		(yyval.wd)="* ";
@@ -2188,7 +2310,11 @@ yyreduce:
   case 24:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 137 "yacc.y"
+=======
+#line 165 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="+ ";
 	}
@@ -2197,7 +2323,11 @@ yyreduce:
   case 25:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 140 "yacc.y"
+=======
+#line 168 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="- ";
 	}
@@ -2206,7 +2336,11 @@ yyreduce:
   case 26:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 143 "yacc.y"
+=======
+#line 171 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="! ";
 	}
@@ -2215,16 +2349,39 @@ yyreduce:
   case 27:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 146 "yacc.y"
+=======
+#line 174 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="& ";
+	}
+    break;
+
+  case 29:
+
+/* Line 1464 of yacc.c  */
+#line 181 "yacc.y"
+    {
+		int size = strlen((yyvsp[(2) - (4)].wd))+strlen((yyvsp[(4) - (4)].wd));
+		size=size+8;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//cast ");
+		strcat((yyval.wd),(yyvsp[(2) - (4)].wd));
+		strcat((yyval.wd),(yyvsp[(4) - (4)].wd));
+		printf("CAST %s\n",(yyval.wd));
 	}
     break;
 
   case 31:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 158 "yacc.y"
+=======
+#line 194 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("multiply %lf\n",$<dbl>$);
 		//$<dbl>$=$<dbl>$*$<dbl>3;
@@ -2241,7 +2398,11 @@ yyreduce:
   case 32:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 169 "yacc.y"
+=======
+#line 205 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+7;
@@ -2257,7 +2418,11 @@ yyreduce:
   case 33:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 179 "yacc.y"
+=======
+#line 215 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("mod\n");
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
@@ -2273,7 +2438,11 @@ yyreduce:
   case 35:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 193 "yacc.y"
+=======
+#line 229 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+7;
@@ -2289,7 +2458,11 @@ yyreduce:
   case 36:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 203 "yacc.y"
+=======
+#line 239 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+6;
@@ -2305,7 +2478,11 @@ yyreduce:
   case 38:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 217 "yacc.y"
+=======
+#line 253 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+8;
@@ -2321,7 +2498,11 @@ yyreduce:
   case 39:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 227 "yacc.y"
+=======
+#line 263 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+6;
@@ -2337,7 +2518,11 @@ yyreduce:
   case 40:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 237 "yacc.y"
+=======
+#line 273 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+6;
@@ -2353,7 +2538,11 @@ yyreduce:
   case 41:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 247 "yacc.y"
+=======
+#line 283 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+6;
@@ -2369,7 +2558,11 @@ yyreduce:
   case 43:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 261 "yacc.y"
+=======
+#line 297 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+8;
@@ -2385,7 +2578,11 @@ yyreduce:
   case 44:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 271 "yacc.y"
+=======
+#line 307 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
 		size=size+7;
@@ -2398,10 +2595,44 @@ yyreduce:
 	}
     break;
 
+  case 49:
+
+/* Line 1464 of yacc.c  */
+#line 333 "yacc.y"
+    {
+		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
+		size=size+7;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//and ");
+		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
+		strcat((yyval.wd),(yyvsp[(3) - (3)].wd));
+		printf("AND %s\n",(yyval.wd));
+	}
+    break;
+
+  case 51:
+
+/* Line 1464 of yacc.c  */
+#line 346 "yacc.y"
+    {
+		int size = strlen((yyval.wd))+strlen((yyvsp[(3) - (3)].wd));
+		size=size+6;
+		(yyval.wd)=(char *)malloc(sizeof(char)*size);
+		strcat((yyval.wd),"//or ");
+		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
+		strcat((yyval.wd),(yyvsp[(3) - (3)].wd));
+		printf("OR %s\n",(yyval.wd));
+	}
+    break;
+
   case 54:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 312 "yacc.y"
+=======
+#line 364 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("\ntype specifier Assignment value %lf\n",(yyvsp[(4) - (4)].dbl));
 	}
@@ -2410,7 +2641,11 @@ yyreduce:
   case 55:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 315 "yacc.y"
+=======
+#line 367 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("\nAssignment vaule %lf\n",(yyvsp[(3) - (3)].dbl));
 	}
@@ -2419,7 +2654,11 @@ yyreduce:
   case 66:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 340 "yacc.y"
+=======
+#line 392 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		var[0]=(yyvsp[(1) - (3)].wd);
 		var[1]=(yyvsp[(2) - (3)].wd);
@@ -2429,7 +2668,11 @@ yyreduce:
   case 69:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 349 "yacc.y"
+=======
+#line 401 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("pointer declared\n");
 	}
@@ -2438,7 +2681,11 @@ yyreduce:
   case 74:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 359 "yacc.y"
+=======
+#line 411 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("declarator %s\n",$<wd>1);
 	}
@@ -2447,7 +2694,11 @@ yyreduce:
   case 76:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 366 "yacc.y"
+=======
+#line 418 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("declarator %s\n",$<wd>1);
 	}
@@ -2456,7 +2707,11 @@ yyreduce:
   case 77:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 369 "yacc.y"
+=======
+#line 421 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("init assignment %lf\n",(yyvsp[(3) - (3)].dbl));
 	}
@@ -2465,7 +2720,11 @@ yyreduce:
   case 78:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 372 "yacc.y"
+=======
+#line 424 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("identifier %s\n",$<wd>1);
 	}
@@ -2474,7 +2733,11 @@ yyreduce:
   case 81:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 383 "yacc.y"
+=======
+#line 435 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="void";
 	}
@@ -2483,7 +2746,11 @@ yyreduce:
   case 82:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 386 "yacc.y"
+=======
+#line 438 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="char";
 	}
@@ -2492,7 +2759,11 @@ yyreduce:
   case 83:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 389 "yacc.y"
+=======
+#line 441 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="short";
 	}
@@ -2501,7 +2772,11 @@ yyreduce:
   case 84:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 392 "yacc.y"
+=======
+#line 444 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="int";
 	}
@@ -2510,7 +2785,11 @@ yyreduce:
   case 85:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 395 "yacc.y"
+=======
+#line 447 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="long";
 	}
@@ -2519,7 +2798,11 @@ yyreduce:
   case 86:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 398 "yacc.y"
+=======
+#line 450 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="float";
 	}
@@ -2528,7 +2811,11 @@ yyreduce:
   case 87:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 401 "yacc.y"
+=======
+#line 453 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="double";
 	}
@@ -2537,7 +2824,11 @@ yyreduce:
   case 88:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 404 "yacc.y"
+=======
+#line 456 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="signed";
 	}
@@ -2546,7 +2837,11 @@ yyreduce:
   case 89:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 407 "yacc.y"
+=======
+#line 459 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		(yyval.wd)="unsigned";
 	}
@@ -2555,7 +2850,11 @@ yyreduce:
   case 117:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 473 "yacc.y"
+=======
+#line 525 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("pointer found h4h4h4h4h4hh4\n");
 	}
@@ -2564,7 +2863,11 @@ yyreduce:
   case 118:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 476 "yacc.y"
+=======
+#line 528 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("declarator %s\n",$<wd>1);
 		(yyval.wd)=(yyvsp[(1) - (1)].wd);
@@ -2574,7 +2877,11 @@ yyreduce:
   case 119:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 483 "yacc.y"
+=======
+#line 535 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("direct declarator %s\n",$<wd>1);
 		(yyval.wd)=(yyvsp[(1) - (1)].wd);
@@ -2584,7 +2891,11 @@ yyreduce:
   case 145:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 537 "yacc.y"
+=======
+#line 589 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("hi?\n");
 	}
@@ -2593,7 +2904,11 @@ yyreduce:
   case 193:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 630 "yacc.y"
+=======
+#line 682 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("return expr semi\n");
 	}
@@ -2602,7 +2917,11 @@ yyreduce:
   case 194:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 636 "yacc.y"
+=======
+#line 688 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("translation unit\n");
 	}
@@ -2611,7 +2930,11 @@ yyreduce:
   case 195:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 639 "yacc.y"
+=======
+#line 691 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("translation unit\n");
 	}
@@ -2620,7 +2943,11 @@ yyreduce:
   case 197:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 646 "yacc.y"
+=======
+#line 698 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("global variable %s %s\n",var[0], var[1]);
 		//(((struct varble *)globls+globalcount))->name=var[1];
@@ -2636,7 +2963,11 @@ yyreduce:
   case 198:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 659 "yacc.y"
+=======
+#line 711 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 	}
     break;
@@ -2644,7 +2975,11 @@ yyreduce:
   case 199:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 661 "yacc.y"
+=======
+#line 713 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		printf("function line %d %s %s\n",linecount,(yyvsp[(1) - (2)].wd),(yyvsp[(2) - (2)].wd));
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
@@ -2662,7 +2997,11 @@ yyreduce:
   case 200:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 672 "yacc.y"
+=======
+#line 724 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 		//printf("function definition2\n");
 	}
@@ -2671,7 +3010,11 @@ yyreduce:
   case 201:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 675 "yacc.y"
+=======
+#line 727 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 	}
     break;
@@ -2679,7 +3022,11 @@ yyreduce:
   case 202:
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 677 "yacc.y"
+=======
+#line 729 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
     {
 	}
     break;
@@ -2687,7 +3034,11 @@ yyreduce:
 
 
 /* Line 1464 of yacc.c  */
+<<<<<<< HEAD
 #line 2691 "y.tab.c"
+=======
+#line 2799 "y.tab.c"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2899,7 +3250,11 @@ yyreturn:
 
 
 /* Line 1684 of yacc.c  */
+<<<<<<< HEAD
 #line 681 "yacc.y"
+=======
+#line 733 "yacc.y"
+>>>>>>> 1cb86bbc9c8099f65f5eed16d3caedc9e29f53f0
 
 #include <stdio.h>
 

@@ -65,16 +65,35 @@ primary_expression
 		printf("word yo %s\n",$<wd>1);
 	}
     | OPENPAR expression CLOSEPAR{
-    }
+		$<wd>$ = $<wd>2;
+	}
 	;
 
 postfix_expression
 	: primary_expression
 	| postfix_expression OPENBRACKET expression CLOSEBRACKET
 	| postfix_expression OPENPAR CLOSEPAR
-	| postfix_expression OPENPAR argument_expression_list CLOSEPAR
-	| postfix_expression DOT IDENTIFIER
-	| postfix_expression ARROW IDENTIFIER
+	| postfix_expression OPENPAR argument_expression_list CLOSEPAR{
+		printf("TYPE\n");
+	}
+	| postfix_expression DOT IDENTIFIER{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//dot ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("DOT %s\n",$<wd>$);
+	}
+	| postfix_expression ARROW IDENTIFIER{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+9;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//arrow ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("ARROW %s\n",$<wd>$);
+	}
 	| postfix_expression PLUSPLUS{
 		int size = strlen($<wd>2);
 		size=size+8;
@@ -125,8 +144,22 @@ unary_expression
 		strcat($<wd>$,$<wd>2);
 		printf("unop %s\n",$<wd>$);	
 	}
-	| SIZEOF unary_expression
-	| SIZEOF OPENPAR type_name CLOSEPAR
+	| SIZEOF unary_expression{
+		int size = strlen($<wd>2);
+		size=size+10;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//sizeof ");
+		strcat($<wd>$,$<wd>2);
+		printf("sizeof %s\n",$<wd>$);
+	}
+	| SIZEOF OPENPAR type_name CLOSEPAR{
+		int size = strlen($<wd>3);
+		size=size+14;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//sizeoftype ");
+		strcat($<wd>$,$<wd>3);
+		printf("sizeoftype %s\n",$<wd>$);
+	}
 	;
 
 unary_operator
@@ -150,7 +183,15 @@ unary_operator
 
 cast_expression
 	: unary_expression
-	| OPENPAR type_name CLOSEPAR cast_expression
+	| OPENPAR type_name CLOSEPAR cast_expression{
+		int size = strlen($<wd>2)+strlen($<wd>4);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//cast ");
+		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>4);
+		printf("CAST %s\n",$<wd>$);
+	}
 	;
 
 multiplicative_expression
@@ -294,12 +335,28 @@ inclusive_or_expression
 
 logical_and_expression
 	: inclusive_or_expression
-	| logical_and_expression AND inclusive_or_expression
+	| logical_and_expression AND inclusive_or_expression{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//and ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("AND %s\n",$<wd>$);
+	}
 	;
 
 logical_or_expression
 	: logical_and_expression
-    | logical_or_expression OR logical_and_expression
+    	| logical_or_expression OR logical_and_expression{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//or ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("OR %s\n",$<wd>$);
+	}
 	;
 
 conditional_expression
