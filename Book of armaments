@@ -18,7 +18,6 @@ binaryops:
 //div leftstatement rightstatement *
 //sub leftstatement rightstatement *
 //mod leftstatement(int) rightstatement(int) *
-//not statement
 //and leftstatement rightstatement
 //or leftstatement rightstatement
 //less leftstatement rightstatement
@@ -28,5 +27,15 @@ binaryops:
 //eqeq leftstatement rightstatement
 //cast type expression
 
+unary ops
+//unop op statement
+//++ expression
+//-- expression
+//sizeof expression
+//sizeoftype typename
 
-
+postfix ops
+//++pf expression
+//--pf expression
+//dot expression
+//arrow expression
