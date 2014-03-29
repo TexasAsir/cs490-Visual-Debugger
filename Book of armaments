@@ -41,7 +41,8 @@ postfix ops
 //dot expression expression *
 //arrow expression expression *
 //index identifier expression
-//call argumentexpressions*
+//call argumentexpressions* //endcall?
+
 
 argument
 //arg expression
@@ -57,8 +58,12 @@ identifier
 character
 //char charactor
 
+word
+//word word
+
 assignment 
 //assg destination op expression
+//decassg declaration destination op expression
 
 declaration 
 //dec specifiers 
