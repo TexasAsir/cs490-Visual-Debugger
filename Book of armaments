@@ -18,38 +18,38 @@ binaryops:
 //div leftstatement rightstatement *
 //sub leftstatement rightstatement *
 //mod leftstatement(int) rightstatement(int) *
-//and leftstatement rightstatement
-//or leftstatement rightstatement
+//and leftstatement rightstatement *
+//or leftstatement rightstatement *
 //less leftstatement rightstatement *
 //gt leftstatement rightstatement *
 //le leftstatement rightstatement *
 //ge leftstatement rightstatement *
 //eqeq leftstatement rightstatement *
 //neq leftstatement rightstatement *
-//cast type expression
+//cast type expression *
 
 unary ops
-//unop op statement
-//++ expression
-//-- expression
-//sizeof expression
-//sizeoftype typename
+//unop op statement *
+//++ expression *
+//-- expression *
+//sizeof expression *
+//sizeoftype typename *
 
 postfix ops
-//++pf expression
-//--pf expression
-//dot expression
-//arrow expression
+//++pf expression *
+//--pf expression *
+//dot expression *
+//arrow expression *
 
-numeral
+numeral *
 //dbl value
 //int value
 
-charactor
+character
 //char charactor
 
-assignment
+assignment 
 //assg destination op expression
 
-declaration
+declaration 
 //dec specifiers 

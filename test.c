@@ -12,4 +12,10 @@ int main(){
 	x--;
 	x >= p;
 	x != p;
+	p = sizeof(10);
+	p = sizeof(int);
+	p = p.x;
+	p = p->x;
+	p = (int)x;
+	p && x;
 }
