@@ -209,23 +209,69 @@ additive_expression
 relational_expression
 	: additive_expression
 	| relational_expression LESS additive_expression{
-		
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//less ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("less op %s\n",$<wd>$);
 	}
 	| relational_expression GREAT additive_expression{
-		
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//gt ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("great  %s\n",$<wd>$);
 	}
 	| relational_expression LESSEQUALS additive_expression{
-		
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//le ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("less eq %s\n",$<wd>$);
 	}
 	| relational_expression GREATEQUALS additive_expression{
-		
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//ge ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("great eq %s\n",$<wd>$);
 	}
 	;
 
 equality_expression
 	: relational_expression
-	| equality_expression EQUALSEQUALS relational_expression
-	| equality_expression NOTEQUALS relational_expression
+	| equality_expression EQUALSEQUALS relational_expression{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//eqeq ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("equalsequals %s\n",$<wd>$);
+	}
+	| equality_expression NOTEQUALS relational_expression{
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//neq ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		//$<dbl>$=$<dbl>$-$<dbl>3;
+		printf("notequals %s\n",$<wd>$);
+	}
 	;
 
 and_expression

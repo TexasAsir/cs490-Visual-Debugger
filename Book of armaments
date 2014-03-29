@@ -20,11 +20,12 @@ binaryops:
 //mod leftstatement(int) rightstatement(int) *
 //and leftstatement rightstatement
 //or leftstatement rightstatement
-//less leftstatement rightstatement
-//gt leftstatement rightstatement
-//le leftstatement rightstatement
-//ge leftstatement rightstatement
-//eqeq leftstatement rightstatement
+//less leftstatement rightstatement *
+//gt leftstatement rightstatement *
+//le leftstatement rightstatement *
+//ge leftstatement rightstatement *
+//eqeq leftstatement rightstatement *
+//neq leftstatement rightstatement *
 //cast type expression
 
 unary ops
