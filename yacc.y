@@ -42,16 +42,16 @@ primary_expression
 		//printf("numeral %d\n",$1);
 		if(!strchr($<wd>1,'.')){
 			int size = strlen($<wd>1);
-			size=size+6;
+			size=size+7;
 			$<wd>$=(char *)malloc(sizeof(char)*size);
-			strcat($<wd>$,"//int");
+			strcat($<wd>$,"//int ");
 			strcat($<wd>$,$<wd>1);
 		}
 		else{
 			int size = strlen($<wd>1);
-			size=size+6;
+			size=size+7;
 			$<wd>$=(char *)malloc(sizeof(char)*size);
-			strcat($<wd>$,"//dbl");
+			strcat($<wd>$,"//dbl ");
 			strcat($<wd>$,$<wd>1);
 		}
 	} 
@@ -110,7 +110,7 @@ multiplicative_expression
 		int size = strlen($<wd>$)+strlen($<wd>3);
 		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//time ");
+		strcat($<wd>$,"//mul ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		printf("multiply %s\n",$<wd>$);
@@ -119,7 +119,7 @@ multiplicative_expression
 		int size = strlen($<wd>$)+strlen($<wd>3);
 		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//divi");
+		strcat($<wd>$,"//div ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$/$<dbl>3;
@@ -128,9 +128,9 @@ multiplicative_expression
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
 		int size = strlen($<wd>$)+strlen($<wd>3);
-		size=size+6;
+		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//mod");
+		strcat($<wd>$,"//mod ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=(int)$<dbl>$%(int)$<dbl>3;
@@ -141,9 +141,9 @@ additive_expression
 	: multiplicative_expression
 	| additive_expression PLUS multiplicative_expression {
 		int size = strlen($<wd>$)+strlen($<wd>3);
-		size=size+6;
+		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//add");
+		strcat($<wd>$,"//add ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$+$<dbl>3;

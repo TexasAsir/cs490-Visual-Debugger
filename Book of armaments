@@ -13,11 +13,11 @@ dowhile:
 binaryops:
 "//add//times//int5//int6//int7" => 7+5*6||5*6+7
 
-//add leftstatement rightstatement
-//mul leftstatement rightstatement
-//div leftstatement rightstatement
-//sub leftstatement rightstatement
-//mod leftstatement(int) rightstatement(int)
+//add leftstatement rightstatement *
+//mul leftstatement rightstatement *
+//div leftstatement rightstatement *
+//sub leftstatement rightstatement *
+//mod leftstatement(int) rightstatement(int) *
 //not statement
 //and leftstatement rightstatement
 //or leftstatement rightstatement
@@ -36,4 +36,5 @@ unary ops
 //-- expression
 //sizeof expression
 //sizeoftype typename
+
 
