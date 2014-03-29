@@ -36,7 +36,7 @@
 
 primary_expression
 	: IDENTIFIER {
-		//printf("identifier %s\n",$<wd>1);
+		printf("identifier %s\n",$<wd>1);
 	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
@@ -69,8 +69,22 @@ postfix_expression
 	| postfix_expression OPENPAR argument_expression_list CLOSEPAR
 	| postfix_expression DOT IDENTIFIER
 	| postfix_expression ARROW IDENTIFIER
-	| postfix_expression PLUSPLUS
-	| postfix_expression MINUSMINUS
+	| postfix_expression PLUSPLUS{
+		int size = strlen($<wd>2);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//++pf ");
+		strcat($<wd>$,$<wd>2);
+		printf("pppp %s\n",$<wd>$);
+	}
+	| postfix_expression MINUSMINUS{
+		int size = strlen($<wd>2);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//--pf ");
+		strcat($<wd>$,$<wd>2);
+		printf("mmmm %s\n",$<wd>$);
+	}
 	;
 
 argument_expression_list
@@ -80,9 +94,31 @@ argument_expression_list
 
 unary_expression
 	: postfix_expression
-	| PLUSPLUS unary_expression
-	| MINUSMINUS unary_expression
-	| unary_operator cast_expression
+	| PLUSPLUS unary_expression{
+		int size = strlen($<wd>2);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//++ ");
+		strcat($<wd>$,$<wd>2);
+		printf("plosplos %s\n",$<wd>$);
+	}
+	| MINUSMINUS unary_expression{
+		int size = strlen($<wd>2);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//-- ");
+		strcat($<wd>$,$<wd>2);
+		printf("minusminus %s\n",$<wd>$);
+	}
+	| unary_operator cast_expression{
+		int size = strlen($<wd>$)+strlen($<wd>2);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//unop ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+		printf("unop %s\n",$<wd>$);	
+	}
 	| SIZEOF unary_expression
 	| SIZEOF OPENPAR type_name CLOSEPAR
 	;
@@ -90,11 +126,20 @@ unary_expression
 unary_operator
 	: STAR{
 		//printf("pointer dereferenced\n");
+		$<wd>$="* ";
 	}
-	| PLUS
-	| MINUS
-	| NOT
-	| ADDR
+	| PLUS{
+		$<wd>$="+ ";
+	}
+	| MINUS{
+		$<wd>$="- ";
+	}
+	| NOT{
+		$<wd>$="! ";
+	}
+	| ADDR{
+		$<wd>$="& ";
+	}
 	;
 
 cast_expression
@@ -163,10 +208,18 @@ additive_expression
 
 relational_expression
 	: additive_expression
-	| relational_expression LESS additive_expression
-	| relational_expression GREAT additive_expression
-	| relational_expression LESSEQUALS additive_expression
-	| relational_expression GREATEQUALS additive_expression
+	| relational_expression LESS additive_expression{
+		
+	}
+	| relational_expression GREAT additive_expression{
+		
+	}
+	| relational_expression LESSEQUALS additive_expression{
+		
+	}
+	| relational_expression GREATEQUALS additive_expression{
+		
+	}
 	;
 
 equality_expression

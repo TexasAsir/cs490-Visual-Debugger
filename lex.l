@@ -67,7 +67,7 @@ int linecount=1;
 		count(); return SEMICOLON;
 	}
 "+"	{
-		count(); return PLUS;
+		count(); return PLUS; 
 	}	
 "-"	{
 		count(); return MINUS;
@@ -232,23 +232,17 @@ int linecount=1;
 		count(); return WORD;
 	}
 [0-9]+ {
-	//printf("numeral %s\n",yytext);
-	//printf("yylval %d",yylval);
+	printf("numeral %s\n",yytext);
 	yylval.wd = strdup(yytext);
-  count(); return NUMERAL;
+  	count(); return NUMERAL;
 }
 [0-9]+\.[0-9]* {
-	//sscanf(yytext,"%lf",&yylval);
-	//perror("scanf");
-	yylval.wd=strdup(yytext);
 	printf("yytext val %s\n",yytext);
-	double val = 0.0;
-	val = atof(yytext);
-	printf("yylval %lf\n",val);
+	yylval.wd=strdup(yytext);	
 	count(); return NUMERAL;
 }
 [a-zA-Z_][a-zA-Z_0-9]* {
-	//printf("\nid %s\n",yytext);
+	printf("\nid %s\n",yytext);
 	yylval.wd=strdup(yytext);
 	count(); return IDENTIFIER;
 }

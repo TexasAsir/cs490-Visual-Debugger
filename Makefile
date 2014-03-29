@@ -8,7 +8,7 @@ lex: lex.l
 	lex lex.l
 functions: functions.cpp
 	g++ -c functions.cpp
-lex.yy.o:
+lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c
 stack.o: stack.cpp stack.h
 	g++ stack.cpp -c
