@@ -1,7 +1,8 @@
 struct varble{
+	int ident;//will be zero
 	char * name;
 	char * type;
-	double value;
+	void* value;
 };
 struct function{
 	int startpoint;
@@ -10,9 +11,11 @@ struct function{
 	char *name;
 };
 struct sstruct{
+	char * label;
+	int ident;
 	char * name;
 	char * type;
-	varble *var;
+	varble **var;
 };
 union stack{
 	varble var;
