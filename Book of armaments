@@ -26,9 +26,14 @@ binaryops:
 //le leftstatement rightstatement
 //ge leftstatement rightstatement
 //eqeq leftstatement rightstatement
+//cast type expression
+
+unary ops
 //neg statement
 //addr statement
-
-
-
+//unop op statement
+//++ expression
+//-- expression
+//sizeof expression
+//sizeoftype typename
 

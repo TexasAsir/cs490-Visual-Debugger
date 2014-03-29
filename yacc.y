@@ -89,7 +89,7 @@ unary_expression
 
 unary_operator
 	: STAR{
-		printf("pointer dereferenced\n");
+		//printf("pointer dereferenced\n");
 	}
 	| PLUS
 	| MINUS
@@ -110,7 +110,7 @@ multiplicative_expression
 		int size = strlen($<wd>$)+strlen($<wd>3);
 		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//time");
+		strcat($<wd>$,"//time ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		printf("multiply %s\n",$<wd>$);
@@ -199,6 +199,7 @@ logical_or_expression
 
 conditional_expression
 	: logical_or_expression
+	
 	;
 
 assignment_expression
