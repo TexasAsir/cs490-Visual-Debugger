@@ -37,6 +37,11 @@
 primary_expression
 	: IDENTIFIER {
 		printf("identifier %s\n",$<wd>1);
+		int size = strlen($<wd>1);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//id ");
+		strcat($<wd>$,$<wd>1);
 	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
@@ -59,7 +64,8 @@ primary_expression
 	| WORD {
 		printf("word yo %s\n",$<wd>1);
 	}
-    | OPENPAR expression CLOSEPAR
+    | OPENPAR expression CLOSEPAR{
+    }
 	;
 
 postfix_expression

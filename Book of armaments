@@ -38,12 +38,20 @@ unary ops
 postfix ops
 //++pf expression
 //--pf expression
-//dot expression
-//arrow expression
+//dot expression expression
+//arrow expression expression
+//index identifier expression
+//call argumentexpressions*
+
+argument
+//arg expression
 
 numeral
 //dbl value
 //int value
+
+identifier
+//id value
 
 charactor
 //char charactor
