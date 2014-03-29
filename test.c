@@ -18,4 +18,7 @@ int main(){
 	p = p->x;
 	p = (int)x;
 	p && x;
+	p = 'c';
+	int p = 5;
+	p =5;
 }
