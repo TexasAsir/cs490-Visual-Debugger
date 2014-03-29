@@ -6,7 +6,7 @@
 using namespace std;
 
 
-void printSLL(struct sstruct *s,int * ptr){
+void printSLL(struct sstruct *s){
 	printf("Made it here\n");
 	varble * v=new varble[10];
 	int count=0;
@@ -16,34 +16,39 @@ void printSLL(struct sstruct *s,int * ptr){
 		v[i].value=(void *)s->var[i]->value;
 		count++;
 	}
-	for(int i=0;i<count;i++){
-		printf("Type\t%s\n",v[i].type);
-		printf("Name\t%s\n",v[i].name);
-		printf("Value\t");
-		if(strcmp(v[i].type,"int")==0){
-			printf("%d",(int *)v[i].value);
-		}
-		else if(strcmp(v[i].type,"double")==0){
-			printf("%lf",(int *)v[i].value);
-		}
-		else if(strcmp(v[i].type,"float")==0){
-			printf("%f",(int *)v[i].value);
-		}
-		else if(strcmp(v[i].type,"char")==0){
-			printf("%c",(int *)v[i].value);
-		}
-		else if(strcmp(v[i].type,"string")==0){
-			printf("%s",(int *)v[i].value);
-		}
-		else{
-			//this is the next pointer
-			
-		}
+	
+		for(int i=0;i<count;i++){
+			printf("Type\t%s\n",v[i].type);
+			printf("Name\t%s\n",v[i].name);
+			printf("Value\t");
+			if(strcmp(v[i].type,"int")==0){
+				printf("%d",(int *)v[i].value);
+			}
+			else if(strcmp(v[i].type,"double")==0){
+				printf("%lf",(int *)v[i].value);
+			}
+			else if(strcmp(v[i].type,"float")==0){
+				printf("%f",(int *)v[i].value);
+			}
+			else if(strcmp(v[i].type,"char")==0){
+				printf("%c",(int *)v[i].value);
+			}
+			else if(strcmp(v[i].type,"string")==0){
+				printf("%s",(int *)v[i].value);
+			}
+			else{
+				//this is the next pointer
+				if(v[i].value!=NULL){
 
-		printf("\n\n");
+					printSLL((sstruct *)v[i].value);
+				}
+			}
+
+			printf("\n\n");
 
 		
-	}
+		}
+	
 }
 
 void printArray(struct sstruct *s){
@@ -100,7 +105,7 @@ void viz(union stack * s){
 		//is a structure
 		struct sstruct *st=(sstruct*)s;
 		if(strcmp(st->label,"SLL")==0){
-			printSLL(st,NULL);
+			printSLL(st);
 		}
 		else if(strcmp(st->label,"DLL")==0){
 
