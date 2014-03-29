@@ -36,12 +36,12 @@
 
 primary_expression
 	: IDENTIFIER {
-		printf("identifier %s\n",$<wd>1);
 		int size = strlen($<wd>1);
 		size=size+6;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//id ");
 		strcat($<wd>$,$<wd>1);
+		printf("identifier %s\n",$<wd>$);
 	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
@@ -60,11 +60,19 @@ primary_expression
 			strcat($<wd>$,$<wd>1);
 		}
 	} 
-	| CHARACTER
+	| CHARACTER {
+		
+		int size = strlen($<wd>1);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//char ");
+		strcat($<wd>$,$<wd>1);
+		printf("character %s\n",$<wd>$);
+	}
 	| WORD {
 		printf("word yo %s\n",$<wd>1);
 	}
-    | OPENPAR expression CLOSEPAR{
+    	| OPENPAR expression CLOSEPAR{
 		$<wd>$ = $<wd>2;
 	}
 	;
@@ -367,10 +375,26 @@ conditional_expression
 assignment_expression
 	: conditional_expression
 	|  declaration_specifiers unary_expression assignment_operator assignment_expression {
-		printf("\ntype specifier Assignment value %lf\n",$<dbl>4);
+		//assg destination op expression
+		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3)+strlen($<wd>4);
+		size=size+11;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//decassg ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,$<wd>4);
+		printf("ASSIGNMENT %s\n",$<wd>$);
 	}
 	| unary_expression assignment_operator assignment_expression {
-		printf("\nAssignment vaule %lf\n",$<dbl>3);
+		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//assg ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>3);
+		printf("ASSIGNMENT %s\n",$<wd>$);
 	}
 
 

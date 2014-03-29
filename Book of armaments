@@ -51,10 +51,10 @@ numeral *
 //dbl value
 //int value
 
-identifier
+identifier *
 //id value
 
-character
+character *
 //char charactor
 
 assignment 
