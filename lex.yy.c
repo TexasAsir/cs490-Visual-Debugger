@@ -1105,145 +1105,146 @@ case 36:
 YY_RULE_SETUP
 #line 138 "lex.l"
 {
+		printf("open bracket BITCH\n");
 		count(); return OPENBRACKET;
 	}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 141 "lex.l"
+#line 142 "lex.l"
 {
 		count(); return CLOSEBRACKET;
 	}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 144 "lex.l"
+#line 145 "lex.l"
 {
 		count(); return TYPEDEF;
 	}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 147 "lex.l"
+#line 148 "lex.l"
 {
 		count(); return INCLUDE;
 	}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 150 "lex.l"
+#line 151 "lex.l"
 {
 		count(); return RETURN;
 	}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 153 "lex.l"
+#line 154 "lex.l"
 {
 		count(); return BREAK;
 	}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 156 "lex.l"
+#line 157 "lex.l"
 {
 		count(); return SIGNED;
 	}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 159 "lex.l"
+#line 160 "lex.l"
 {
 		count(); return ENUM;
 	}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 162 "lex.l"
+#line 163 "lex.l"
 {
 		count(); return IF;
 	}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 165 "lex.l"
+#line 166 "lex.l"
 {
 		count(); return ELSE;
 	}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 168 "lex.l"
+#line 169 "lex.l"
 {
 		count(); return STRUCT;
 	}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 171 "lex.l"
+#line 172 "lex.l"
 {
 		count(); return DO;
 	}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 174 "lex.l"
+#line 175 "lex.l"
 {
 		count(); return WHILE;
 	}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 177 "lex.l"
+#line 178 "lex.l"
 {
 		count(); return FOR;
 	}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 180 "lex.l"
+#line 181 "lex.l"
 {
 		count(); return STATIC;
 	}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 183 "lex.l"
+#line 184 "lex.l"
 {
 		count(); return SIZEOF;
 	}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 186 "lex.l"
+#line 187 "lex.l"
 {
 		count(); return VOID;
 	}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 189 "lex.l"
+#line 190 "lex.l"
 {
 		count(); return CONTINUE;
 	}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 192 "lex.l"
+#line 193 "lex.l"
 {
 		count(); return CONST;
 	}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 195 "lex.l"
+#line 196 "lex.l"
 {
 		count(); return UNSIGNED;
 	}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 198 "lex.l"
+#line 199 "lex.l"
 {
 		//printf("int \n");
 		count(); return INT;
@@ -1251,35 +1252,35 @@ YY_RULE_SETUP
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 202 "lex.l"
+#line 203 "lex.l"
 {
 		count(); return CHAR;
 	}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 205 "lex.l"
+#line 206 "lex.l"
 {
 		count(); return SHORT;	
 	}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 208 "lex.l"
+#line 209 "lex.l"
 {
 		count(); return LONG;
 	}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 211 "lex.l"
+#line 212 "lex.l"
 {
 		count(); return FLOAT;
 	}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 214 "lex.l"
+#line 215 "lex.l"
 {
 		count(); return DOUBLE;
 	}
@@ -1287,21 +1288,21 @@ YY_RULE_SETUP
 case 62:
 /* rule 62 can match eol */
 YY_RULE_SETUP
-#line 217 "lex.l"
+#line 218 "lex.l"
 {
 		
 	}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 220 "lex.l"
+#line 221 "lex.l"
 {
 		count(); return BAZINGA;
 	}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
-#line 224 "lex.l"
+#line 225 "lex.l"
 {
 		strcpy(yytext,yytext+1);
 		yytext[strlen(yytext)-1]=0;
@@ -1311,7 +1312,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 230 "lex.l"
+#line 231 "lex.l"
 {
 		//printf("asfd\n");
 		strcpy(yytext,yytext+1);
@@ -1322,7 +1323,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 237 "lex.l"
+#line 238 "lex.l"
 {
 	printf("numeral %s\n",yytext);
 	yylval.wd = strdup(yytext);
@@ -1331,7 +1332,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 242 "lex.l"
+#line 243 "lex.l"
 {
 	printf("yytext val %s\n",yytext);
 	yylval.wd=strdup(yytext);	
@@ -1340,7 +1341,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 247 "lex.l"
+#line 248 "lex.l"
 {
 	printf("\nid %s\n",yytext);
 	yylval.wd=strdup(yytext);
@@ -1349,7 +1350,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 253 "lex.l"
+#line 254 "lex.l"
 {
 	//printf("dot\n");
     count(); return DOT;
@@ -1357,14 +1358,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 257 "lex.l"
+#line 258 "lex.l"
 {
    count(); return COLON; 
 }    
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 260 "lex.l"
+#line 261 "lex.l"
 {
 		////printf(".\n");
 		//count(); return NOTOKEN;
@@ -1372,10 +1373,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 265 "lex.l"
+#line 266 "lex.l"
 ECHO;
 	YY_BREAK
-#line 1379 "lex.yy.c"
+#line 1380 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2369,7 +2370,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 265 "lex.l"
+#line 266 "lex.l"
 
 
 

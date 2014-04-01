@@ -136,6 +136,7 @@ int linecount=1;
 		count(); return CLOSEPAR;
 	}
 "[" 	{
+		printf("open bracket BITCH\n");
 		count(); return OPENBRACKET;
 	}
 "]"     {

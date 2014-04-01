@@ -416,6 +416,7 @@ assignment_expression
 		strcat($<wd>$,$<wd>4);
 		printf("ASSIGNMENT %s\n",$<wd>$);
 	}
+	//|  declaration_specifiers unary_expression SEMICOLON
 	| unary_expression assignment_operator assignment_expression {
 		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3);
 		size=size+8;
@@ -596,7 +597,7 @@ declarator
 
 direct_declarator
 	: IDENTIFIER {
-		//printf("direct declarator %s\n",$<wd>1);
+		printf("direct declarator FUCK TEEMO\n");
 		$<wd>$=$<wd>1;
 	}
 	| OPENPAR declarator CLOSEPAR
@@ -693,8 +694,30 @@ statement
 	| selection_statement
 	| iteration_statement
 	| jump_statement
+	| array_declaration
 	;
 
+array_declaration
+	: declaration_specifiers IDENTIFIER OPENBRACKET constant_expression CLOSEBRACKET {
+		int size = strlen($<wd>1)+strlen($<wd>3)+strlen($<wd>4);
+		size=size+12;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//indexdec ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,$<wd>4);
+		printf("indexdec %s\n",$<wd>$);
+	}
+	| declaration_specifiers IDENTIFIER OPENBRACKET CLOSEBRACKET{
+		int size = strlen($<wd>1)+strlen($<wd>3);
+		size=size+9;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//index ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("index %s\n",$<wd>$);
+	}
+	;
 labeled_statement//maby issues here?
 	: IDENTIFIER COLON statement
 	;
@@ -705,8 +728,8 @@ compound_statement
 	;
 
 decstat
-	: statement_list
-	| declaration_list
+	: declaration_list
+	| statement_list
 	;
 decstat_list
 	: decstat
@@ -780,6 +803,7 @@ external_declaration
 
 function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
+		
 	}
 	| declaration_specifiers declarator{
 		printf("function line %d %s %s\n",linecount,$<wd>1,$<wd>2);
