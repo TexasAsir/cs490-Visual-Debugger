@@ -40,12 +40,12 @@ postfix ops
 //--pf expression *
 //dot expression expression *
 //arrow expression expression *
-//index identifier expression
-//call argumentexpressions* //endcall?
+//index expression identifier (lots o' problems)
+//call argumentexpressions* 
 
 
-argument
-//arg expression
+argument *
+//arg expression //endcall?
 
 
 numeral *
@@ -58,10 +58,10 @@ identifier *
 character *
 //char charactor
 
-word
+word *
 //word word
 
-assignment 
+assignment *
 //assg destination op expression
 //decassg declaration destination op expression
 

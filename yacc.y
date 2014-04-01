@@ -70,7 +70,12 @@ primary_expression
 		printf("character %s\n",$<wd>$);
 	}
 	| WORD {
-		printf("word yo %s\n",$<wd>1);
+		int size = strlen($<wd>1);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//word ");
+		strcat($<wd>$,$<wd>1);
+		printf("word %s\n",$<wd>$);
 	}
     	| OPENPAR expression CLOSEPAR{
 		$<wd>$ = $<wd>2;
@@ -79,7 +84,16 @@ primary_expression
 
 postfix_expression
 	: primary_expression
-	| postfix_expression OPENBRACKET expression CLOSEBRACKET
+	| postfix_expression OPENBRACKET expression CLOSEBRACKET{
+		printf("array2!\n");
+		int size = strlen($<wd>1)+strlen($<wd>3);
+		size=size+9;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//index ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("index %s\n",$<wd>$);
+	}
 	| postfix_expression OPENPAR CLOSEPAR
 	| postfix_expression OPENPAR argument_expression_list CLOSEPAR{
 		printf("TYPE\n");
@@ -121,8 +135,24 @@ postfix_expression
 	;
 
 argument_expression_list
-	: assignment_expression
-	| argument_expression_list COMMA assignment_expression
+	: assignment_expression{
+		int size = strlen($<wd>$);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//arg ");
+		strcat($<wd>$,$<wd>1);
+		printf("argument %s\n",$<wd>$);
+	}
+	| argument_expression_list COMMA assignment_expression{
+		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//arg ");
+		strcat($<wd>$,$<wd>1);
+//		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>3);
+		printf("argument %s\n",$<wd>$);
+	}
 	;
 
 unary_expression
@@ -399,7 +429,9 @@ assignment_expression
 
 
 assignment_operator
-	: EQUALS
+	: EQUALS{
+		$<wd>$=" = ";
+	}
 	| MULEQUALS
 	| DIVEQUALS
 	| MODEQUALS
@@ -431,9 +463,9 @@ declaration_specifiers
 		printf("pointer declared\n");
 	}
 	| type_specifier
-	| type_specifier declaration_specifiers
+	| type_specifier declaration_specifiers 
 	| type_qualifier
-	| type_qualifier declaration_specifiers
+	| type_qualifier declaration_specifiers 
 	;
 
 init_declarator_list
@@ -445,13 +477,13 @@ init_declarator_list
 
 init_declarator
 	: declarator{
-		//printf("declarator %s\n",$<wd>1);
+		//printf("declarator UUUUUUUUUU\n");
 	}
 	| declarator EQUALS initializer {
-		printf("init assignment %lf\n",$<dbl>3);
+		//printf("init assignment !@$@#%$@#$#\n");
 	}
 	| declarator IDENTIFIER {
-		//printf("identifier %s\n",$<wd>1);
+		//printf("identifier GGGGGGG\n");
 	}
 	;
 
@@ -543,7 +575,9 @@ enumerator_list
 
 enumerator
 	: IDENTIFIER
-	| IDENTIFIER EQUALS constant_expression
+	| IDENTIFIER EQUALS constant_expression{
+		//printf("ASFDSGSG\n");
+	}
 	;
 
 type_qualifier
@@ -566,8 +600,12 @@ direct_declarator
 		$<wd>$=$<wd>1;
 	}
 	| OPENPAR declarator CLOSEPAR
-	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET
-	| direct_declarator OPENBRACKET CLOSEBRACKET
+	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET{
+		printf("why god why %s\n",$<wd>1);
+	}
+	| direct_declarator OPENBRACKET CLOSEBRACKET{
+		printf("why god why %s\n",$<wd>1);
+	}
 	| direct_declarator OPENPAR parameter_type_list CLOSEPAR
 	| direct_declarator OPENPAR identifier_list CLOSEPAR
 	| direct_declarator OPENPAR CLOSEPAR
@@ -623,9 +661,13 @@ abstract_declarator
 direct_abstract_declarator
 	: OPENPAR abstract_declarator CLOSEPAR
 	| OPENBRACKET CLOSEBRACKET
-	| OPENBRACKET constant_expression CLOSEBRACKET
+	| OPENBRACKET constant_expression CLOSEBRACKET{
+		printf("why god why %s\n",$<wd>1);
+	}
 	| direct_abstract_declarator OPENBRACKET CLOSEBRACKET
-	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET
+	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET{
+		printf("why god why %s\n",$<wd>1);
+	}
 	| OPENPAR CLOSEPAR
 	| OPENPAR parameter_type_list CLOSEPAR
 	| direct_abstract_declarator OPENPAR CLOSEPAR
