@@ -5,7 +5,7 @@ struct varble{
 	void* value;
 };
 struct function{
-	int startpoint;
+	char * body;
 	int numargs;
 	char *type;
 	char *name;

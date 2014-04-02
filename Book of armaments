@@ -1,15 +1,19 @@
 while:
 "//while1//eqeqxy////////endw1"
-//while# condition statements //endw#
+//while# condition statements //endw#*
+
 if:
 "//if1//////endf1//else1///////ende1"
-//if# condition statements //endf# //else# statements //ende#
+//if# condition statements //endf# //else# statements //ende#*
+
 for:
 //firstexpr //while2 //less i 5 //plusplus i ///////// //endw2
-firststatement //while# condition executionstatement //endw#
+firststatement //while# condition executionstatement //endw#*
+
 dowhile:
 //do1 ////break//// //endd1 //gt //assg x //add x y 5 
-//do# statements endd# condition
+//do# statements endd# condition*
+
 binaryops:
 "//add//times//int5//int6//int7" => 7+5*6||5*6+7
 
@@ -48,6 +52,9 @@ postfix ops
 argument *
 //arg expression 
 
+struct
+//struct name values //ends
+//structvar name
 
 numeral *
 //dbl value
@@ -66,7 +73,6 @@ assignment *
 //assg destination op expression
 //decassg declaration destination op expression
 
-declaration ????
-//dec specifiers 
+declaration
+//dec specifiers identifier
 
-//loops nvm ^

@@ -1,4 +1,12 @@
 int x[5];
+
+struct varble{
+	int ident;//will be zero
+	char * name;
+	char * type;
+	void* value;
+};
+
 int main(){
 	int * p;
 	
@@ -28,4 +36,29 @@ int main(){
 	function(15);
 	//function(14,13,12,11,10,9,8,7,6,5,4,3,2,1);
 	my_func("get fucnky");
+	if(x){
+		x=5;
+		x++;
+		int y;
+		y=x;	
+	}
+	else if(x){
+		x=10;
+	}
+	while(1){
+		x++;
+		y++;
+		int x=2;
+	}
+	do{
+		x++;
+		y++;
+	}while(1);
+	for(x=1;x<5;x++){
+		x++;
+	}
+	for(;;){
+		x="infinite loop";
+	}
+	
 }

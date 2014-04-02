@@ -433,11 +433,21 @@ assignment_operator
 	: EQUALS{
 		$<wd>$=" = ";
 	}
-	| MULEQUALS
-	| DIVEQUALS
-	| MODEQUALS
-	| PLUSEQUALS
-	| MINUSEQUALS
+	| MULEQUALS{
+		$<wd>$=" *= ";
+	}
+	| DIVEQUALS{
+		$<wd>$=" /= ";
+	}
+	| MODEQUALS{
+		$<wd>$=" %= ";
+	}
+	| PLUSEQUALS{
+		$<wd>$=" += ";
+	}
+	| MINUSEQUALS{
+		$<wd>$=" -= ";
+	}
 	;
 
 expression
@@ -452,6 +462,14 @@ constant_expression
 declaration
 	: declaration_specifiers SEMICOLON
 	| declaration_specifiers init_declarator_list SEMICOLON{
+		int size = strlen($<wd>2)+strlen($<wd>1);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//dec ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+		printf("dec %s\n",$<wd>$);
+		
 		var[0]=$<wd>1;
 		var[1]=$<wd>2;
 	}
@@ -527,9 +545,25 @@ type_specifier
 	;
 
 struct_or_union_specifier
-	: struct_or_union IDENTIFIER OPENBRACE struct_declaration_list CLOSEBRACE
+	: struct_or_union IDENTIFIER OPENBRACE struct_declaration_list CLOSEBRACE{
+		int size = strlen($<wd>2)+strlen($<wd>4);
+		size=size+16;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//struct ");
+		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>4);
+		strcat($<wd>$,"//ends ");
+		printf("struct %s\n",$<wd>$);
+	}
 	| struct_or_union OPENBRACE struct_declaration_list CLOSEBRACE
-	| struct_or_union IDENTIFIER
+	| struct_or_union IDENTIFIER{
+		int size = strlen($<wd>2);
+		size=size+12;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//structvar ");
+		strcat($<wd>$,$<wd>2);
+		printf("struct %s\n",$<wd>$);
+	}
 	;
 
 struct_or_union
@@ -538,11 +572,27 @@ struct_or_union
 
 struct_declaration_list
 	: struct_declaration
-	| struct_declaration_list struct_declaration
+	| struct_declaration_list struct_declaration{
+		int size = strlen($<wd>1)+strlen($<wd>2);
+		size=size+2;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
+		strcat($<wd>$,$<wd>2);
+	}
 	;
 
 struct_declaration
-	: specifier_qualifier_list struct_declarator_list SEMICOLON
+	: specifier_qualifier_list struct_declarator_list SEMICOLON{
+		int size = strlen($<wd>2)+strlen($<wd>1);
+		size=size+7;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//dec ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
+		strcat($<wd>$,$<wd>2);
+		printf("dec %s\n",$<wd>$);
+	}
 	;
 
 specifier_qualifier_list
@@ -575,9 +625,23 @@ enumerator_list
 	;
 
 enumerator
-	: IDENTIFIER
+	: IDENTIFIER{
+		int size = strlen($<wd>1);
+		size=size+6;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//id ");
+		strcat($<wd>$,$<wd>1);
+		printf("identifier %s\n",$<wd>$);
+	}
 	| IDENTIFIER EQUALS constant_expression{
-		//printf("ASFDSGSG\n");
+		int size = strlen($<wd>$)+strlen($<wd>3);
+		size=size+11;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//assg ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," = ");
+		strcat($<wd>$,$<wd>3);
+		printf("ASSIGNMENT12 %s\n",$<wd>$);
 	}
 	;
 
@@ -587,25 +651,26 @@ type_qualifier
 
 declarator
 	: pointer direct_declarator{
-		printf("pointer found h4h4h4h4h4hh4\n");
+		int size = strlen($<wd>2);
+		size=size+10;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//pointer ");
+		strcat($<wd>$,$<wd>2);
+		printf("pointer %s\n",$<wd>$);
 	}
 	| direct_declarator {
-		//printf("declarator %s\n",$<wd>1);
-		$<wd>$=$<wd>1;
 	}
 	;
 
 direct_declarator
 	: IDENTIFIER {
-		printf("direct declarator FUCK TEEMO\n");
-		$<wd>$=$<wd>1;
 	}
 	| OPENPAR declarator CLOSEPAR
 	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET{
-		printf("why god why %s\n",$<wd>1);
+		
 	}
 	| direct_declarator OPENBRACKET CLOSEBRACKET{
-		printf("why god why %s\n",$<wd>1);
+		
 	}
 	| direct_declarator OPENPAR parameter_type_list CLOSEPAR
 	| direct_declarator OPENPAR identifier_list CLOSEPAR
@@ -677,13 +742,20 @@ direct_abstract_declarator
 
 initializer
 	: assignment_expression
-	| OPENBRACE initializer_list CLOSEBRACE
-	| OPENBRACE initializer_list COMMA CLOSEBRACE
+	| OPENBRACE initializer_list CLOSEBRACE{
+		$<wd>$=$<wd>2;
+	}
+	| OPENBRACE initializer_list COMMA CLOSEBRACE{
+	
+	
+	}
 	;
 
 initializer_list
 	: initializer
-	| initializer_list COMMA initializer
+	| initializer_list COMMA initializer{
+	
+	}
 	;
 
 statement
@@ -718,13 +790,18 @@ array_declaration
 		printf("index %s\n",$<wd>$);
 	}
 	;
-labeled_statement//maby issues here?
+labeled_statement//is this needed?
 	: IDENTIFIER COLON statement
 	;
 
 compound_statement
-	: OPENBRACE CLOSEBRACE
-	| OPENBRACE decstat_list CLOSEBRACE
+	: OPENBRACE CLOSEBRACE{
+		$<wd>$="";
+	}
+	| OPENBRACE decstat_list CLOSEBRACE{
+		$<wd>$=$<wd>2;
+	}
+	
 	;
 
 decstat
@@ -733,48 +810,149 @@ decstat
 	;
 decstat_list
 	: decstat
-	| decstat decstat_list
+	| decstat decstat_list{
+		int size = strlen($<wd>1)+strlen($<wd>2);
+		size=size+2;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
+		strcat($<wd>$,$<wd>2);
+	}
 	;
 declaration_list
 	: declaration
-	| declaration_list declaration
+	| declaration_list declaration{
+		int size = strlen($<wd>1)+strlen($<wd>2);
+		size=size+2;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
+		strcat($<wd>$,$<wd>2);
+	}
 	;
 
 statement_list
 	: statement
-	| statement_list statement
+	| statement_list statement{
+		int size = strlen($<wd>1)+strlen($<wd>2);
+		size=size+2;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
+		strcat($<wd>$,$<wd>2);
+	}
 	;
 
 expression_statement
-	: SEMICOLON
+	: SEMICOLON{
+		$<wd>$="";
+	}
 	| expression SEMICOLON
 	;
 include_statement
-	: INCLUDE LESS include_expression GREAT
+	: INCLUDE LESS include_expression GREAT//tree dont care
 	| INCLUDE QUOTE include_expression QUOTE
 	;
 include_expression
-	: IDENTIFIER DOT IDENTIFIER
+	: IDENTIFIER DOT IDENTIFIER//tree dont care yo
 	| IDENTIFIER
 	;
 selection_statement
-	: IF OPENPAR expression CLOSEPAR statement
-	| IF OPENPAR expression CLOSEPAR statement ELSE statement
+	: IF OPENPAR expression CLOSEPAR statement{
+		int size = strlen($<wd>3)+strlen($<wd>5);
+		size=size+12;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//if ");
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,"//endf ");
+		printf("if %s\n",$<wd>$);
+	
+	
+	}
+	| IF OPENPAR expression CLOSEPAR statement ELSE statement{
+		int size = strlen($<wd>3)+strlen($<wd>5)+strlen($<wd>7);
+		size=size+19;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//if ");
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,"//else ");
+		strcat($<wd>$,$<wd>7);
+		strcat($<wd>$,"//ende ");
+		printf("ifelse %s\n",$<wd>$);
+	}
 	;
 
 iteration_statement
-	: WHILE OPENPAR expression CLOSEPAR statement
-	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON
-	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement
-	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement
+	: WHILE OPENPAR expression CLOSEPAR statement{
+		int size = strlen($<wd>3)+strlen($<wd>5);
+		size=size+15;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//while ");
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,"//endw ");
+		printf("while %s\n",$<wd>$);
+	}
+	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON{
+		int size = strlen($<wd>2)+strlen($<wd>5);
+		size=size+12;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//do ");
+		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,"//endd ");
+		strcat($<wd>$,$<wd>5);
+		printf("dowhile %s\n",$<wd>$);
+	}
+	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement{
+		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>6);
+		size=size+15;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,"//while ");
+		strcat($<wd>$,$<wd>4);
+		strcat($<wd>$,$<wd>6);
+		strcat($<wd>$,"//endw ");
+		printf("while %s\n",$<wd>$);
+	}
+	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement{
+		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>5)+strlen($<wd>7);
+		size=size+15;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,"//while ");
+		strcat($<wd>$,$<wd>4);
+		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,$<wd>7);
+		strcat($<wd>$,"//endw ");
+		printf("for %s\n",$<wd>$);
+	}
 	;
 
 jump_statement
-	: CONTINUE SEMICOLON
-	| BREAK SEMICOLON
-	| RETURN SEMICOLON
+	: CONTINUE SEMICOLON{
+		int size =7 ;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//cont ");
+	}
+	| BREAK SEMICOLON{
+		int size =8 ;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//break ");
+	}
+	| RETURN SEMICOLON{
+		int size = 15;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//return //null");
+		printf("return %s\n",$<wd>$);
+	}
 	| RETURN expression SEMICOLON {
-		//printf("return expr semi\n");
+		int size =7 + strlen($<wd>2) ;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//return ");
+		strcat($<wd>$,$<wd>2);
+		printf("return %s\n",$<wd>$);
 	}
 	;
 
@@ -805,23 +983,23 @@ function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
 		
 	}
-	| declaration_specifiers declarator{
-		printf("function line %d %s %s\n",linecount,$<wd>1,$<wd>2);
+	| declaration_specifiers declarator compound_statement{
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
-		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->startpoint=linecount;
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->type=$<wd>1;
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->name=$<wd>2;
+		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->body=$<wd>3;
+		printf("function %s body %s\n",$<wd>2,$<wd>3);
 		cstack::thiscstack.funcount++;
 		if(cstack::thiscstack.funcount >=cstack::thiscstack.funcmax){
 			cstack::thiscstack.funcmax *=2;
 			cstack::thiscstack.funcs = (function **)realloc(cstack::thiscstack.funcs,sizeof(function *)*cstack::thiscstack.funcmax);
 		}
-	}compound_statement{
-		//printf("function definition2\n");
 	}
 	| declarator declaration_list compound_statement{
+	
 	}
 	| declarator compound_statement{
+	
 	}
 	;
 
