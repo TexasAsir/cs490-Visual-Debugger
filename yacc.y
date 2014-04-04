@@ -96,7 +96,13 @@ postfix_expression
 	}
 	| postfix_expression OPENPAR CLOSEPAR
 	| postfix_expression OPENPAR argument_expression_list CLOSEPAR{
-		printf("TYPE\n");
+		int size = strlen($<wd>1)+strlen($<wd>3);
+		size=size+8;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"//call ");
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>3);
+		printf("call %s\n",$<wd>$);
 	}
 	| postfix_expression DOT IDENTIFIER{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -147,9 +153,8 @@ argument_expression_list
 		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3);
 		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//arg ");
 		strcat($<wd>$,$<wd>1);
-//		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,"//arg ");
 		strcat($<wd>$,$<wd>3);
 		printf("argument %s\n",$<wd>$);
 	}
@@ -281,9 +286,9 @@ additive_expression
 	}
 	| additive_expression MINUS multiplicative_expression {
 		int size = strlen($<wd>$)+strlen($<wd>3);
-		size=size+6;
+		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//sub");
+		strcat($<wd>$,"//sub ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
@@ -674,7 +679,9 @@ direct_declarator
 	}
 	| direct_declarator OPENPAR parameter_type_list CLOSEPAR
 	| direct_declarator OPENPAR identifier_list CLOSEPAR
-	| direct_declarator OPENPAR CLOSEPAR
+	| direct_declarator OPENPAR CLOSEPAR{
+		
+	}
 	;
 
 pointer
@@ -736,8 +743,10 @@ direct_abstract_declarator
 	}
 	| OPENPAR CLOSEPAR
 	| OPENPAR parameter_type_list CLOSEPAR
-	| direct_abstract_declarator OPENPAR CLOSEPAR
-	| direct_abstract_declarator OPENPAR parameter_type_list CLOSEPAR
+	| direct_abstract_declarator OPENPAR CLOSEPAR{
+	}
+	| direct_abstract_declarator OPENPAR parameter_type_list CLOSEPAR{
+	}
 	;
 
 initializer

@@ -1315,15 +1315,13 @@ YY_RULE_SETUP
 #line 231 "lex.l"
 {
 		//printf("asfd\n");
-		strcpy(yytext,yytext+1);
-		yytext[strlen(yytext)-1]=0;
 		yylval.wd = strdup(yytext);
 		count(); return WORD;
 	}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 238 "lex.l"
+#line 236 "lex.l"
 {
 	printf("numeral %s\n",yytext);
 	yylval.wd = strdup(yytext);
@@ -1332,7 +1330,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 243 "lex.l"
+#line 241 "lex.l"
 {
 	printf("yytext val %s\n",yytext);
 	yylval.wd=strdup(yytext);	
@@ -1341,7 +1339,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 248 "lex.l"
+#line 246 "lex.l"
 {
 	printf("\nid %s\n",yytext);
 	yylval.wd=strdup(yytext);
@@ -1350,7 +1348,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 254 "lex.l"
+#line 252 "lex.l"
 {
 	//printf("dot\n");
     count(); return DOT;
@@ -1358,14 +1356,14 @@ YY_RULE_SETUP
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 258 "lex.l"
+#line 256 "lex.l"
 {
    count(); return COLON; 
 }    
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 261 "lex.l"
+#line 259 "lex.l"
 {
 		////printf(".\n");
 		//count(); return NOTOKEN;
@@ -1373,10 +1371,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 266 "lex.l"
+#line 264 "lex.l"
 ECHO;
 	YY_BREAK
-#line 1380 "lex.yy.c"
+#line 1378 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2370,7 +2368,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 266 "lex.l"
+#line 264 "lex.l"
 
 
 
