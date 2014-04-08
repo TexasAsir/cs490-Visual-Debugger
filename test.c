@@ -65,5 +65,5 @@ int main(){
 	for(i = 0; i < 5; i++){
 		x++;
 	}
-	printf("x = %d\n",x);
+	printf("x = %d %d\n",x,sizeof(int *));
 }

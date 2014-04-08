@@ -2698,7 +2698,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 486 "yacc.y"
     {
-		printf("pointer declared\n");
+		(yyval.wd)="int *";
 	}
     break;
 

@@ -484,7 +484,7 @@ declaration_specifiers
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
 	| type_specifier STAR{
-		printf("pointer declared\n");
+		$<wd>$="int *";
 	}
 	| type_specifier
 	| type_specifier declaration_specifiers 
