@@ -52,8 +52,8 @@ void printStack(int index, int offset){
 
 
 void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int index){
-	printf("It's time to set the stack\n");
-	printf("The name of this struct is %s\n",s->name);
+	//printf("It's time to set the stack\n");
+	//printf("The name of this struct is %s\n",s->name);
 	//may have to do something else for characters and such
 	int infoPos=-1;
 	int leftPos=-1;
@@ -71,8 +71,8 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 			rightPos=i;
 		}
 	}
-	printf("the three values are %d %d %d\n",infoPos,leftPos,rightPos);
-	printf("The name of the thing i want to save is %s\n",s->var[infoPos]->name);
+	//printf("the three values are %d %d %d\n",infoPos,leftPos,rightPos);
+	//printf("The name of the thing i want to save is %s\n",s->var[infoPos]->name);
 	/*varble info;
 	info.ident=0;
 	info.type=strdup(s->var[infoPos]->type);
@@ -81,7 +81,7 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 	int* value = (int*)info.value;
 	*/
 	//printf("%d",(int *)v[i].value);
-	printf("The derpy i want to save is %d\n",(int *)s->var[infoPos]->value);
+	//printf("The derpy i want to save is %d\n",(int *)s->var[infoPos]->value);
 	char tmp[10];
 	sprintf(tmp,"%d",(int *)s->var[infoPos]->value);
 	tree[index]=atoi(tmp);
@@ -90,7 +90,7 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 	//tree[index]=rly;
 	//tree[index]=*(int *)s->var[infoPos]->value;
 	
-	printf("The value of tree[index] is %d\n",tree[index]);
+	//printf("The value of tree[index] is %d\n",tree[index]);
 	numNodes++;
 	if(s->var[leftPos]->value!=NULL){
 			//setStack(root->left,((2*index)+1));
@@ -106,7 +106,7 @@ void printBTree(struct sstruct *s){
 	//will only allow one infovar
 	int numInfo=0;
 	char * infoVar;
-	printf("Made it into b tree printing\n");
+	//printf("Made it into b tree printing\n");
 	varble * v = new varble[10];
 	int count=0;
 	while(s->var[count+1]!=NULL){
@@ -188,11 +188,11 @@ void printBTree(struct sstruct *s){
 	}
 
 	setStack(s,left,right,infoVar,0);
-	printf("The number of nodes is %d\n",numNodes);
+	//printf("The number of nodes is %d\n",numNodes);
 	height=floor(log(numNodes)/log(2));
-	printf("The height of this tree is %d\n",height);
+	//printf("The height of this tree is %d\n",height);
 	int offset=pow(2,height);
-	printf("The offset is %d\n",offset);
+	//printf("The offset is %d\n",offset);
 
 	printf("\n\n\n");
 	printStack(0,offset);
@@ -877,7 +877,7 @@ int main(){
 	dTest.var[2]->ident=0;
 	dTest.var[2]->name=strdup("Val");
 	dTest.var[2]->type=strdup("string");
-	dTest.var[2]->value=(void*)"DOOBY DENSITY AT MAX";
+	dTest.var[2]->value=(void*)"THIS IS A STRING";
 
 	stack * five=(stack*)&dTest;
 	viz(five);
