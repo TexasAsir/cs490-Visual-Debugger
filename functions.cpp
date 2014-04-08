@@ -98,52 +98,86 @@ class executeStatement{
 				return andfun(l,r);
 			}
 			if(!strcmp(expression,"or")){
+				statement+=5;
+				void * l=execute();
+				void * r=execute();
+				return orfun(l,r);
+			}
+			if(!strcmp(expression,"less")){
+				statement+=7;
+				void * l=execute();
+				void * r=execute();
+				return lessfun(l,r);
+			}
+			if(!strcmp(expression,"gt")){
+				statement+=5;
+				void * l=execute();
+				void * r=execute();
+				return gtfun(l,r);
+			}
+			if(!strcmp(expression,"le")){
+				statement+=5;
+				void * l=execute();
+				void * r=execute();
+				return lefun(l,r);
+			}
+			if(!strcmp(expression,"ge")){
+				statement+=5;
+				void * l=execute();
+				void * r=execute();
+				return gefun(l,r);
+			}
+			if(!strcmp(expression,"eqeq")){
+				statement+=7;
+				void * l=execute();
+				void * r=execute();
+				return eqfun(l,r);
+			}
+			if(!strcmp(expression,"neq")){
 				statement+=6;
 				void * l=execute();
 				void * r=execute();
-				return andfun(l,r);
-			}
-			if(!strcmp(expression,"less")){
-	
-			}
-			if(!strcmp(expression,"gt")){
-	
-			}
-			if(!strcmp(expression,"le")){
-	
-			}
-			if(!strcmp(expression,"ge")){
-	
-			}
-			if(!strcmp(expression,"eqeq")){
-	
-			}
-			if(!strcmp(expression,"neq")){
-	
+				return neqfun(l,r);
 			}
 			if(!strcmp(expression,"cast")){
-	
+				statement+=7;
+				void * l=execute();
+				return castfun(l);
 			}
 			if(!strcmp(expression,"unop")){
-	
+				statement+=7;
+				void * l=execute();
+				return unfun(l);
 			}
 			if(!strcmp(expression,"++")){
-	
+				statement+=5;
+				void * l=execute();
+				return plusfun(l);
 			}
 			if(!strcmp(expression,"--")){
-	
+				statement+=5;
+				void * l=execute();
+				return minusfun(l);
 			}
 			if(!strcmp(expression,"sizeof")){
-	
+				statement+=9;
+				void * l=execute();
+				return sizefun(l);
 			}
 			if(!strcmp(expression,"sizeoftype")){
-	
+				statement+=13;
+				void * l=execute();
+				return sizetfun(l);
 			}
 			if(!strcmp(expression,"++pf")){
-	
+				statement+=7;
+				void * l=execute();
+				return ppfun(l);
 			}
 			if(!strcmp(expression,"--pf")){
-	
+				statement+=7;
+				void * l=execute();
+				return mmfun(l);
 			}
 			if(!strcmp(expression,"dot")){
 	
@@ -186,6 +220,19 @@ class executeStatement{
 						}
 					}
 				}
+			
+				/*if(!strcmp(i,"scanf")){
+				//TODO					
+				char * input=(char *)execute();
+					while(*input){
+						if(*input != '%'){
+							char tmp[2];
+							tmp[1]=0;
+							tmp[0]=*input;
+							if(scanf(tmp))
+						}
+					}
+				}*/
 			}
 			if(!strcmp(expression,"arg")){
 				statement+=6;
@@ -193,13 +240,26 @@ class executeStatement{
 				return l;
 			}
 			if(!strcmp(expression,"struct")){
-	
+				
 			}
 			if(!strcmp(expression,"structvar")){
-	
+				
 			}
 			if(!strcmp(expression,"dbl")){
-	
+				statement+=6;
+				char number[20];
+				int i=0;
+				while(*statement!='/'&&*statement!=0){
+					number[i]=*statement;
+					i++;
+					statement++;
+				}
+				number[i]=0;
+				double ret=atof(number);
+				//printf("int ret %d\n",ret);
+				void * retval=malloc(8);
+				*(double *)retval=ret;
+				return retval;
 			}
 			if(!strcmp(expression,"int")){
 				statement+=6;
@@ -231,7 +291,7 @@ class executeStatement{
 				return (void *)ret;
 			}
 			if(!strcmp(expression,"char")){
-	
+				//TODO
 			}
 			if(!strcmp(expression,"word")){
 				statement+=8;
@@ -247,22 +307,22 @@ class executeStatement{
 				return (void *)ret;
 			}
 			if(!strcmp(expression,"assg")){
-	
+				
 			}
 			if(!strcmp(expression,"decassg")){
-	
+				
 			}
 			if(!strcmp(expression,"dec")){
-	
+				
 			}
 			if(!strcmp(expression,"do")){
-	
+				
 			}
 			if(!strcmp(expression,"if")){
-	
+				
 			}
 			if(!strcmp(expression,"while")){
-	
+				
 			}
 		}
 	private:
@@ -309,52 +369,156 @@ class executeStatement{
 			*(int *)retval=ret;
 			return retval;
 		}
-		void * notfun(void * l,void * r){
-
-		}void * andfun(void * l, void* r){
-
+		void * andfun(void * l, void* r){
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)&&(*right));
+			return (retval);
 		}
 		void * orfun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)||(*right));
+			return (retval);
 		}
 		void * lessfun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)<(*right));
+			return (retval);
 		}
 		void * gtfun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)>(*right));
+			return (retval);
 		}
 		void * gefun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)>=(*right));
+			return (retval);
 		}
 		void * lefun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)<=(*right));
+			return (retval);
 		}
 		void * eqfun(void * l, void* r){
-
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)==(*right));
+			return (retval);
+		}
+		void * neqfun(void * l, void* r){
+			int * left= (int*)l;
+			int * right=(int *)r;
+			void * retval=malloc(4);
+			*(int *) retval = ((*left)!=(*right));
+			return (retval);
 		}
 		void * unfun(void * l){
-
+			char * left= (char *)l;
+			void * retval=malloc(4);			
+			if(!strcmp(left,"*")){
+				//*(int *) retval = *(int *)(*left);
+				//return (retval);
+			}
+			if(!strcmp(left,"&")){
+				//*(int *) retval = *(int *)(*left);
+				//return (retval);
+			}
+			if(!strcmp(left,"+")){
+				*(int *) retval = +*(int *)(left);
+				return (retval);
+			}
+			if(!strcmp(left,"-")){
+				*(int *) retval = -*(int *)(left);
+				return (retval);
+			}
+			if(!strcmp(left,"!")){
+				*(int *) retval = !*(int *)(left);
+				return (retval);
+			}
+			
+			
 		}
-		void * castfun(void * l, void* r){
-
+		void * castfun(void * l){
+			//TODO
 		}
 		void * plusfun(void * l){
-
+			int * left= (int*)l;
+			void * retval=malloc(4);
+			*(int *) retval = ++(*left);
+			return (retval);
 		}void * minusfun(void * l){
-
+			int * left= (int*)l;
+			void * retval=malloc(4);
+			*(int *) retval = --(*left);
+			return (retval);
 		}
-		void * sizefun(void * l, void* r){
-
+		void * sizefun(void * l){
+			int * left= (int*)l;
+			void * retval=malloc(4);
+			*(int *) retval = sizeof(*left);
+			return (retval);
 		}
-		void * sizetfun(void * l, void* r){
-
+		void * sizetfun(void * l){
+			char * left = (char *)l;
+			void * retval=malloc(4);
+			if(!strcmp(left,"int")){
+				*(int *) retval = sizeof(int);				
+				return retval;
+			}
+			if(!strcmp(left,"char")){
+				*(int *) retval = sizeof(char);				
+				return retval;
+			}
+			if(!strcmp(left,"void")){
+				*(int *) retval = sizeof(void);				
+				return retval;
+			}
+			if(!strcmp(left,"long")){
+				*(int *) retval = sizeof(long);				
+				return retval;
+			}
+			if(!strcmp(left,"int*")){
+				*(int *) retval = sizeof(int*);			
+				return retval;
+			}
+			if(!strcmp(left,"char*")){
+				*(int *) retval = sizeof(char*);				
+				return retval;
+			}
+			if(!strcmp(left,"void*")){
+				*(int *) retval = sizeof(void*);				
+				return retval;
+			}
+			if(!strcmp(left,"long*")){
+				*(int *) retval = sizeof(long*);			
+				return retval;
+			}
 		}
 		void * ppfun(void * l){
-
+			int * left= (int*)l;
+			void * retval=malloc(4);
+			*(int *) retval = (*left)++;
+			return (retval);
 		}
 
 		void * mmfun(void * l){
-
+			int * left= (int*)l;
+			void * retval=malloc(4);
+			*(int *) retval = (*left)--;
+			return (retval);
 		}void * dotfun(void * l, void* r){
 
 		}
@@ -419,7 +583,7 @@ int main(){
 	char * statement="//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6";
 	executeStatement *idgaf = new executeStatement(statement);
 	void * ret=idgaf->execute();
-	idgaf->setStatement("//add //sub //int 5//int 4//int 3");
+	idgaf->setStatement("//-- //int 3");
 	ret=idgaf->execute();
 	printf("return value %d\n",*(int *)ret);
 }
