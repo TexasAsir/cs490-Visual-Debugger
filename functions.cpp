@@ -41,4 +41,3 @@ int myfclose(FILE * cfile){
 	return fclose(cfile);
 }
 
-
