@@ -582,7 +582,7 @@ struct_declaration_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," , ");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -594,7 +594,7 @@ struct_declaration
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dec ");
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," , ");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
 		printf("dec %s\n",$<wd>$);
 	}
@@ -824,7 +824,7 @@ decstat_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," , ");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -835,7 +835,7 @@ declaration_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," , ");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -847,7 +847,7 @@ statement_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," , ");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
