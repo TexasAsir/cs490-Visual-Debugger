@@ -2855,10 +2855,10 @@ yyreduce:
 #line 580 "yacc.y"
     {
 		int size = strlen((yyvsp[(1) - (2)].wd))+strlen((yyvsp[(2) - (2)].wd));
-		size=size+2;
+		size=size+4;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),(yyvsp[(1) - (2)].wd));
-		strcat((yyval.wd)," ");
+		strcat((yyval.wd)," , ");//maby dont need the comma
 		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
 	}
     break;
@@ -2869,11 +2869,11 @@ yyreduce:
 #line 591 "yacc.y"
     {
 		int size = strlen((yyvsp[(2) - (3)].wd))+strlen((yyvsp[(1) - (3)].wd));
-		size=size+7;
+		size=size+11;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),"//dec ");
 		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
-		strcat((yyval.wd)," ");
+		strcat((yyval.wd)," , ");//maby dont need the comma
 		strcat((yyval.wd),(yyvsp[(2) - (3)].wd));
 		printf("dec %s\n",(yyval.wd));
 	}
@@ -2971,7 +2971,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 729 "yacc.y"
     {
-		printf("hi?\n");
+		printf("does this shit get called?\n");
 	}
     break;
 
@@ -3092,10 +3092,10 @@ yyreduce:
 #line 822 "yacc.y"
     {
 		int size = strlen((yyvsp[(1) - (2)].wd))+strlen((yyvsp[(2) - (2)].wd));
-		size=size+2;
+		size=size+4;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),(yyvsp[(1) - (2)].wd));
-		strcat((yyval.wd)," ");
+		strcat((yyval.wd)," , ");
 		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
 	}
     break;
@@ -3106,10 +3106,10 @@ yyreduce:
 #line 833 "yacc.y"
     {
 		int size = strlen((yyvsp[(1) - (2)].wd))+strlen((yyvsp[(2) - (2)].wd));
-		size=size+2;
+		size=size+4;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),(yyvsp[(1) - (2)].wd));
-		strcat((yyval.wd)," ");
+		strcat((yyval.wd)," , ");
 		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
 	}
     break;
@@ -3120,10 +3120,10 @@ yyreduce:
 #line 845 "yacc.y"
     {
 		int size = strlen((yyvsp[(1) - (2)].wd))+strlen((yyvsp[(2) - (2)].wd));
-		size=size+2;
+		size=size+4;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),(yyvsp[(1) - (2)].wd));
-		strcat((yyval.wd)," ");
+		strcat((yyval.wd)," , ");
 		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
 	}
     break;
@@ -3326,7 +3326,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 992 "yacc.y"
     {
-		
+		printf("does this shit get called?\n");
 	}
     break;
 
@@ -3353,7 +3353,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 1007 "yacc.y"
     {
-	
+		printf("does this shit get called?\n");
 	}
     break;
 
@@ -3362,7 +3362,7 @@ yyreduce:
 /* Line 1464 of yacc.c  */
 #line 1010 "yacc.y"
     {
-	
+		printf("does this shit get called?\n");
 	}
     break;
 

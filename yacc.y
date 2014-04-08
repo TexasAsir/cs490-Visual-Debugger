@@ -579,7 +579,7 @@ struct_declaration_list
 	: struct_declaration
 	| struct_declaration_list struct_declaration{
 		int size = strlen($<wd>1)+strlen($<wd>2);
-		size=size+2;
+		size=size+4;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," , ");//maby dont need the comma
@@ -590,7 +590,7 @@ struct_declaration_list
 struct_declaration
 	: specifier_qualifier_list struct_declarator_list SEMICOLON{
 		int size = strlen($<wd>2)+strlen($<wd>1);
-		size=size+7;
+		size=size+11;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dec ");
 		strcat($<wd>$,$<wd>1);
@@ -727,7 +727,7 @@ abstract_declarator
 	: pointer
 	| direct_abstract_declarator
 	| pointer direct_abstract_declarator {
-		printf("hi?\n");
+		printf("does this shit get called?\n");
 	}
 	;
 
@@ -821,7 +821,7 @@ decstat_list
 	: decstat
 	| decstat decstat_list{
 		int size = strlen($<wd>1)+strlen($<wd>2);
-		size=size+2;
+		size=size+4;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," , ");
@@ -832,7 +832,7 @@ declaration_list
 	: declaration
 	| declaration_list declaration{
 		int size = strlen($<wd>1)+strlen($<wd>2);
-		size=size+2;
+		size=size+4;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," , ");
@@ -844,7 +844,7 @@ statement_list
 	: statement
 	| statement_list statement{
 		int size = strlen($<wd>1)+strlen($<wd>2);
-		size=size+2;
+		size=size+4;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," , ");
@@ -990,7 +990,7 @@ external_declaration
 
 function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
-		
+		printf("does this shit get called?\n");
 	}
 	| declaration_specifiers declarator compound_statement{
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
@@ -1005,10 +1005,10 @@ function_definition
 		}
 	}
 	| declarator declaration_list compound_statement{
-	
+		printf("does this shit get called?\n");
 	}
 	| declarator compound_statement{
-	
+		printf("does this shit get called?\n");
 	}
 	;
 

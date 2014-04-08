@@ -8,7 +8,7 @@ struct varble{
 };
 
 int main(){
-	int * p;
+	/*int * p;
 	
 	*p = 5;
 	//int x;
@@ -59,6 +59,11 @@ int main(){
 	}
 	for(;;){
 		x="infinite loop";
+	}*/
+	int x = 0;
+	int i = 0;
+	for(i = 0; i < 5; i++){
+		x++;
 	}
-	
+	printf("x = %d\n",x);
 }
