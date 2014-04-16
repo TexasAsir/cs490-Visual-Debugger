@@ -2,6 +2,7 @@
 #include "stack.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 cstack::cstack(){
 	fframe = (frame**)malloc(sizeof(frame *)*1006);
@@ -18,9 +19,33 @@ void cstack::push(frame *aframe){
 	stacksize++;
 }
 void cstack::pop(){
-	//free(fframe[stacksize]);
+	free(fframe[stacksize]);
 	stacksize--;
 }
+void cstack::pushsstack(stack * s, frame *f){
+	if(find(f,s->var.name)>-1){
+		printf("variable already declared %s\n",s->var.name);
+		exit(-1);
+	}
+	if(f->stacksize>=f->maxsize){
+		f->maxsize *=2;
+		f->sstack=(stack**)realloc((void *)f->sstack,sizeof(stack *)*f->maxsize);
+	}
+	f->sstack[f->stacksize]=s;
+	f->stacksize++;
+}
+
+int cstack::find(frame * f, char * var){
+	int ind = 0;
+	while(ind < f->maxsize){
+		if(!strcmp(f->sstack[ind]->var.name,var)){
+			return ind;
+		}	
+		ind++;					
+	}
+	return -1;
+}
+
 frame* cstack::getframe(int i){
 	return fframe[i];
 }

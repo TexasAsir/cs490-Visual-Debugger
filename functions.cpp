@@ -2,6 +2,8 @@
 #include <stdarg.h>
 #include <string.h>
 #include <stdlib.h>
+#include "step.h"
+#include "stack.h"
 
 int myprintf(const char* format, ...){
 	va_list arguments;
@@ -313,7 +315,29 @@ class executeStatement{
 				
 			}
 			if(!strcmp(expression,"dec")){
-				
+				frame * curframe=cstack::thiscstack.getframe(cstack::thiscstack.stacksize);
+				int i;
+				for(i=0;curframe->sstack[i];i++);
+				varble *v = new varble;
+				curframe->sstack[i]= (stack *)v;
+				v->ident=0;
+				int j=0;
+				char c[100];
+				while(statement[j]!=' '){
+					c[j]=statement[j];
+					j++;
+				}
+				c[j]=0;
+				v->type=strdup(c);
+				statement+=j;
+				j=0;
+				while(statement[j]!=','&&statement[j]){
+					c[j]=statement[j];
+					j++;
+				}
+				c[j]=0;
+				v->name=strdup(c);
+				curframe->sstack[++i]=0;
 			}
 			if(!strcmp(expression,"do")){
 				
@@ -580,10 +604,5 @@ class executeStatement{
 };
 
 int main(){
-	char * statement="//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6";
-	executeStatement *idgaf = new executeStatement(statement);
-	void * ret=idgaf->execute();
-	idgaf->setStatement("//-- //int 3");
-	ret=idgaf->execute();
-	printf("return value %d\n",*(int *)ret);
+	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3");
 }

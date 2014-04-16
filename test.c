@@ -60,10 +60,12 @@ int main(){
 	for(;;){
 		x="infinite loop";
 	}*/
+	//const int j;//TODO fix
+	int j,x;
 	int x = 0;
 	int i = 0;
 	for(i = 0; i < 5; i++){
 		x++;
 	}
-	printf("x = %d %d\n",x,sizeof(int *));
+	printf("x = %d %d\n",x,sizeof(const int *));
 }

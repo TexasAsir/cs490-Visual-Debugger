@@ -1,13 +1,15 @@
 #makefile
 
-all: lex yacc functions stack.o prog
+all: lex yacc step.o functions stack.o prog
 	
 yacc: yacc.y
 	yacc -d yacc.y
 lex: lex.l
 	lex lex.l
-functions: functions.cpp
-	g++ -o function functions.cpp
+step.o: step.cpp
+	g++ -c step.cpp
+functions: functions.cpp step.h step.o
+	g++ -o function functions.cpp step.o
 lex.yy.o: lex.yy.c
 	gcc -c lex.yy.c
 stack.o: stack.cpp stack.h

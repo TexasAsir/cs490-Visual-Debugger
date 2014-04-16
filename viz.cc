@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string.h>
 #include <math.h>
+#include <unistd.h>
+
 using namespace std;
 
 int tree[1000];
@@ -19,7 +21,7 @@ void printStack(int index, int offset){
 
 
 	//implement a print position
-
+	
     int i;
     int j=0;
     int k;
@@ -619,6 +621,7 @@ int main(){
 
 
 //print a simple variable
+	
 	int test=5;
 	varble v;
 	v.ident=0;
