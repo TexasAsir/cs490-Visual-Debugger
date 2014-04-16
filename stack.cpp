@@ -19,6 +19,10 @@ void cstack::push(frame *aframe){
 	stacksize++;
 }
 void cstack::pop(){
+	for(int i=0;i<fframe[stacksize]->stacksize;i++){
+		free(fframe[stacksize]->sstack[i]);
+	}
+	free(fframe[stacksize]->sstack);
 	free(fframe[stacksize]);
 	stacksize--;
 }
