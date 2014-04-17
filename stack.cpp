@@ -8,6 +8,7 @@ cstack::cstack(){
 	fframe = (frame**)malloc(sizeof(frame *)*1006);
 	stacksize=0;
 	maxsize=1006;
+	
 	//printf("hi i am bob, this is god\n");
 }
 void cstack::push(frame *aframe){
@@ -41,7 +42,7 @@ void cstack::pushsstack(stack * s, frame *f){
 
 int cstack::find(frame * f, char * var){
 	int ind = 0;
-	while(ind < f->maxsize){
+	while(ind < f->stacksize){
 		if(!strcmp(f->sstack[ind]->var.name,var)){
 			return ind;
 		}	
@@ -49,29 +50,47 @@ int cstack::find(frame * f, char * var){
 	}
 	return -1;
 }
-
+void cstack::printframe(frame *f){
+	printf("---------Variables---------\n");
+	printf("[type]		[name]		[value]\n");
+	//printf("stacksize=%d\n",f->stacksize);
+	for(int i=0;i<f->stacksize;i++){
+		stack *s = f->sstack[i];
+		//printf("s %x s ident %d\n",s,s->var.ident);
+		if(!s->var.ident){
+			varble *v = (varble *)s;
+			//printf("type %d\n",v->value);
+			printf("%s\t\t%s\t\t",v->type,v->name);
+			//printf("%s=	",v->name);
+			if(v->value==0){
+				printf("null\n");
+			}
+			else if(strcmp(v->type,"int")==0){
+				printf("%d\n",*(int *)(v->value));	
+			}
+			else if(strcmp(v->type,"double")==0){
+				printf("%lf\n",*(double *)(v->value));	
+			}
+			else if(strcmp(v->type,"char")==0){
+				printf("%c\n",*(char *)(v->value));	
+			}
+			else if(strcmp(v->type,"float")==0){
+				printf("%f\n",*(float *)(v->value));	
+			}
+			else if(strcmp(v->type,"string")==0){
+				printf("%s\n",(char *)(v->value));	
+			}
+			else{
+				printf("Invalid Variable");
+				printf("\n");
+			}
+		}
+	}
+}
 frame* cstack::getframe(int i){
 	return fframe[i];
 }
 
 
 
-//extern char yytext[];
-extern FILE * yyin;
-extern int expcount;
-cstack cstack::thiscstack;
-int yyparse(void);
-int main(int argc, char* argv[])
-{
-    /* Call the lexer, then quit. */
-    yyin = fopen(argv[1],"r");
-    expcount=0;
-    //perror("fopen");
-    //printf("input file: %s %d\n",argv[1],yyin);
-	cstack::thiscstack.funcs = (struct function **) malloc(sizeof(function *)*50);
-	cstack::thiscstack.funcmax=50;
-	cstack::thiscstack.funcount=0;
-    printf("hue%d\n",yyparse());
-    //perror("yyparse");
-    return 0;
-}
+

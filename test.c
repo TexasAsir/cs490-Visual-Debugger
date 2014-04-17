@@ -64,6 +64,7 @@ int main(){
 	int j,x;
 	int x = 0;
 	int i = 0;
+	char c='\n';
 	for(i = 0; i < 5; i++){
 		x++;
 	}

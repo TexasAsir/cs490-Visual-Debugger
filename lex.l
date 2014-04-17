@@ -222,9 +222,7 @@ int linecount=1;
 		count(); return BAZINGA;
 	}
 
-\'[^\n\']?\' {
-		strcpy(yytext,yytext+1);
-		yytext[strlen(yytext)-1]=0;
+\'[\\]?[^\n\']?\' {
 		yylval.wd = strdup(yytext);
 		count(); return CHARACTER;
 	}
