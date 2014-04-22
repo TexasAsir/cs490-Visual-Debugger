@@ -28,9 +28,13 @@ void cstack::pop(){
 	stacksize--;
 }
 void cstack::pushsstack(stack * s, frame *f){
-	if(find(f,s->var.name)>-1){
-		printf("variable already declared %s\n",s->var.name);
-		exit(-1);
+	if(!s->var.ident){
+		printf("its a varble\n");
+		if(find(f,s->var.name)>-1){
+			printf("variable already declared %s\n",s->var.name);
+			exit(-1);
+		}
+		printf("its a new varble\n");
 	}
 	if(f->stacksize>=f->maxsize){
 		f->maxsize *=2;
@@ -39,12 +43,34 @@ void cstack::pushsstack(stack * s, frame *f){
 	f->sstack[f->stacksize]=s;
 	f->stacksize++;
 }
-
+int cstack::findstruct(frame * f, char * var){
+	int ind = 0;
+	while(ind < f->stacksize){
+		if(f->sstack[ind]->var.ident==1){
+			if(!strcmp(f->sstack[ind]->st.type,var)){
+				return ind;
+			}
+		}
+		ind++;					
+	}
+	return -1;
+}
 int cstack::find(frame * f, char * var){
 	int ind = 0;
 	while(ind < f->stacksize){
-		if(!strcmp(f->sstack[ind]->var.name,var)){
-			return ind;
+		if(f->sstack[ind]->var.ident==0){
+			printf("its a varble in da find\n");
+			if(!strcmp(f->sstack[ind]->var.name,var)){
+				return ind;
+			}
+		}
+		else{
+			printf("its a structy\n");
+			if(f->sstack[ind]->st.name){
+				if(!strcmp(f->sstack[ind]->st.name,var)){
+					return ind;
+				}
+			}
 		}	
 		ind++;					
 	}

@@ -17,11 +17,27 @@ void step(char *body){
 			lastcommand=1;
 			char nextstep[strlen(body)];
 			int i;
-			for(i=0;body[i]!=','&&body[i]!=0;i++){
-				nextstep[i]=body[i];
+			if(strncmp(body,"//struct",strlen("//struct"))){
+				for(i=0;body[i]!=','&&body[i]!=0;i++){
+					nextstep[i]=body[i];
+				}
 			}
-			if(body[i]!=0)
+			else{
+				i=0;
+				while(strncmp(body+i,"//ends",strlen("//ends"))){
+					nextstep[i]=body[i];
+					i++;
+				}
+				if(body[i]!=0){
+					body+=6;
+				}
+				else//were done
+					takeinput=0;
+				
+			}
+			if(body[i]!=0){
 				body+=i+1;
+			}
 			else//were done
 				takeinput=0;
 			nextstep[i]=0;
@@ -50,6 +66,6 @@ int main(){
 	f->pframe =0;
 	f->sstack=(stack **) malloc(sizeof(stack *)*10);
 	cstack::thiscstack.push(f);
-	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl 0.5,//assg //id j = //int 5,//decassg char//id t = //char 'c'");
+	step("//struct varble//dec int ident,//dec char * name,//dec char * type,//dec void * value//ends,//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl 0.5,//assg //id j = //int 5,//decassg char//id t = //char 'c'");
 	cstack::thiscstack.printframe(f);
 }

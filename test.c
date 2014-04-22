@@ -61,7 +61,10 @@ int main(){
 		x="infinite loop";
 	}*/
 	//const int j;//TODO fix
+	int x[5];
 	int j,x;
+	int *y;
+	struct varble v;
 	int x = 0;
 	int i = 0;
 	char c='\n';

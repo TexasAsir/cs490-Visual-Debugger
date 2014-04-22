@@ -15,6 +15,7 @@ struct sstruct{
 	char * name;
 	char * label;
 	char * type;
+	int size;
 	varble **var;
 };
 union stack{
@@ -40,6 +41,7 @@ struct cstack{
 	void pop();
 	frame * getframe(int i);
 	int find(frame * f, char * var);
+	int findstruct(frame * f, char * var);
 	void pushsstack(stack * s, frame *f);
 	void printframe(frame *f);
 	static cstack thiscstack;

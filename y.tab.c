@@ -2854,7 +2854,7 @@ yyreduce:
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
 		strcat((yyval.wd),"//dec ");
 		strcat((yyval.wd),(yyvsp[(1) - (3)].wd));
-		strcat((yyval.wd),",");//maby dont need the comma
+		strcat((yyval.wd)," ");//maby dont need the comma
 		strcat((yyval.wd),(yyvsp[(2) - (3)].wd));
 		printf("dec %s\n",(yyval.wd));
 	}
@@ -2929,9 +2929,9 @@ yyreduce:
 #line 670 "yacc.y"
     {
 		int size = strlen((yyvsp[(2) - (2)].wd));
-		size=size+10;
+		size=size+3;
 		(yyval.wd)=(char *)malloc(sizeof(char)*size);
-		strcat((yyval.wd),"//pointer ");
+		strcat((yyval.wd),"* ");
 		strcat((yyval.wd),(yyvsp[(2) - (2)].wd));
 		printf("pointer %s\n",(yyval.wd));
 	}
