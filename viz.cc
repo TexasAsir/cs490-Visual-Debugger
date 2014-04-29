@@ -680,7 +680,7 @@ int main(){
 
 
 //print a simple variable
-	
+	//File *f;
 	int test=5;
 	varble v;
 	v.ident=0;
@@ -748,7 +748,7 @@ int main(){
 
 	FILE * sllTest;
 	//sllTest=fopen("sllTest.txt","w");
-  	f = fopen ("draw.txt","w");
+  	sllTest = fopen ("draw.txt","w");
 	fwrite(dllSend,sizeof(char),strlen(dllSend),sllTest);
 	fclose(sllTest);
 
@@ -963,7 +963,7 @@ int main(){
 
 	FILE * dllTest;
 	//dllTest=fopen("dllTest.txt","w");
-  	f = fopen ("draw.txt","w");
+  	dllTest = fopen ("draw.txt","w");
 	fwrite(dllSend,sizeof(char),strlen(dllSend),dllTest);
 	fclose(dllTest);
 
