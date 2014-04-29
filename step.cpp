@@ -59,6 +59,6 @@ int main(){
 	f->pframe =0;
 	f->sstack=(stack **) malloc(sizeof(stack *)*10);
 	cstack::thiscstack.push(f);
-	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl 0.5,//assg //id j = //int 5,//decassg char//id t = //char 'c'");
+	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl 0.5,//assg //id j = //int 5,//decassg char//id t = //char 'c',//call //id scanf//arg //word \"%c\"//arg //id t");
 	cstack::thiscstack.printframe(f);
 }
