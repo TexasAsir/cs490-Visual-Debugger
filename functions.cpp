@@ -230,18 +230,91 @@ void * executeStatement::execute(){
 			}
 		}
 	
-		/*if(!strcmp(i,"scanf")){
+		if(!strcmp(id,"scanf")){
 		//TODO					
-		char * input=(char *)execute();
+			char * input=(char *)execute();
+			int ret;
 			while(*input){
 				if(*input != '%'){
-					char tmp[2];
-					tmp[1]=0;
-					tmp[0]=*input;
-					if(scanf(tmp))
+					//scanf
+					char ch[2];
+					ch[0] = *input;
+					ch[1] = 0;
+					scanf(ch);	
 				}
+				else{
+					input++;
+					if(*input=='d'){
+						if(strncmp(statement,"//arg",5)){
+							printf("not enough arguments to scanf\n");
+							return (void *)-1;
+						}
+						if(!strncmp("//id",statement+6,4)){
+							char * c = (char*)execute();
+							frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+							int f = cstack::thiscstack.find(curframe,c);
+							printf("f = %d\n",f);
+							stack *s = curframe->sstack[f];
+							void* v = s->var.value;
+							printf("%x\n",s->var.value);
+							ret += scanf("%d",v);
+							printf("v = %d\n",*(int*)v);
+						}
+						else{
+							int * arg=(int *)execute();
+							ret += scanf("%d",arg);
+						}
+					}
+					if(*input=='l'&&*(input+1)=='f'){
+						if(strncmp(statement,"//arg",5)){
+							printf("not enough arguments to scanf\n");
+							return (void *)-1;
+						}
+						if(!strncmp("//id",statement+6,4)){
+							char * c = (char*)execute();
+							frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+							int f = cstack::thiscstack.find(curframe,c);
+							printf("f = %d\n",f);
+							stack *s = curframe->sstack[f];
+							void* v = s->var.value;
+							printf("%x\n",s->var.value);
+							ret += scanf("%lf", v);
+							printf("v = %lf\n",*(double*)v);
+						}
+						else{
+							int * arg=(int *)execute();
+							ret += scanf("%lf",arg);
+						}
+						input++;
+					}
+				}
+				if(*input=='c'){
+						if(strncmp(statement,"//arg",5)){
+							printf("not enough arguments to scanf\n");
+							return (void *)-1;
+						}
+						if(!strncmp("//id",statement+6,4)){
+							printf("statement = %s\n",statement+6);
+							char * c = (char*)execute();
+							frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+							int f = cstack::thiscstack.find(curframe,c);
+							printf("f = %d\n",f);
+							stack *s = curframe->sstack[f];
+							void* v = s->var.value;
+							printf("%x\n",s->var.value);
+							scanf("%c",v);
+							ret += scanf("%c",v);
+							printf("v = %c\n",*(char*)v);
+						}
+						else{
+							int * arg=(int *)execute();
+							ret += scanf("%c",arg);
+						}
+						
+				}
+				input++;
 			}
-		}*/
+		}
 	}
 	if(!strcmp(expression,"arg")){
 		statement+=6;

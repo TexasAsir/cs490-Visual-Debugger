@@ -11,7 +11,7 @@ lex.yy.o: lex.yy.c
 stack.o: stack.cpp stack.h 
 	g++ stack.cpp -c
 functions.o: functions.cpp functions.h
-	g++ -c functions.cpp
+	g++ -c -w functions.cpp
 step: step.cpp step.h functions.h stack.o functions.o viz.cc
 	g++ -o step -w step.cpp functions.o stack.o
 prog: y.tab.c y.tab.h lex.yy.o stack.o
