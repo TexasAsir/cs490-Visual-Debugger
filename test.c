@@ -72,4 +72,5 @@ int main(){
 		x++;
 	}
 	printf("x = %d %d\n",x,sizeof(const int *));
+	scanf("asdf %c\n",&c);
 }

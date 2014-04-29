@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "stack.h"
+//#include "stack.h"
 #include <stdlib.h>
 #include <iostream>
 #include <string.h>
@@ -585,16 +585,16 @@ void viz(union stack * s){
 			printf("%d\n",*(int *)(v->value));	
 		}
 		else if(strcmp(v->type,"double")==0){
-			printf("%lf\n",*(int *)(v->value));	
+			printf("%lf\n",*(double *)(v->value));	
 		}
 		else if(strcmp(v->type,"char")==0){
-			printf("%c\n",*(int *)(v->value));	
+			printf("%c\n",*(char *)(v->value));	
 		}
 		else if(strcmp(v->type,"float")==0){
-			printf("%f\n",*(int *)(v->value));	
+			printf("%f\n",*(float *)(v->value));	
 		}
 		else if(strcmp(v->type,"string")==0){
-			printf("%s\n",*(int *)(v->value));	
+			printf("%s\n",(char *)(v->value));	
 		}
 		else{
 			printf("Invalid Variable");
@@ -667,7 +667,7 @@ void sendBTree(){
 }
 
 
-int main(){
+//int main(){
 
 
 	/*
@@ -681,7 +681,7 @@ int main(){
 
 //print a simple variable
 	//File *f;
-	int test=5;
+	/*int test=5;
 	varble v;
 	v.ident=0;
 	v.name="test";
@@ -973,3 +973,4 @@ int main(){
 
 
 }
+*/
