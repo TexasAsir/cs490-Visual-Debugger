@@ -224,18 +224,34 @@ void * executeStatement::execute(){
 			}
 		}
 	
-		/*if(!strcmp(i,"scanf")){
+		if(!strcmp(i,"scanf")){
 		//TODO					
-		char * input=(char *)execute();
+			char * input=(char *)execute();
+			int ret;
 			while(*input){
+				
 				if(*input != '%'){
-					char tmp[2];
-					tmp[1]=0;
-					tmp[0]=*input;
-					if(scanf(tmp))
+					if(strncmp("//id",statement,4)){
+						char * c = (char*)execute();
+						frame curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+						int f = cstack::thiscstack.find(curframe,c);
+						stack *s = curframe->sstack[f];
+						void* v = s->var->value;
+						ret += scanf("%d",v);
+					}
+					else{
+						int * arg=(int *)execute();
+						ret += scanf("%d",arg);
+					}
+					
 				}
+				else{
+					//scanf
+					scanf(*input);
+				}
+				input++;
 			}
-		}*/
+		}
 	}
 	if(!strcmp(expression,"arg")){
 		statement+=6;
