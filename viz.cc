@@ -14,6 +14,11 @@ int height;
 void *prevList[10];
 void *nextList[10];
 
+char dllSend[1000];
+
+char sllSend[1000];
+
+
 
 void printStack(int index, int offset){
 	//You need to compile as
@@ -205,7 +210,7 @@ void printBTree(struct sstruct *s){
 
 
 void enqueSLL(struct varble * v, int count){
-		printf("[type]    [name]      [value]-------->\n");
+	printf("[type]    [name]      [value]-------->\n");
 		for(int i=0;i<count;i++){
 			printf("%s\t%s\t",v[i].type,v[i].name);
 			if(strcmp(v[i].type,"int")==0){
@@ -242,8 +247,57 @@ void enqueSLL(struct varble * v, int count){
 
 }
 
+
+void printNode(struct sstruct *s){
+	char header[300];
+	sprintf(header,"struct %s [%s]\n[type]	[name]	[value]\n",s->type,s->name);
+	//printf("[type]    [name]      [value]\n");
+	strcat(dllSend,header);
+	char typeName[100];
+	char var[100];
+	for(int i=0;s->var[i+1]!=NULL;i++){
+		sprintf(typeName,"%s	%s	",s->var[i]->type,s->var[i]->name);
+		strcat(dllSend,typeName);
+		
+		if(strcmp(s->var[i]->type,"int")==0){
+			sprintf(var,"%d\n",(int *)(s->var[i]->value));	
+		}
+		else if(strcmp(s->var[i]->type,"double")==0){
+			sprintf(var,"%lf\n",(int *)(s->var[i]->value));	
+		}
+		else if(strcmp(s->var[i]->type,"char")==0){
+			sprintf(var,"%c\n",(int *)(s->var[i]->value));	
+		}
+		else if(strcmp(s->var[i]->type,"float")==0){
+			sprintf(var,"%f\n",(int *)(s->var[i]->value));	
+		}
+		else if(strcmp(s->var[i]->type,"string")==0){
+			sprintf(var,"%s\n",(int *)(s->var[i]->value));	
+		}
+		else{
+			if(s->var[i]->value==NULL){
+				sprintf(var,"%s","NULL\n");
+				//continue;
+			}
+			else{
+				sprintf(var,"%p\n",s->var[i]->value);
+			}
+		}
+		strcat(dllSend,var);
+	}
+
+
+}
+
+
+
+
+
+
+
 void printSLL(struct sstruct *s){
 	//printf("Made it here\n");
+
 	printf("-------struct %s [%s]------------\n",s->type,s->name);
 	varble * v=new varble[10];
 	int count=0;
@@ -253,13 +307,20 @@ void printSLL(struct sstruct *s){
 		v[i].value=(void *)s->var[i]->value;
 		count++;
 	}
+		//char header[50];
+		//sprintf(header,"#!SLL\nnum vars %d\n",count);
+		//strcat(dllSend,header);
 		int next=-1;
+		char var[50];
 		for(int i=0;i<count;i++){
 			//printf("Type\t%s\n",v[i].type);
 			//printf("Name\t%s\n",v[i].name);
 			//printf("Value\t");
 			if(strcmp(v[i].type,"int")==0){
 				//printf("%d",(int *)v[i].value);
+				//sprintf(var,"%s\t%s\t%d\n",v[i].type,v[i].name,(int *)v[i].value);
+				//strcat(dllSend,var);	
+
 			}
 			else if(strcmp(v[i].type,"double")==0){
 				//printf("%lf",(double *)v[i].value);
@@ -295,11 +356,13 @@ void printSLL(struct sstruct *s){
 		
 		if(next!=-1){
 			//	printf("SCOOOBY DOOBY DOOO!!!!!!!!!!\n");
-				enqueSLL(v,count);
+				//enqueSLL(v,count);
+				printNode(s);
 				printSLL((sstruct *)v[next].value);
 		}	
 		else{
 				printf("\n\n");
+				printNode(s);
 				enqueSLL(v,count);
 		}		
 
@@ -347,38 +410,7 @@ void printArray(struct sstruct *s, int * ptr){
 */
 
 
-void printNode(struct sstruct *s){
-	printf("-------struct %s [%s]------------\n",s->type,s->name);
-	printf("[type]    [name]      [value]\n");
-	for(int i=0;s->var[i+1]!=NULL;i++){
-		printf("%s		%s		",s->var[i]->type,s->var[i]->name);
-		if(strcmp(s->var[i]->type,"int")==0){
-			printf("%d\n",(int *)(s->var[i]->value));	
-		}
-		else if(strcmp(s->var[i]->type,"double")==0){
-			printf("%lf\n",(int *)(s->var[i]->value));	
-		}
-		else if(strcmp(s->var[i]->type,"char")==0){
-			printf("%c\n",(int *)(s->var[i]->value));	
-		}
-		else if(strcmp(s->var[i]->type,"float")==0){
-			printf("%f\n",(int *)(s->var[i]->value));	
-		}
-		else if(strcmp(s->var[i]->type,"string")==0){
-			printf("%s\n",(int *)(s->var[i]->value));	
-		}
-		else{
-			if(s->var[i]->value==NULL){
-				printf("NULL\n");
-				continue;
-			}
-			printf("%p\n",s->var[i]->value);
-		}
 
-	}
-
-
-}
 
 
 
@@ -496,7 +528,7 @@ void printDLL(struct sstruct *s){
 	printf("\n");
 
 
-
+strcat(dllSend,"#!DLL\n");
 //print through the previous nodes
 
 	for(int i=0;i<10;i++){
@@ -533,7 +565,6 @@ void printDLL(struct sstruct *s){
 
 
 }
-
 
 
 
@@ -578,6 +609,13 @@ void viz(union stack * s){
 		//is a structure
 		struct sstruct *st=(sstruct*)s;
 		if(strcmp(st->label,"SLL")==0){
+			//char header[50];
+		//sprintf(header,"#!SLL\nnum vars %d\n",count);
+		//strcat(dllSend,header);
+			char lable[10];		
+			sprintf(lable,"#!SLL\n");
+			strcat(dllSend,lable);
+
 			printSLL(st);
 		}
 		else if(strcmp(st->label,"DLL")==0){
@@ -605,7 +643,28 @@ void viz(union stack * s){
 
 }
 
+void sendBTree(){
+	FILE * f;
+  	//f = fopen ("bTreeTest.txt","w");
+  	f = fopen ("draw.txt","w");
+	char buffer[1500];
+	sprintf(buffer,"#!BTREE\nNum Nodes %d\nHeight %d\n",numNodes,height);
+	int upper=pow(2,height+1);
 
+	fwrite(buffer,sizeof(char),strlen(buffer),f);
+	char buffB[10];
+	for(int i=0;i<upper;i++){
+
+		sprintf(buffB,"%d\n",tree[i]);
+		fwrite(buffB,sizeof(char),strlen(buffB),f);
+
+	}
+	sprintf(buffB,"---\n");
+	fwrite(buffB,sizeof(char),strlen(buffB),f);
+	fclose(f);
+
+
+}
 
 
 int main(){
@@ -684,6 +743,17 @@ int main(){
 	stack *two=(stack*)&array;
 
 	viz(two);
+	printf("\n\n\n\n");
+	printf("%s\n",dllSend);
+
+	FILE * sllTest;
+	//sllTest=fopen("sllTest.txt","w");
+  	f = fopen ("draw.txt","w");
+	fwrite(dllSend,sizeof(char),strlen(dllSend),sllTest);
+	fclose(sllTest);
+
+
+	memset (dllSend,0,strlen(dllSend));
 
 
 
@@ -884,5 +954,22 @@ int main(){
 
 	stack * five=(stack*)&dTest;
 	viz(five);
+
+	sendBTree();
+
+	printf("\n\n\n\n\n\n");
+	printf("This is the string that is being sent to the vizuallizer\n");
+	printf("%s\n",dllSend);
+
+	FILE * dllTest;
+	//dllTest=fopen("dllTest.txt","w");
+  	f = fopen ("draw.txt","w");
+	fwrite(dllSend,sizeof(char),strlen(dllSend),dllTest);
+	fclose(dllTest);
+
+
+	memset (dllSend,0,strlen(dllSend));
+
+
 
 }
