@@ -179,7 +179,8 @@ void * executeStatement::execute(){
 		return mmfun(l);
 	}
 	if(!strcmp(expression,"dot")){
-
+		statement+=6;
+		
 	}
 	if(!strcmp(expression,"arrow")){
 

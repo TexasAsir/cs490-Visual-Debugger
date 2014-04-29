@@ -106,10 +106,11 @@ postfix_expression
 	}
 	| postfix_expression DOT IDENTIFIER{
 		int size = strlen($<wd>$)+strlen($<wd>3);
-		size=size+7;
+		size=size+8;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dot ");
 		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$, " ");
 		strcat($<wd>$,$<wd>3);
 		printf("DOT %s\n",$<wd>$);
 	}

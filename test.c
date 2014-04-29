@@ -62,6 +62,8 @@ int main(){
 	}*/
 	//const int j;//TODO fix
 	int j,x;
+	struct varble v;
+	v.ident=0;
 	int x = 0;
 	int i = 0;
 	char c='\n';
