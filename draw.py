@@ -11,8 +11,7 @@ def func():
 	rect=Rectangle(Point(20,10),pt)
 	rect.draw(win)
 	x=1
-	while x>0:
-		pass
+	win.getMouse()
 	win.close()
 
 
@@ -100,9 +99,7 @@ def SLL(lines):
 	#boxSize=numVars * 3200
 	
 
-	infinity=1
-	while infinity>0:
-		pass
+	win.getMouse()
 	win.close()
 	
 	
@@ -197,9 +194,10 @@ def DLL(lines):
 		label.draw(win)
 
 
-	infinity=0
-	while infinity==0:
-		pass
+	#infinity=0
+	#while infinity==0:
+		#pass
+	win.getMouse()
 	win.close()
 
 def BTREE(lines):
@@ -738,8 +736,8 @@ def BTREE(lines):
 
 		index+=1
 
-	while infinity==1:
-		pass
+		win.getMouse()
+		win.close()
 
 
 def main():

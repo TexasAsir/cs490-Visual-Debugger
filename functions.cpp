@@ -45,7 +45,9 @@ int myfclose(FILE * cfile){
 	return fclose(cfile);
 }
 char * statement;
+void * nullvalue;
 executeStatement::executeStatement(char * statement){
+	nullvalue=malloc(4);
 	this->statement=statement;
 }
 void executeStatement::setStatement(char * statement){
@@ -490,6 +492,7 @@ void * executeStatement::execute(){
 		c[j]=0;
 		statement+=j;
 		v->name=strdup(c);
+		v->value=nullvalue;
 		printf("name %s\n",c);
 		printf("s %x curframe %x\n",s,curframe);
 		cstack::thiscstack.pushsstack(s,curframe);

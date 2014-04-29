@@ -34,6 +34,7 @@ struct cstack{
 	int funcmax ;
 	int funcount;
 	frame **fframe;
+	frame *curframe;
 	int stacksize;
 	int maxsize;
 	cstack();
