@@ -11,10 +11,11 @@ struct function{
 	char *name;
 };
 struct sstruct{
-	char * label;
 	int ident;
 	char * name;
+	char * label;
 	char * type;
+	int size;
 	varble **var;
 };
 union stack{
@@ -23,8 +24,10 @@ union stack{
 };
 
 struct frame{
-	stack * sstack;
-	frame * pframe;
+	stack ** sstack;//array of variables/structs
+	int stacksize;
+	int maxsize;
+	frame * pframe;//previous frame
 };
 struct cstack{
 	function **funcs;
@@ -37,5 +40,9 @@ struct cstack{
 	void push(frame *aframe);
 	void pop();
 	frame * getframe(int i);
+	int find(frame * f, char * var);
+	int findstruct(frame * f, char * var);
+	void pushsstack(stack * s, frame *f);
+	void printframe(frame *f);
 	static cstack thiscstack;
 };

@@ -187,14 +187,14 @@ unary_expression
 		strcat($<wd>$,$<wd>2);
 		printf("unop %s\n",$<wd>$);	
 	}
-	| SIZEOF unary_expression{
+	/*| SIZEOF OPENPAR type_name superstar CLOSEPAR{//waht
 		int size = strlen($<wd>2);
 		size=size+10;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//sizeof ");
 		strcat($<wd>$,$<wd>2);
 		printf("sizeof %s\n",$<wd>$);
-	}
+	}*/
 	| SIZEOF OPENPAR type_name CLOSEPAR{
 		int size = strlen($<wd>3);
 		size=size+14;
@@ -204,7 +204,6 @@ unary_expression
 		printf("sizeoftype %s\n",$<wd>$);
 	}
 	;
-
 unary_operator
 	: STAR{
 		//printf("pointer dereferenced\n");
@@ -457,7 +456,7 @@ assignment_operator
 
 expression
 	: assignment_expression
-	| expression COMMA assignment_expression
+	| expression COMMA assignment_expression//TODO
 	;
 
 constant_expression
@@ -465,13 +464,14 @@ constant_expression
 	;
 
 declaration
-	: declaration_specifiers SEMICOLON
+	: declaration_specifiers SEMICOLON//TODO
 	| declaration_specifiers init_declarator_list SEMICOLON{
 		int size = strlen($<wd>2)+strlen($<wd>1);
-		size=size+6;
+		size=size+7;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dec ");
 		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>2);
 		printf("dec %s\n",$<wd>$);
 		
@@ -480,11 +480,11 @@ declaration
 	}
 	;
 
-declaration_specifiers
+declaration_specifiers//TODO
 	: storage_class_specifier
 	| storage_class_specifier declaration_specifiers
 	| type_specifier STAR{
-		printf("pointer declared\n");
+		$<wd>$="int *";
 	}
 	| type_specifier
 	| type_specifier declaration_specifiers 
@@ -492,14 +492,14 @@ declaration_specifiers
 	| type_qualifier declaration_specifiers 
 	;
 
-init_declarator_list
+init_declarator_list//TODO
 	: init_declarator{
 		//printf("declarator %s\n",$<wd>1);
 	}
 	| init_declarator_list COMMA init_declarator
 	;
 
-init_declarator
+init_declarator//TODO idk waht these are
 	: declarator{
 		//printf("declarator UUUUUUUUUU\n");
 	}
@@ -511,7 +511,7 @@ init_declarator
 	}
 	;
 
-storage_class_specifier
+storage_class_specifier//TODO
 	: TYPEDEF
 	| STATIC
 	;
@@ -582,7 +582,7 @@ struct_declaration_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$,",");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -590,20 +590,30 @@ struct_declaration_list
 struct_declaration
 	: specifier_qualifier_list struct_declarator_list SEMICOLON{
 		int size = strlen($<wd>2)+strlen($<wd>1);
-		size=size+7;
+		size=size+9;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dec ");
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$," ");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
 		printf("dec %s\n",$<wd>$);
 	}
 	;
 
 specifier_qualifier_list
-	: type_specifier specifier_qualifier_list
+	: type_specifier specifier_qualifier_list{
+		int size = strlen($<wd>2)+strlen($<wd>1);
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+	}
 	| type_specifier
-	| type_qualifier specifier_qualifier_list
+	| type_qualifier specifier_qualifier_list{
+		int size = strlen($<wd>2)+strlen($<wd>1);
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+	}
 	| type_qualifier
 	;
 
@@ -618,13 +628,13 @@ struct_declarator//might need changed?
 	| declarator ':' constant_expression
 	;
 
-enum_specifier
+enum_specifier//TODO
 	: ENUM OPENBRACE enumerator_list CLOSEBRACE
 	| ENUM IDENTIFIER OPENBRACE enumerator_list CLOSEBRACE
 	| ENUM IDENTIFIER
 	;
 
-enumerator_list
+enumerator_list//TODO
 	: enumerator
 	| enumerator_list COMMA enumerator
 	;
@@ -651,15 +661,17 @@ enumerator
 	;
 
 type_qualifier
-	: CONST
+	: CONST{
+		$<wd>$="const ";
+	}
 	;
 
 declarator
 	: pointer direct_declarator{
 		int size = strlen($<wd>2);
-		size=size+10;
+		size=size+3;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//pointer ");
+		strcat($<wd>$,"* ");
 		strcat($<wd>$,$<wd>2);
 		printf("pointer %s\n",$<wd>$);
 	}
@@ -668,84 +680,104 @@ declarator
 	;
 
 direct_declarator
-	: IDENTIFIER {
+	: IDENTIFIER {//TODO
 	}
-	| OPENPAR declarator CLOSEPAR
-	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET{
+	| OPENPAR declarator CLOSEPAR//TODO
+	| direct_declarator OPENBRACKET constant_expression CLOSEBRACKET{//TODO
 		
 	}
-	| direct_declarator OPENBRACKET CLOSEBRACKET{
+	| direct_declarator OPENBRACKET CLOSEBRACKET{//TODO
 		
 	}
-	| direct_declarator OPENPAR parameter_type_list CLOSEPAR
-	| direct_declarator OPENPAR identifier_list CLOSEPAR
-	| direct_declarator OPENPAR CLOSEPAR{
+	| direct_declarator OPENPAR parameter_type_list CLOSEPAR//TODO
+	| direct_declarator OPENPAR identifier_list CLOSEPAR//TODO
+	| direct_declarator OPENPAR CLOSEPAR{//TODO
 		
 	}
 	;
 
 pointer
-	: STAR
-	| STAR type_qualifier_list
-	| STAR pointer
-	| STAR type_qualifier_list pointer
+	: STAR{
+		$<wd>$="*";
+	}
+	| STAR type_qualifier_list//TODO
+	| STAR pointer{
+		int size = strlen($<wd>2);
+		size=size+2;
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,"*");
+		strcat($<wd>$,$<wd>2);
+		//printf("\n\n\n\n\nSHIT\n\n\n\n\n");
+	}
+	| STAR type_qualifier_list pointer{//TODO
+		printf("\n\n\n\n\nSHIT1\n\n\n\n\n");	
+	}
 	;
 
 type_qualifier_list
 	: type_qualifier
-	| type_qualifier_list type_qualifier
+	| type_qualifier_list type_qualifier{//TODO
+		printf("\n\n\n\n\nSHIT\n\n\n\n\n");
+	}
 	;
 
 
 parameter_type_list//no ellipsis
 	: parameter_list
-	| parameter_list COMMA
+	| parameter_list COMMA//might not be needed TODO
 	;
 
 parameter_list
 	: parameter_declaration
-	| parameter_list COMMA parameter_declaration
+	| parameter_list COMMA parameter_declaration//TODO
 	;
 
 parameter_declaration
-	: declaration_specifiers declarator
-	| declaration_specifiers abstract_declarator
+	: declaration_specifiers declarator//TODO
+	| declaration_specifiers abstract_declarator//TODO
 	| declaration_specifiers
 	;
 
 identifier_list
 	: IDENTIFIER
-	| identifier_list COMMA IDENTIFIER
+	| identifier_list COMMA IDENTIFIER//TODO
 	;
 
 type_name
 	: specifier_qualifier_list
-	| specifier_qualifier_list abstract_declarator
+	| specifier_qualifier_list abstract_declarator{
+		int size = strlen($<wd>2) + strlen($<wd>1);
+		$<wd>$=(char *)malloc(sizeof(char)*size);
+		strcat($<wd>$,$<wd>1);
+		strcat($<wd>$,$<wd>2);
+	}
 	;
 
 abstract_declarator
 	: pointer
-	| direct_abstract_declarator
-	| pointer direct_abstract_declarator {
-		printf("hi?\n");
+	| direct_abstract_declarator{
+		printf("hello?\n");
+	}
+	| pointer direct_abstract_declarator {//TODO
+		printf("does this shit get called?\n");
 	}
 	;
 
 direct_abstract_declarator
-	: OPENPAR abstract_declarator CLOSEPAR
+	: OPENPAR abstract_declarator CLOSEPAR//TODO
 	| OPENBRACKET CLOSEBRACKET
-	| OPENBRACKET constant_expression CLOSEBRACKET{
+	| OPENBRACKET constant_expression CLOSEBRACKET{//TODO
 		printf("why god why %s\n",$<wd>1);
 	}
-	| direct_abstract_declarator OPENBRACKET CLOSEBRACKET
-	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET{
+	| direct_abstract_declarator OPENBRACKET CLOSEBRACKET//TODO
+	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET{//TODO
 		printf("why god why %s\n",$<wd>1);
 	}
 	| OPENPAR CLOSEPAR
-	| OPENPAR parameter_type_list CLOSEPAR
-	| direct_abstract_declarator OPENPAR CLOSEPAR{
+	| OPENPAR parameter_type_list CLOSEPAR//TODO
+	| direct_abstract_declarator OPENPAR CLOSEPAR{//TODO
 	}
-	| direct_abstract_declarator OPENPAR parameter_type_list CLOSEPAR{
+	| direct_abstract_declarator OPENPAR parameter_type_list CLOSEPAR{//TODO
 	}
 	;
 
@@ -754,7 +786,7 @@ initializer
 	| OPENBRACE initializer_list CLOSEBRACE{
 		$<wd>$=$<wd>2;
 	}
-	| OPENBRACE initializer_list COMMA CLOSEBRACE{
+	| OPENBRACE initializer_list COMMA CLOSEBRACE{//TODO
 	
 	
 	}
@@ -762,7 +794,7 @@ initializer
 
 initializer_list
 	: initializer
-	| initializer_list COMMA initializer{
+	| initializer_list COMMA initializer{//TODO
 	
 	}
 	;
@@ -800,7 +832,7 @@ array_declaration
 	}
 	;
 labeled_statement//is this needed?
-	: IDENTIFIER COLON statement
+	: IDENTIFIER COLON statement//TODO
 	;
 
 compound_statement
@@ -824,7 +856,7 @@ decstat_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -835,7 +867,7 @@ declaration_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -847,7 +879,7 @@ statement_list
 		size=size+2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$," ");
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>2);
 	}
 	;
@@ -896,12 +928,12 @@ selection_statement
 iteration_statement
 	: WHILE OPENPAR expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>5);
-		size=size+15;
+		size=size+14;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//while ");
 		strcat($<wd>$,$<wd>3);
 		strcat($<wd>$,$<wd>5);
-		strcat($<wd>$,"//endw ");
+		strcat($<wd>$,"//endw");
 		printf("while %s\n",$<wd>$);
 	}
 	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON{
@@ -916,25 +948,25 @@ iteration_statement
 	}
 	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>6);
-		size=size+15;
+		size=size+14;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>3);
 		strcat($<wd>$,"//while ");
 		strcat($<wd>$,$<wd>4);
 		strcat($<wd>$,$<wd>6);
-		strcat($<wd>$,"//endw ");
+		strcat($<wd>$,"//endw");
 		printf("while %s\n",$<wd>$);
 	}
 	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>5)+strlen($<wd>7);
-		size=size+15;
+		size=size+14;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>3);
 		strcat($<wd>$,"//while ");
 		strcat($<wd>$,$<wd>4);
 		strcat($<wd>$,$<wd>5);
 		strcat($<wd>$,$<wd>7);
-		strcat($<wd>$,"//endw ");
+		strcat($<wd>$,"//endw");
 		printf("for %s\n",$<wd>$);
 	}
 	;
@@ -976,7 +1008,7 @@ translation_unit
 
 external_declaration
 	: function_definition
-	| declaration {
+	| declaration {//TODO
 		printf("global variable %s %s\n",var[0], var[1]);
 		//(((struct varble *)globls+globalcount))->name=var[1];
 		//(((struct varble *)globls+globalcount))->type=var[0];
@@ -990,7 +1022,7 @@ external_declaration
 
 function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
-		
+		printf("does this shit get called?\n");
 	}
 	| declaration_specifiers declarator compound_statement{
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
@@ -1004,17 +1036,16 @@ function_definition
 			cstack::thiscstack.funcs = (function **)realloc(cstack::thiscstack.funcs,sizeof(function *)*cstack::thiscstack.funcmax);
 		}
 	}
-	| declarator declaration_list compound_statement{
-	
+	| declarator declaration_list compound_statement{//TODO
+		printf("does this shit get called?\n");
 	}
-	| declarator compound_statement{
-	
+	| declarator compound_statement{//TODO
+		printf("does this shit get called2?\n");
 	}
 	;
 
 %%
 #include <stdio.h>
-
 extern char yytext[];
 extern FILE * yyin;
 extern int column;
@@ -1025,4 +1056,19 @@ int yyerror(char * s)
 	////printf("error %s\n",s);
 	printf("hue\n%*s\n%*s\n", column, "^", column, s);
 }
-
+extern int expcount;
+cstack cstack::thiscstack;
+int main(int argc, char* argv[])
+{
+    /* Call the lexer, then quit. */
+    yyin = fopen(argv[1],"r");
+    expcount=0;
+    //perror("fopen");
+    //printf("input file: %s %d\n",argv[1],yyin);
+	cstack::thiscstack.funcs = (struct function **) malloc(sizeof(function *)*50);
+	cstack::thiscstack.funcmax=50;
+	cstack::thiscstack.funcount=0;
+    printf("hue%d\n",yyparse());
+    //perror("yyparse");
+    return 0;
+}
