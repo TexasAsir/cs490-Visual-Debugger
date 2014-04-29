@@ -595,7 +595,7 @@ struct_declaration
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dec ");
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$,",");//maby dont need the comma
+		strcat($<wd>$," ");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
 		printf("dec %s\n",$<wd>$);
 	}
@@ -670,9 +670,9 @@ type_qualifier
 declarator
 	: pointer direct_declarator{
 		int size = strlen($<wd>2);
-		size=size+10;
+		size=size+3;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//pointer ");
+		strcat($<wd>$,"* ");
 		strcat($<wd>$,$<wd>2);
 		printf("pointer %s\n",$<wd>$);
 	}

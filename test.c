@@ -61,6 +61,7 @@ int main(){
 		x="infinite loop";
 	}*/
 	//const int j;//TODO fix
+	int x[5];
 	int j,x;
 	struct varble v;
 	v.ident=0;

@@ -183,13 +183,16 @@ void * executeStatement::execute(){
 		
 	}
 	if(!strcmp(expression,"arrow")){
-
+		
 	}
 	if(!strcmp(expression,"index")){
-
+		
 	}
 	if(!strcmp(expression,"indexdec")){
-
+		//int x[5];
+		statement+=10;
+		//void * l = execute();
+		//return l; ?
 	}
 	if(!strcmp(expression,"call")){
 		statement+=7;
@@ -240,11 +243,79 @@ void * executeStatement::execute(){
 		return l;
 	}
 	if(!strcmp(expression,"struct")){
-		
+		statement += 9;
+		frame * curframe=cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+		sstruct *s = new sstruct;
+		int i=0;
+		while(statement[i]!='/'&&statement[i]!=0){
+			i++;
+		}
+		char * name=(char *)malloc(i+1);
+		strncpy(name,statement,i);
+		name[i]=0;
+		s->type=name;
+		//printf("name %s\n",name);
+		statement+=i;
+		varble *v = (varble *)execute();
+		s->var = (struct varble **) malloc(sizeof(varble *)*5);
+		//printf("malloc worked? %x\n",s->var);
+		int size=5;
+		s->var[0]=v;
+		//printf("statemment %s\n",statement);
+		int cursize=0;
+		while(*statement==','){
+			printf("problem?\n");
+			statement++;
+			v = (varble *)execute();
+			cursize++;
+			if(cursize>=size){
+				size*=2;
+				s->var=(varble **)realloc(s->var,sizeof(varble *)*size);
+			}
+			s->var[cursize]=v;
+			
+		}
+		printf("...\n");
+		//statement+=6;
+		s->size=cursize;
+		s->ident=1;
+		stack *st = (stack *)s;
+		cstack::thiscstack.pushsstack(st,curframe);
+		printf("!!\n");
+		return (void *)s;
 	}
 	if(!strcmp(expression,"structvar")){
-		
-	}
+		statement += 12;
+		frame * curframe=cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+		int i=0;
+		while(statement[i]!=' '&&statement[i]!=0){
+			i++;
+		}
+		char * name=(char *)malloc(i+1);
+		strncpy(name,statement,i);
+		name[i]=0;
+		printf("before find %s\n",name);
+		int ret=cstack::thiscstack.findstruct(curframe,name);
+		sstruct *s = (sstruct *)curframe->sstack[ret];
+		printf("before memcpy\n");
+		sstruct *thiss=(sstruct *)malloc(sizeof(sstruct));
+		memcpy(thiss,s,sizeof(sstruct));
+		thiss->var=(varble **)malloc(sizeof(varble*)*s->size);
+		for(int x=0;x<s->size;x++){
+			thiss->var[x]=new varble;
+			memcpy(thiss->var[x],s->var[x],sizeof(varble));
+		}
+		printf("aftuh memcpy\n");
+		statement+=i+1;
+		i=0;
+		while(statement[i]!='/'&&statement[i]!=0){
+			i++;
+		}
+		name=(char *)malloc(i+1);
+		strncpy(name,statement,i);
+		name[i]=0;
+		thiss->name=name;
+	}	
 	if(!strcmp(expression,"dbl")){
 		statement+=6;
 		char number[20];
@@ -396,15 +467,18 @@ void * executeStatement::execute(){
 		printf("type %s\n",c);
 		statement+=(j+1);
 		j=0;
-		while(statement[j]!=','&&statement[j]){
+		while(statement[j]!=','&&statement[j]){//might need to change comma to space 
 			c[j]=statement[j];
 			j++;
 		}
 		c[j]=0;
+		statement+=j;
 		v->name=strdup(c);
 		printf("name %s\n",c);
 		printf("s %x curframe %x\n",s,curframe);
 		cstack::thiscstack.pushsstack(s,curframe);
+		printf("stackpushed\n");
+		return (void *)v;
 	}
 	if(!strcmp(expression,"do")){
 		
@@ -543,6 +617,9 @@ void * executeStatement::unfun(void * l){
 }
 void * executeStatement::castfun(void * l){
 	//TODO
+	//parse for cast?
+	
+	
 }
 void * executeStatement::plusfun(void * l){
 	int * left= (int*)l;
@@ -609,61 +686,63 @@ void * executeStatement::mmfun(void * l){
 	void * retval=malloc(4);
 	*(int *) retval = (*left)--;
 	return (retval);
-}void * executeStatement::dotfun(void * l, void* r){
-
+}
+void * executeStatement::dotfun(void * l, void* r){
+	
 }
 
 void * executeStatement::arrowfun(void * l, void* r){
-
+	
 }
 void * executeStatement::indexfun(void * l, void* r){
-
+	
 }
 void * executeStatement::indexdfun(void * l, void* r){
-
-}void * executeStatement::callfun(void * l, void* r){
-
+	
+}
+void * executeStatement::callfun(void * l, void* r){
+	
 }
 void * executeStatement::argfun(void * l, void* r){
-
+	
 }
 void * executeStatement::structfun(void * l, void* r){
-
+	
 }
 void * executeStatement::structvfun(void * l, void* r){
-
+	
 }
 void * executeStatement::dblfun(void * l){
-
+	
 }
 void * executeStatement::intfun(void * l){
-
+	
 }
 void * executeStatement::ifun(void * l){
-
+	
 }
 void * executeStatement::voidfun(void * l){
-
+	
 }
 void * executeStatement::funword(void * l){
-
+	
 }
 
 void * executeStatement::assfun(void * l, void* r){
-
+	
 }
 void * executeStatement::dassfun(void * l, void* r){
-
+	
 }
 void * executeStatement::decfun(void * l, void* r){
-
+	
 }
 void * executeStatement::dofun(void * l, void* r){
-
+	
 }
 void * executeStatement::iffun(void * l, void* r){
-
+	
 }
 void * executeStatement::allkindsoffun(void * l, void* r){
-
+	
 }
