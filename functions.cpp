@@ -146,8 +146,12 @@ void * executeStatement::execute(){
 		return castfun(l);
 	}
 	if(!strcmp(expression,"unop")){
-		statement+=7;
-		void * l=execute();
+		statement+=6;
+		char x[2];
+		x[0]=*statement;
+		x[1]=0;
+		void * l=(void*)x;
+		statement+=2;
 		return unfun(l);
 	}
 	if(!strcmp(expression,"++")){
@@ -594,24 +598,42 @@ void * executeStatement::neqfun(void * l, void* r){
 }
 void * executeStatement::unfun(void * l){
 	char * left= (char *)l;
-	void * retval=malloc(4);			
+			
 	if(!strcmp(left,"*")){
+		void * retval=(void *)malloc(4);	
+		char * name=(char *)execute();
+		frame * curframe=cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+		int ret=cstack::thiscstack.find(curframe,name);
+		stack *s = curframe->sstack[ret];
+		*(double *)retval=*(double*)s->var.value;
+		return retval;
 		//*(int *) retval = *(int *)(*left);
 		//return (retval);
 	}
 	if(!strcmp(left,"&")){
+		void ** retval=(void **)malloc(4);	
+		char * name=(char *)execute();
+		frame * curframe=cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+		int ret=cstack::thiscstack.find(curframe,name);
+		stack *s = curframe->sstack[ret];
+		*retval=s->var.value;
+		return retval;
 		//*(int *) retval = *(int *)(*left);
 		//return (retval);
+		
 	}
 	if(!strcmp(left,"+")){
+		void * retval=(void *)malloc(4);
 		*(int *) retval = +*(int *)(left);
 		return (retval);
 	}
 	if(!strcmp(left,"-")){
+		void * retval=(void *)malloc(4);
 		*(int *) retval = -*(int *)(left);
 		return (retval);
 	}
 	if(!strcmp(left,"!")){
+		void * retval=(void *)malloc(4);
 		*(int *) retval = !*(int *)(left);
 		return (retval);
 	}

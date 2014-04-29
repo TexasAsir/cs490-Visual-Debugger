@@ -708,17 +708,14 @@ pointer
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"*");
 		strcat($<wd>$,$<wd>2);
-		//printf("\n\n\n\n\nSHIT\n\n\n\n\n");
 	}
 	| STAR type_qualifier_list pointer{//TODO
-		printf("\n\n\n\n\nSHIT1\n\n\n\n\n");	
 	}
 	;
 
 type_qualifier_list
 	: type_qualifier
 	| type_qualifier_list type_qualifier{//TODO
-		printf("\n\n\n\n\nSHIT\n\n\n\n\n");
 	}
 	;
 
