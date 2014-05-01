@@ -19,13 +19,17 @@
 %{
 	//#include "functions.cpp"
 	#include <stdio.h>
+	#include <stdlib.h>
 	#include "stack.h"
 	#include <string.h>
+	#include <math.h>  
 	extern "C" int yylex();
 	extern int linecount;
 	int expcount;
 	char * var[2];
 	int yyerror(char* s);
+	int whilecount;
+	int ifcount;
 	//struct varble** globls;
 	//int globalcount =0;
 	//int globalmax =100;
@@ -128,7 +132,7 @@ postfix_expression
 		size=size+8;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//++pf ");
-		strcat($<wd>$,$<wd>2);
+		strcat($<wd>$,$<wd>1);
 		printf("pppp %s\n",$<wd>$);
 	}
 	| postfix_expression MINUSMINUS{
@@ -899,26 +903,52 @@ include_expression
 selection_statement
 	: IF OPENPAR expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>5);
-		size=size+12;
+		size=size+14;
+		int wcount=ifcount;
+		ifcount++;
+		int countlen=log10(wcount);
+		countlen++;
+		char wstring[countlen+1];
+		sprintf(wstring,"%d",wcount);
+		size+=countlen*2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//if ");
+		strcat($<wd>$,"//if");
+		strcat($<wd>$,wstring);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>5);
-		strcat($<wd>$,"//endf ");
+		strcat($<wd>$,",");
+		strcat($<wd>$,"//endf");
+		strcat($<wd>$,wstring);
 		printf("if %s\n",$<wd>$);
 	
 	
 	}
 	| IF OPENPAR expression CLOSEPAR statement ELSE statement{
 		int size = strlen($<wd>3)+strlen($<wd>5)+strlen($<wd>7);
-		size=size+19;
+		size=size+22;
+		int wcount=ifcount;
+		ifcount++;
+		int countlen=log10(wcount);
+		countlen++;
+		char wstring[countlen+1];
+		sprintf(wstring,"%d",wcount);
+		size+=countlen*3;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//if ");
+		strcat($<wd>$,"//if");
+		strcat($<wd>$,wstring);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>5);
-		strcat($<wd>$,"//else ");
+		strcat($<wd>$,",");
+		strcat($<wd>$,"//else");
+		strcat($<wd>$,wstring);
 		strcat($<wd>$,$<wd>7);
-		strcat($<wd>$,"//ende ");
+		strcat($<wd>$,",");
+		strcat($<wd>$,"//ende");
+		strcat($<wd>$,wstring);
 		printf("ifelse %s\n",$<wd>$);
 	}
 	;
@@ -926,12 +956,25 @@ selection_statement
 iteration_statement
 	: WHILE OPENPAR expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>5);
-		size=size+14;
+		size=size+17;
+		int wcount=whilecount;
+		whilecount++;
+		int countlen=log10(wcount);
+		countlen++;
+		char wstring[countlen+1];
+		sprintf(wstring,"%d",wcount);
+		size+=countlen*2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"//while ");
+		
+		strcat($<wd>$,"//while");
+		strcat($<wd>$,wstring);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>3);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
+		strcat($<wd>$,wstring);
 		printf("while %s\n",$<wd>$);
 	}
 	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON{
@@ -946,25 +989,52 @@ iteration_statement
 	}
 	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>6);
-		size=size+14;
+		size=size+19;
+		int wcount=whilecount;
+		whilecount++;
+		int countlen=log10(wcount);
+		countlen++;
+		char wstring[countlen+1];
+		sprintf(wstring,"%d",wcount);
+		size+=countlen*2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>3);
-		strcat($<wd>$,"//while ");
+		strcat($<wd>$,",");
+		strcat($<wd>$,"//while");
+		strcat($<wd>$,wstring);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>4);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>6);
+		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
+		strcat($<wd>$,wstring);
 		printf("while %s\n",$<wd>$);
 	}
 	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>5)+strlen($<wd>7);
-		size=size+14;
+		size=size+19;
+		int wcount=whilecount;
+		whilecount++;
+		int countlen=log10(wcount);
+		countlen++;
+		char wstring[countlen+1];
+		sprintf(wstring,"%d",wcount);
+		size+=countlen*2;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,$<wd>3);
-		strcat($<wd>$,"//while ");
+		strcat($<wd>$,",");
+		strcat($<wd>$,"//while");
+		strcat($<wd>$,wstring);
+		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>4);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>5);
+		strcat($<wd>$,",");
 		strcat($<wd>$,$<wd>7);
+		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
+		strcat($<wd>$,wstring);
 		printf("for %s\n",$<wd>$);
 	}
 	;
@@ -1061,6 +1131,8 @@ int main(int argc, char* argv[])
     /* Call the lexer, then quit. */
     yyin = fopen(argv[1],"r");
     expcount=0;
+    whilecount=1;
+    ifcount=1;
     //perror("fopen");
     //printf("input file: %s %d\n",argv[1],yyin);
 	cstack::thiscstack.funcs = (struct function **) malloc(sizeof(function *)*50);

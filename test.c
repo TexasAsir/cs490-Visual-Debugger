@@ -62,14 +62,22 @@ int main(){
 	}*/
 	//const int j;//TODO fix
 	int x[5];
-	int j,x;
+	int j,a;
+	while(j<5){
+		j=j+1;
+	}
 	struct varble v;
 	v.ident=0;
-	int x = 0;
-	int i = 0;
+	int x = 0++;
+	int a=j+1;
+	
 	char c='\n';
+	int i;
 	for(i = 0; i < 5; i++){
 		x++;
+	}
+	if(i<6){
+		i++;
 	}
 	printf("x = %d %d\n",x,sizeof(const int *));
 	scanf("asdf %c\n",&c);

@@ -64,80 +64,366 @@ void * executeStatement::execute(){
 	//printf("expression %s statement %s\n",expression,statement);
 	if(!strcmp(expression,"add")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return addfun(l,r);
 	}
 	if(!strcmp(expression,"mul")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return mulfun(l,r);
 	}
 	if(!strcmp(expression,"sub")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return subfun(l,r);
 	}
 	if(!strcmp(expression,"mod")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return modfun(l,r);
 	}
 	if(!strcmp(expression,"div")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return divfun(l,r);
 	}
 	if(!strcmp(expression,"and")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return andfun(l,r);
 	}
 	if(!strcmp(expression,"or")){
 		statement+=5;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return orfun(l,r);
 	}
 	if(!strcmp(expression,"less")){
 		statement+=7;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return lessfun(l,r);
 	}
 	if(!strcmp(expression,"gt")){
 		statement+=5;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return gtfun(l,r);
 	}
 	if(!strcmp(expression,"le")){
 		statement+=5;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return lefun(l,r);
 	}
 	if(!strcmp(expression,"ge")){
 		statement+=5;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return gefun(l,r);
 	}
 	if(!strcmp(expression,"eqeq")){
 		statement+=7;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return eqfun(l,r);
 	}
 	if(!strcmp(expression,"neq")){
 		statement+=6;
-		void * l=execute();
-		void * r=execute();
+		void * l;
+		void * r;
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+			}
+		}
+		else
+			l=execute();
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				r = s->var.value;
+			}
+		}
+		else
+			r=execute();
 		return neqfun(l,r);
 	}
 	if(!strcmp(expression,"cast")){
@@ -156,13 +442,72 @@ void * executeStatement::execute(){
 	}
 	if(!strcmp(expression,"++")){
 		statement+=5;
-		void * l=execute();
-		return plusfun(l);
+		void * l;
+		void * retval=malloc(8);
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+				if(!strcmp(s->var.type,"double")){
+					//s->var.value=ppfun(l);
+					double * left= (double*)l;
+					(*left)++;
+					*(double *)retval=*(double *)s->var.value;
+				}
+				else if(!strcmp(s->var.type,"int")){
+					//s->var.value=ppfun(l);
+					int * left= (int*)l;
+					(*left)++;
+					*(int *)retval=*(int *)s->var.value;
+				}//extend to work with pointers
+				printf("ppret %d l %d\n",*(int *)s->var.value,*(int *)l);
+			}
+			
+		}
+		else{
+			l=execute();
+			int * left= (int*)l;
+			(*left)++;
+			*(int *)retval=*(int *)l;	
+		}
+		return retval;
 	}
 	if(!strcmp(expression,"--")){
 		statement+=5;
-		void * l=execute();
-		return minusfun(l);
+		void * l;
+		void * retval=malloc(8);
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+				if(!strcmp(s->var.type,"double")){
+					//s->var.value=ppfun(l);
+					double * left= (double*)l;
+					(*left)--;
+					*(double *)retval=*(double *)s->var.value;
+				}
+				else if(!strcmp(s->var.type,"int")){
+					//s->var.value=ppfun(l);
+					int * left= (int*)l;
+					(*left)--;
+					*(int *)retval=*(int *)s->var.value;
+				}//extend to work with pointer
+			}
+			
+		}
+		else{
+			l=execute();
+			int * left= (int*)l;
+			(*left)--;	
+			*(int *)retval=*(int *)l;
+		}
+		return retval;
 	}
 	if(!strcmp(expression,"sizeof")){
 		statement+=9;
@@ -176,13 +521,72 @@ void * executeStatement::execute(){
 	}
 	if(!strcmp(expression,"++pf")){
 		statement+=7;
-		void * l=execute();
-		return ppfun(l);
+		void * l;
+		void * retval=malloc(8);
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+				if(!strcmp(s->var.type,"double")){
+					*(double *)retval=*(double *)s->var.value;
+					//s->var.value=ppfun(l);
+					double * left= (double*)l;
+					(*left)++;
+				}
+				else if(!strcmp(s->var.type,"int")){
+					*(int *)retval=*(int *)s->var.value;
+					//s->var.value=ppfun(l);
+					int * left= (int*)l;
+					(*left)++;
+				}//extend to work with pointers
+				printf("ppret %d l %d\n",*(int *)s->var.value,*(int *)l);
+			}
+			
+		}
+		else{
+			l=execute();
+			*(int *)retval=*(int *)l;
+			int * left= (int*)l;
+			(*left)++;	
+		}
+		return retval;
 	}
 	if(!strcmp(expression,"--pf")){
 		statement+=7;
-		void * l=execute();
-		return mmfun(l);
+		void * l;
+		void * retval=malloc(8);
+		if(!strncmp("//id",statement,4)){
+			char * name=(char *)execute();
+			frame * curframe = cstack::thiscstack.getframe(cstack::thiscstack.stacksize-1);
+			int f = cstack::thiscstack.find(curframe,name);
+			if(f>=0){
+				stack *s = curframe->sstack[f];
+				l = s->var.value;
+				if(!strcmp(s->var.type,"double")){
+					*(double *)retval=*(double *)s->var.value;
+					//s->var.value=ppfun(l);
+					double * left= (double*)l;
+					(*left)--;
+				}
+				else if(!strcmp(s->var.type,"int")){
+					*(int *)retval=*(int *)s->var.value;
+					//s->var.value=ppfun(l);
+					int * left= (int*)l;
+					(*left)--;
+				}//extend to work with pointer
+			}
+			
+		}
+		else{
+			l=execute();
+			*(int *)retval=*(int *)l;
+			int * left= (int*)l;
+			(*left)--;	
+		}
+		return retval;
 	}
 	if(!strcmp(expression,"dot")){
 		statement+=6;
@@ -773,10 +1177,7 @@ void * executeStatement::sizetfun(void * l){
 	}
 }
 void * executeStatement::ppfun(void * l){
-	int * left= (int*)l;
-	void * retval=malloc(4);
-	*(int *) retval = (*left)++;
-	return (retval);
+
 }
 
 void * executeStatement::mmfun(void * l){

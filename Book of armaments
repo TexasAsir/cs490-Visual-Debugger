@@ -3,7 +3,7 @@ while:
 //while# condition statements //endw#*
 
 if:
-"//if1//////endf1//else1///////ende1"
+"//if1////////else1///////ende1"
 //if# condition statements //endf# //else# statements //ende#*
 
 for:
