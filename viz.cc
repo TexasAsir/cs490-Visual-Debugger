@@ -5,6 +5,8 @@
 #include <string.h>
 #include <math.h>
 #include <unistd.h>
+#include <sys/types.h>
+
 
 using namespace std;
 
@@ -632,8 +634,24 @@ void viz(union stack * s){
 			printf("Invalid or unaccepted strucutre\n");
 		}
 		
-		
+		pid_t pid;
+		pid=fork();
+		if(pid==0){
+			//child process
 
+
+		    char *x[]={(char *)0};
+        	execv("draw.py",x);
+
+			//execvp("draw.py",NULL);
+			_exit(EXIT_SUCCESS);
+		}		
+		else{
+			//parent process
+		
+			
+			
+		}
 
 	}
 
@@ -666,22 +684,22 @@ void sendBTree(){
 
 }
 
+/*
+int main(){
 
-//int main(){
 
-
-	/*
+	
 		sstruct s;
 		s.ident=1;
 		s.name="n";
 		s.type="node";
-	*/
+	
 	//char * test="Gooby plz\n";
 
 
 //print a simple variable
 	//File *f;
-	/*int test=5;
+	int test=5;
 	varble v;
 	v.ident=0;
 	v.name="test";
