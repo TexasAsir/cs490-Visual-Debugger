@@ -46,4 +46,5 @@ struct cstack{
 	void pushsstack(stack * s, frame *f);
 	void printframe(frame *f);
 	static cstack thiscstack;
+	int findfunc(char *func);
 };

@@ -11,8 +11,8 @@ void step(char *body){
 	
 	while(takeinput){
 		scanf("%s",in);
-		printf("in %s\n",in);
-		printf("body %s\n",body);
+		//printf("in %s\n",in);
+		//printf("body %s\n",body);
 		if(!strcmp(in,"step")||!strcmp(in,"s")){
 			//take next step in program
 			lastcommand=1;
@@ -22,12 +22,23 @@ void step(char *body){
 				nextstep[i]=body[i];
 			}
 			nextstep[i]=0;
-			printf("nextstep %s %d\n",nextstep,i);
+			if(!strncmp(nextstep,"//struct",8)){
+				//printf("body %s %d\n",body+i,strncmp(body+i,"//ends",6));
+				nextstep[i]=body[i];
+				while(strncmp(body+i,"//ends",6)){
+					//printf("loop\n");
+					nextstep[i]=body[i];
+					i++;
+				}
+				nextstep[i]=0;
+				body+=6;
+			}
+			
 			if(!strncmp(nextstep,"//while",7)){
 				char * condition = nextstep+7;
 				char num[strlen(nextstep)];
 				int k=0;
-				printf("condition number %s\n",condition);
+				//printf("condition number %s\n",condition);
 				while(*condition!=' '&&*condition){
 					num[k]=*condition;
 					condition++;
@@ -43,10 +54,10 @@ void step(char *body){
 					k++;
 				}
 				cond[k]=0;
-				printf("while condition %s\n",cond);
+				//printf("while condition %s\n",cond);
 				executeStatement* e = new executeStatement(cond);
 				void * ret=e->execute();
-				printf("ret %d\n",*(int *)ret);
+				//printf("ret %d\n",*(int *)ret);
 				char loopbody[strlen(body)];
 				loopbody[0]=0;
 				//strcat(loopbody,nextstep);
@@ -94,7 +105,7 @@ void step(char *body){
 				char * condition = nextstep+4;
 				char num[strlen(nextstep)];
 				int k=0;
-				printf("condition number %s\n",condition);
+				//printf("condition number %s\n",condition);
 				while(*condition!=' '&&*condition){
 					num[k]=*condition;
 					condition++;
@@ -110,10 +121,10 @@ void step(char *body){
 					k++;
 				}
 				cond[k]=0;
-				printf("if condition %s\n",cond);
+				//printf("if condition %s\n",cond);
 				executeStatement* e = new executeStatement(cond);
 				void * ret=e->execute();
-				printf("ret %d\n",*(int *)ret);
+				//printf("ret %d\n",*(int *)ret);
 				if(*(int *)ret!=0){
 					char ifbody[strlen(body)];
 					ifbody[0]=0;
@@ -145,14 +156,18 @@ void step(char *body){
 						strcat(ifbody,nextstep);
 					}
 					ifbody[strlen(ifbody)-1]=0;
-					printf("ifbody %s\n",ifbody);
+					//printf("ifbody %s\n",ifbody);
 					step(ifbody);
-					body+=i+strlen(ifbody)+strlen(nextstep)+strlen(cond)+3;
-					printf("body ifsasdf %s\n",body);
+					//printf("body prejump %s\n",body);
+					body+=strlen(ifbody)+strlen(cond)+7+strlen(num)*2+6;
+					if(*body==',')
+						body++;
+					//printf("body ifsasdf %s\n  %s\n%s\n",body,ifbody,cond);
 					if(haselse){
 						ifbody[0]=0;
 						k=0;
 						wbool=1;
+						//printf("body elsesasdf %s\n",body);
 						while(wbool){
 							for(i=0;body[k]!=','&&body[k]!=0;k++,i++){
 								nextstep[i]=body[k];
@@ -163,7 +178,7 @@ void step(char *body){
 							i++;
 							nextstep[i]=0;
 							//printf("nextstep %s num %s\n",nextstep,num);
-							if(!strncmp(nextstep,"//ende",6)||!strncmp(nextstep,"//else",6)){
+							if(!strncmp(nextstep,"//ende",6)){
 								//printf("got 1\n");
 								if(!strncmp(nextstep+6,num,strlen(num))){
 									wbool=0;
@@ -175,9 +190,13 @@ void step(char *body){
 							strcat(ifbody,nextstep);
 						}
 						ifbody[strlen(ifbody)-1]=0;
-						printf("ifbody %s\n",ifbody);
-						body+=i+strlen(ifbody)+strlen(nextstep)+strlen(cond)+3;
+						//printf("bodypree jump elso %s\n",body);
+						body+=strlen(ifbody)+7+strlen(num);
+						if(*body==',')
+							body++;
+						//printf("body else1345 %s\n",body);
 					}
+					//body+=strlen(nextstep);
 					if(*body==0)
 						takeinput=0;
 				}
@@ -212,14 +231,49 @@ void step(char *body){
 						strcat(ifbody,nextstep);
 					}
 					ifbody[strlen(ifbody)-1]=0;
-					printf("ifbody %s\n",ifbody);
-					body+=i+strlen(ifbody)+strlen(nextstep)+strlen(cond)+3;
+					//printf("abody %s\n",body);
+					body+=strlen(ifbody)+strlen(cond)+7+strlen(num)*2+6;
+					//printf("body ifsasdf2365 %c\n",*body);
+					if(*body==',')
+						body++;
+					//printf("body ifsasdf %s\n",body);
+					if(haselse){
+						ifbody[0]=0;
+						k=0;
+						wbool=1;
+						//printf("body elsesasdf %s\n",body);
+						while(wbool){
+							for(i=0;body[k]!=','&&body[k]!=0;k++,i++){
+								nextstep[i]=body[k];
+								//printf("i = %d body=%c\n",i,body[k]);
+							}
+							nextstep[i]=body[k];
+							k++;
+							i++;
+							nextstep[i]=0;
+							//printf("nextstep %s num %s\n",nextstep,num);
+							if(!strncmp(nextstep,"//ende",6)){
+								//printf("got 1\n");
+								if(!strncmp(nextstep+6,num,strlen(num))){
+									wbool=0;
+									//printf("got 2\n");
+									continue;
+								}
+							}
+					
+							strcat(ifbody,nextstep);
+						}
+						ifbody[strlen(ifbody)-1]=0;
+						//printf("elsebody %s\n",ifbody);
+						step(ifbody);
+						//printf("bodypree jump elso %s\n",body);
+						body+=strlen(ifbody)+7+strlen(num);
+						if(*body==',')
+							body++;
+						//printf("body else1345 %s\n",body);
+					}
 					if(*body==0)
 						takeinput=0;
-					printf("body ifsasdf %s\n",body);
-					if(haselse){
-					
-					}
 				}
 			}
 			else{
@@ -231,6 +285,11 @@ void step(char *body){
 				executeStatement* e = new executeStatement(nextstep);
 				e->execute();
 			}
+			for(i=0;body[i]!=','&&body[i]!=0;i++){
+				nextstep[i]=body[i];
+			}
+			nextstep[i]=0;
+			printf("nextstep %s %d\n",nextstep,i);
 		}
 		else if(!strcmp(in,"continue")||!strcmp(in,"c")){
 			//continue the program
@@ -253,18 +312,19 @@ void step(char *body){
 			else
 				printf("variable does not exist %s\n",in);
 		}
+		
 	}  
 
   return;
 }
-cstack cstack::thiscstack;
-int main(){
+//cstack cstack::thiscstack;
+/*int main(){
 	frame *f = new frame;
 	f->stacksize =0;
 	f->maxsize = 10;
 	f->pframe =0;
 	f->sstack=(stack **) malloc(sizeof(stack *)*10);
 	cstack::thiscstack.push(f);
-	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl .5,//assg //id j = //int 1,//decassg int//id a = //less //int 1//id j,//decassg char//id t = //char 'c',//call //id scanf//arg //word \"%c\"//arg //id t,//dec int i,//assg //id i = //int 6,//if1 //less //id i//int 6,//++pf //id i,//endf1");
+	step("//call //id printf//arg //word \"hi %d%d\\n\\n\"//arg //int 5//arg //int 6,//-- //int 3,//dec int j,//decassg double//id x = //dbl .5,//assg //id j = //int 1,//decassg int//id a = //less //int 1//id j,//decassg char//id t = //char 'c',//call //id scanf//arg //word \"%c\"//arg //id t,//dec int i,//if1 //less //id i//int 6,//++pf //id i,//else1//assg //id j = //int 8,//ende1,//assg //id i = //int 0,//assg //id a = //int 4,//struct varble//dec int ident,//dec char * name,//dec char * type,//dec void * value//ends,//dec //structvar varble v,//assg //dot //id v//id ident = //int 0");
 	cstack::thiscstack.printframe(f);
-}
+}*/

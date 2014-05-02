@@ -20,9 +20,10 @@
 	//#include "functions.cpp"
 	#include <stdio.h>
 	#include <stdlib.h>
-	#include "stack.h"
+	//#include "stack.h"
 	#include <string.h>
 	#include <math.h>  
+	#include "step.cpp"
 	extern "C" int yylex();
 	extern int linecount;
 	int expcount;
@@ -45,7 +46,7 @@ primary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//id ");
 		strcat($<wd>$,$<wd>1);
-		printf("identifier %s\n",$<wd>$);
+		//printf("identifier %s\n",$<wd>$);
 	}
 	| NUMERAL {
 		//printf("numeral %d\n",$1);
@@ -71,7 +72,7 @@ primary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//char ");
 		strcat($<wd>$,$<wd>1);
-		printf("character %s\n",$<wd>$);
+		//printf("character %s\n",$<wd>$);
 	}
 	| WORD {
 		int size = strlen($<wd>1);
@@ -79,7 +80,7 @@ primary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//word ");
 		strcat($<wd>$,$<wd>1);
-		printf("word %s\n",$<wd>$);
+		//printf("word %s\n",$<wd>$);
 	}
     	| OPENPAR expression CLOSEPAR{
 		$<wd>$ = $<wd>2;
@@ -89,14 +90,14 @@ primary_expression
 postfix_expression
 	: primary_expression
 	| postfix_expression OPENBRACKET expression CLOSEBRACKET{
-		printf("array2!\n");
+		//printf("array2!\n");
 		int size = strlen($<wd>1)+strlen($<wd>3);
 		size=size+9;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//index ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("index %s\n",$<wd>$);
+		//printf("index %s\n",$<wd>$);
 	}
 	| postfix_expression OPENPAR CLOSEPAR
 	| postfix_expression OPENPAR argument_expression_list CLOSEPAR{
@@ -106,17 +107,17 @@ postfix_expression
 		strcat($<wd>$,"//call ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("call %s\n",$<wd>$);
+		//printf("call %s\n",$<wd>$);
 	}
 	| postfix_expression DOT IDENTIFIER{
 		int size = strlen($<wd>$)+strlen($<wd>3);
-		size=size+8;
+		size=size+12;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//dot ");
 		strcat($<wd>$,$<wd>1);
-		strcat($<wd>$, " ");
+		strcat($<wd>$, "//id ");
 		strcat($<wd>$,$<wd>3);
-		printf("DOT %s\n",$<wd>$);
+		//printf("DOT %s\n",$<wd>$);
 	}
 	| postfix_expression ARROW IDENTIFIER{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -125,7 +126,7 @@ postfix_expression
 		strcat($<wd>$,"//arrow ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("ARROW %s\n",$<wd>$);
+		//printf("ARROW %s\n",$<wd>$);
 	}
 	| postfix_expression PLUSPLUS{
 		int size = strlen($<wd>2);
@@ -133,7 +134,7 @@ postfix_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//++pf ");
 		strcat($<wd>$,$<wd>1);
-		printf("pppp %s\n",$<wd>$);
+		//printf("pppp %s\n",$<wd>$);
 	}
 	| postfix_expression MINUSMINUS{
 		int size = strlen($<wd>2);
@@ -141,7 +142,7 @@ postfix_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//--pf ");
 		strcat($<wd>$,$<wd>2);
-		printf("mmmm %s\n",$<wd>$);
+		//printf("mmmm %s\n",$<wd>$);
 	}
 	;
 
@@ -152,7 +153,7 @@ argument_expression_list
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//arg ");
 		strcat($<wd>$,$<wd>1);
-		printf("argument %s\n",$<wd>$);
+		//printf("argument %s\n",$<wd>$);
 	}
 	| argument_expression_list COMMA assignment_expression{
 		int size = strlen($<wd>$)+strlen($<wd>2)+strlen($<wd>3);
@@ -161,7 +162,7 @@ argument_expression_list
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,"//arg ");
 		strcat($<wd>$,$<wd>3);
-		printf("argument %s\n",$<wd>$);
+		//printf("argument %s\n",$<wd>$);
 	}
 	;
 
@@ -173,7 +174,7 @@ unary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//++ ");
 		strcat($<wd>$,$<wd>2);
-		printf("plosplos %s\n",$<wd>$);
+		//printf("plosplos %s\n",$<wd>$);
 	}
 	| MINUSMINUS unary_expression{
 		int size = strlen($<wd>2);
@@ -181,7 +182,7 @@ unary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//-- ");
 		strcat($<wd>$,$<wd>2);
-		printf("minusminus %s\n",$<wd>$);
+		//printf("minusminus %s\n",$<wd>$);
 	}
 	| unary_operator cast_expression{
 		int size = strlen($<wd>$)+strlen($<wd>2);
@@ -190,7 +191,7 @@ unary_expression
 		strcat($<wd>$,"//unop ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>2);
-		printf("unop %s\n",$<wd>$);	
+		//printf("unop %s\n",$<wd>$);	
 	}
 	/*| SIZEOF OPENPAR type_name superstar CLOSEPAR{//waht
 		int size = strlen($<wd>2);
@@ -206,7 +207,7 @@ unary_expression
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//sizeoftype ");
 		strcat($<wd>$,$<wd>3);
-		printf("sizeoftype %s\n",$<wd>$);
+		//printf("sizeoftype %s\n",$<wd>$);
 	}
 	;
 unary_operator
@@ -237,7 +238,7 @@ cast_expression
 		strcat($<wd>$,"//cast ");
 		strcat($<wd>$,$<wd>2);
 		strcat($<wd>$,$<wd>4);
-		printf("CAST %s\n",$<wd>$);
+		//printf("CAST %s\n",$<wd>$);
 	}
 	;
 
@@ -252,7 +253,7 @@ multiplicative_expression
 		strcat($<wd>$,"//mul ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("multiply %s\n",$<wd>$);
+		//printf("multiply %s\n",$<wd>$);
 	}
 	| multiplicative_expression DIVIDE cast_expression {
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -262,7 +263,7 @@ multiplicative_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$/$<dbl>3;
-		printf("divide  %s\n",$<wd>$);
+		//printf("divide  %s\n",$<wd>$);
 	}
 	| multiplicative_expression MOD cast_expression {
 		//printf("mod\n");
@@ -286,7 +287,7 @@ additive_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$+$<dbl>3;
-		printf("addition %s\n",$<wd>$);
+		//printf("addition %s\n",$<wd>$);
 	}
 	| additive_expression MINUS multiplicative_expression {
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -296,7 +297,7 @@ additive_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("subtraction %s\n",$<wd>$);
+		//printf("subtraction %s\n",$<wd>$);
 	}
 	;
 
@@ -310,7 +311,7 @@ relational_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("less op %s\n",$<wd>$);
+		//printf("less op %s\n",$<wd>$);
 	}
 	| relational_expression GREAT additive_expression{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -320,7 +321,7 @@ relational_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("great  %s\n",$<wd>$);
+		//printf("great  %s\n",$<wd>$);
 	}
 	| relational_expression LESSEQUALS additive_expression{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -330,7 +331,7 @@ relational_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("less eq %s\n",$<wd>$);
+		//printf("less eq %s\n",$<wd>$);
 	}
 	| relational_expression GREATEQUALS additive_expression{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -340,7 +341,7 @@ relational_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("great eq %s\n",$<wd>$);
+		//printf("great eq %s\n",$<wd>$);
 	}
 	;
 
@@ -354,7 +355,7 @@ equality_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("equalsequals %s\n",$<wd>$);
+		//printf("equalsequals %s\n",$<wd>$);
 	}
 	| equality_expression NOTEQUALS relational_expression{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -364,7 +365,7 @@ equality_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		//$<dbl>$=$<dbl>$-$<dbl>3;
-		printf("notequals %s\n",$<wd>$);
+		//printf("notequals %s\n",$<wd>$);
 	}
 	;
 
@@ -389,7 +390,7 @@ logical_and_expression
 		strcat($<wd>$,"//and ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("AND %s\n",$<wd>$);
+		//printf("AND %s\n",$<wd>$);
 	}
 	;
 
@@ -402,7 +403,7 @@ logical_or_expression
 		strcat($<wd>$,"//or ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("OR %s\n",$<wd>$);
+		//printf("OR %s\n",$<wd>$);
 	}
 	;
 
@@ -423,7 +424,7 @@ assignment_expression
 		strcat($<wd>$,$<wd>2);
 		strcat($<wd>$,$<wd>3);
 		strcat($<wd>$,$<wd>4);
-		printf("ASSIGNMENT %s\n",$<wd>$);
+		//printf("ASSIGNMENT %s\n",$<wd>$);
 	}
 	//|  declaration_specifiers unary_expression SEMICOLON
 	| unary_expression assignment_operator assignment_expression {
@@ -434,7 +435,7 @@ assignment_expression
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>2);
 		strcat($<wd>$,$<wd>3);
-		printf("ASSIGNMENT %s\n",$<wd>$);
+		//printf("ASSIGNMENT %s\n",$<wd>$);
 	}
 
 
@@ -478,7 +479,7 @@ declaration
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," ");
 		strcat($<wd>$,$<wd>2);
-		printf("dec %s\n",$<wd>$);
+		//printf("dec %s\n",$<wd>$);
 		
 		var[0]=$<wd>1;
 		var[1]=$<wd>2;
@@ -563,7 +564,7 @@ struct_or_union_specifier
 		strcat($<wd>$,$<wd>2);
 		strcat($<wd>$,$<wd>4);
 		strcat($<wd>$,"//ends ");
-		printf("struct %s\n",$<wd>$);
+		//printf("struct %s\n",$<wd>$);
 	}
 	| struct_or_union OPENBRACE struct_declaration_list CLOSEBRACE
 	| struct_or_union IDENTIFIER{
@@ -572,7 +573,7 @@ struct_or_union_specifier
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//structvar ");
 		strcat($<wd>$,$<wd>2);
-		printf("struct %s\n",$<wd>$);
+		//printf("struct %s\n",$<wd>$);
 	}
 	;
 
@@ -601,7 +602,7 @@ struct_declaration
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," ");//maby dont need the comma
 		strcat($<wd>$,$<wd>2);
-		printf("dec %s\n",$<wd>$);
+		//printf("dec %s\n",$<wd>$);
 	}
 	;
 
@@ -651,7 +652,7 @@ enumerator
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//id ");
 		strcat($<wd>$,$<wd>1);
-		printf("identifier %s\n",$<wd>$);
+		//printf("identifier %s\n",$<wd>$);
 	}
 	| IDENTIFIER EQUALS constant_expression{
 		int size = strlen($<wd>$)+strlen($<wd>3);
@@ -661,7 +662,7 @@ enumerator
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$," = ");
 		strcat($<wd>$,$<wd>3);
-		printf("ASSIGNMENT12 %s\n",$<wd>$);
+		//printf("ASSIGNMENT12 %s\n",$<wd>$);
 	}
 	;
 
@@ -678,7 +679,7 @@ declarator
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"* ");
 		strcat($<wd>$,$<wd>2);
-		printf("pointer %s\n",$<wd>$);
+		//printf("pointer %s\n",$<wd>$);
 	}
 	| direct_declarator {
 	}
@@ -703,14 +704,13 @@ direct_declarator
 
 pointer
 	: STAR{
-		$<wd>$="*";
+		$<wd>$="";
 	}
 	| STAR type_qualifier_list//TODO
 	| STAR pointer{
 		int size = strlen($<wd>2);
-		size=size+2;
+		size=size+1;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
-		strcat($<wd>$,"*");
 		strcat($<wd>$,$<wd>2);
 	}
 	| STAR type_qualifier_list pointer{//TODO
@@ -758,10 +758,10 @@ type_name
 abstract_declarator
 	: pointer
 	| direct_abstract_declarator{
-		printf("hello?\n");
+		//printf("hello?\n");
 	}
 	| pointer direct_abstract_declarator {//TODO
-		printf("does this shit get called?\n");
+		//printf("does this shit get called?\n");
 	}
 	;
 
@@ -769,11 +769,11 @@ direct_abstract_declarator
 	: OPENPAR abstract_declarator CLOSEPAR//TODO
 	| OPENBRACKET CLOSEBRACKET
 	| OPENBRACKET constant_expression CLOSEBRACKET{//TODO
-		printf("why god why %s\n",$<wd>1);
+		//printf("why god why %s\n",$<wd>1);
 	}
 	| direct_abstract_declarator OPENBRACKET CLOSEBRACKET//TODO
 	| direct_abstract_declarator OPENBRACKET constant_expression CLOSEBRACKET{//TODO
-		printf("why god why %s\n",$<wd>1);
+		//printf("why god why %s\n",$<wd>1);
 	}
 	| OPENPAR CLOSEPAR
 	| OPENPAR parameter_type_list CLOSEPAR//TODO
@@ -821,7 +821,7 @@ array_declaration
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
 		strcat($<wd>$,$<wd>4);
-		printf("indexdec %s\n",$<wd>$);
+		//printf("indexdec %s\n",$<wd>$);
 	}
 	| declaration_specifiers IDENTIFIER OPENBRACKET CLOSEBRACKET{
 		int size = strlen($<wd>1)+strlen($<wd>3);
@@ -830,7 +830,7 @@ array_declaration
 		strcat($<wd>$,"//index ");
 		strcat($<wd>$,$<wd>1);
 		strcat($<wd>$,$<wd>3);
-		printf("index %s\n",$<wd>$);
+		//printf("index %s\n",$<wd>$);
 	}
 	;
 labeled_statement//is this needed?
@@ -921,7 +921,7 @@ selection_statement
 		strcat($<wd>$,",");
 		strcat($<wd>$,"//endf");
 		strcat($<wd>$,wstring);
-		printf("if %s\n",$<wd>$);
+		//printf("if %s\n",$<wd>$);
 	
 	
 	}
@@ -949,7 +949,7 @@ selection_statement
 		strcat($<wd>$,",");
 		strcat($<wd>$,"//ende");
 		strcat($<wd>$,wstring);
-		printf("ifelse %s\n",$<wd>$);
+		//printf("ifelse %s\n",$<wd>$);
 	}
 	;
 
@@ -975,7 +975,7 @@ iteration_statement
 		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
 		strcat($<wd>$,wstring);
-		printf("while %s\n",$<wd>$);
+		//printf("while %s\n",$<wd>$);
 	}
 	| DO statement WHILE OPENPAR expression CLOSEPAR SEMICOLON{
 		int size = strlen($<wd>2)+strlen($<wd>5);
@@ -985,7 +985,7 @@ iteration_statement
 		strcat($<wd>$,$<wd>2);
 		strcat($<wd>$,"//endd ");
 		strcat($<wd>$,$<wd>5);
-		printf("dowhile %s\n",$<wd>$);
+		//printf("dowhile %s\n",$<wd>$);
 	}
 	| FOR OPENPAR expression_statement expression_statement CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>6);
@@ -1009,7 +1009,7 @@ iteration_statement
 		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
 		strcat($<wd>$,wstring);
-		printf("while %s\n",$<wd>$);
+		//printf("while %s\n",$<wd>$);
 	}
 	| FOR OPENPAR expression_statement expression_statement expression CLOSEPAR statement{
 		int size = strlen($<wd>3)+strlen($<wd>4)+strlen($<wd>5)+strlen($<wd>7);
@@ -1035,7 +1035,7 @@ iteration_statement
 		strcat($<wd>$,",");
 		strcat($<wd>$,"//endw");
 		strcat($<wd>$,wstring);
-		printf("for %s\n",$<wd>$);
+		//printf("for %s\n",$<wd>$);
 	}
 	;
 
@@ -1054,14 +1054,14 @@ jump_statement
 		int size = 15;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//return //null");
-		printf("return %s\n",$<wd>$);
+		//printf("return %s\n",$<wd>$);
 	}
 	| RETURN expression SEMICOLON {
 		int size =7 + strlen($<wd>2) ;
 		$<wd>$=(char *)malloc(sizeof(char)*size);
 		strcat($<wd>$,"//return ");
 		strcat($<wd>$,$<wd>2);
-		printf("return %s\n",$<wd>$);
+		//printf("return %s\n",$<wd>$);
 	}
 	;
 
@@ -1077,7 +1077,7 @@ translation_unit
 external_declaration
 	: function_definition
 	| declaration {//TODO
-		printf("global variable %s %s\n",var[0], var[1]);
+		//printf("global variable %s\n",$<wd>$);
 		//(((struct varble *)globls+globalcount))->name=var[1];
 		//(((struct varble *)globls+globalcount))->type=var[0];
 		//globalcount++;
@@ -1085,19 +1085,22 @@ external_declaration
 		//	globalmax *=2;
 		//	globls = realloc(globls,sizeof(struct varble)*globalmax);
 		//}
+		 char * body=$<wd>$;
+   		 step(body);
+		//cstack::thiscstack.curframe
 	}
 	;
 
 function_definition
 	: declaration_specifiers declarator declaration_list compound_statement{
-		printf("does this shit get called?\n");
+		//printf("does this shit get called?\n");
 	}
 	| declaration_specifiers declarator compound_statement{
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount] = new function;
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->type=$<wd>1;
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->name=$<wd>2;
 		cstack::thiscstack.funcs[cstack::thiscstack.funcount]->body=$<wd>3;
-		printf("function %s body %s\n",$<wd>2,$<wd>3);
+		//printf("function %s body %s\n",$<wd>2,$<wd>3);
 		cstack::thiscstack.funcount++;
 		if(cstack::thiscstack.funcount >=cstack::thiscstack.funcmax){
 			cstack::thiscstack.funcmax *=2;
@@ -1105,10 +1108,10 @@ function_definition
 		}
 	}
 	| declarator declaration_list compound_statement{//TODO
-		printf("does this shit get called?\n");
+		//printf("does this shit get called?\n");
 	}
 	| declarator compound_statement{//TODO
-		printf("does this shit get called2?\n");
+		//printf("does this shit get called2?\n");
 	}
 	;
 
@@ -1122,7 +1125,7 @@ int yyerror(char * s)
 {
 	fflush(stdout);
 	////printf("error %s\n",s);
-	printf("hue\n%*s\n%*s\n", column, "^", column, s);
+	//printf("hue\n%*s\n%*s\n", column, "^", column, s);
 }
 extern int expcount;
 cstack cstack::thiscstack;
@@ -1138,7 +1141,23 @@ int main(int argc, char* argv[])
 	cstack::thiscstack.funcs = (struct function **) malloc(sizeof(function *)*50);
 	cstack::thiscstack.funcmax=50;
 	cstack::thiscstack.funcount=0;
-    printf("hue%d\n",yyparse());
+	frame *f = new frame;
+	f->stacksize =0;
+	f->maxsize = 10;
+	f->pframe =0;
+	f->sstack=(stack **) malloc(sizeof(stack *)*10);
+	cstack::thiscstack.push(f);
+	cstack::thiscstack.curframe=f;
+	yyparse();
+    //printf("hue%d\n",yyparse());
+    int ret=cstack::thiscstack.findfunc("main");
+    if(ret<0){
+    	printf("main not found\n");
+    	return 0;
+    }
+    function * mmain=cstack::thiscstack.funcs[ret];
+    char * body=mmain->body;
+    step(body);
     //perror("yyparse");
     return 0;
 }

@@ -1105,7 +1105,7 @@ case 36:
 YY_RULE_SETUP
 #line 138 "lex.l"
 {
-		printf("open bracket BITCH\n");
+		//printf("open bracket BITCH\n");
 		count(); return OPENBRACKET;
 	}
 	YY_BREAK
@@ -1321,7 +1321,7 @@ case 66:
 YY_RULE_SETUP
 #line 234 "lex.l"
 {
-	printf("numeral %s\n",yytext);
+	//printf("numeral %s\n",yytext);
 	yylval.wd = strdup(yytext);
   	count(); return NUMERAL;
 }
@@ -1330,7 +1330,7 @@ case 67:
 YY_RULE_SETUP
 #line 239 "lex.l"
 {
-	printf("yytext val %s\n",yytext);
+	//printf("yytext val %s\n",yytext);
 	yylval.wd=strdup(yytext);	
 	count(); return NUMERAL;
 }
@@ -1339,7 +1339,7 @@ case 68:
 YY_RULE_SETUP
 #line 244 "lex.l"
 {
-	printf("\nid %s\n",yytext);
+	//printf("\nid %s\n",yytext);
 	yylval.wd=strdup(yytext);
 	count(); return IDENTIFIER;
 }

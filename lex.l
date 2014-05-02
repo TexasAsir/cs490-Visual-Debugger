@@ -136,7 +136,7 @@ int linecount=1;
 		count(); return CLOSEPAR;
 	}
 "[" 	{
-		printf("open bracket BITCH\n");
+		//printf("open bracket BITCH\n");
 		count(); return OPENBRACKET;
 	}
 "]"     {
@@ -232,17 +232,17 @@ int linecount=1;
 		count(); return WORD;
 	}
 [0-9]+ {
-	printf("numeral %s\n",yytext);
+	//printf("numeral %s\n",yytext);
 	yylval.wd = strdup(yytext);
   	count(); return NUMERAL;
 }
 [0-9]+\.[0-9]* {
-	printf("yytext val %s\n",yytext);
+	//printf("yytext val %s\n",yytext);
 	yylval.wd=strdup(yytext);	
 	count(); return NUMERAL;
 }
 [a-zA-Z_][a-zA-Z_0-9]* {
-	printf("\nid %s\n",yytext);
+	//printf("\nid %s\n",yytext);
 	yylval.wd=strdup(yytext);
 	count(); return IDENTIFIER;
 }

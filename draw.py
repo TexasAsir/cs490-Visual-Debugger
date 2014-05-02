@@ -3,10 +3,11 @@
 import sys
 import re
 import math
+from graphics import *
 
 def func():
-	print "Hello world!"
-	from graphics import *
+	##print "Hello world!"
+	#from graphics import *
 	win = GraphWin("Visualiztion",1000,800)
 	pt = Point(100,50)
 	#pt.draw(win)
@@ -29,14 +30,14 @@ def lineCount(f):
 
 
 def SLL(lines):
-	from graphics import *
+	#from graphics import *
 	#using rectangles
 	string = lines[1]
 	string=str(string)
 	
 	numVars = filter(str.isdigit,lines[1])
-	print "The number of variables is "
-	print numVars
+	#print "The number of variables is "
+	#print numVars
 	
 	i=0
 	j=0
@@ -56,8 +57,8 @@ def SLL(lines):
 
 	fileLen=lineCount("draw.txt")
 
-	print "The length of the file is"
-	print fileLen
+	#print "The length of the file is"
+	#print fileLen
 
 
 	tX=int(x)
@@ -69,20 +70,20 @@ def SLL(lines):
 		tY=int(y)
 		tx=int(x)
 		header=lines[i]
-		print "The header is"
-		print header
+		#print "The header is"
+		#print header
 		while j<int(numVars):
-			print "The value of i is"
-			print i
+			#print "The value of i is"
+			#print i
 			header=lines[i+1]
 			info=lines[i+2]			
 
 			output = header+"\n"+info
-			print output
+			#print output
 			label = Text(Point(tX+40,tY+10), output)
 			tY=tY+20
 			label.draw(win)
-			print "tX value "+str(tX)
+			#print "tX value "+str(tX)
 			#tX=tX+140+65
 			#tY=int(y)
 			i=i+int(numVars)
@@ -91,7 +92,7 @@ def SLL(lines):
 		tX=tX+140+65
 		rect=Rectangle(startA,startB)
 		rect.draw(win)
-		print i
+		#print i
 
 		x+=200
 		X+=200
@@ -107,7 +108,7 @@ def SLL(lines):
 	
 
 def DLL(lines):
-	from graphics import *
+	#from graphics import *
 	length=lineCount("dllTest.txt")
 	numVars=0
 	i=3
@@ -115,14 +116,14 @@ def DLL(lines):
 
 
 	while i < length:
-		if not "struct Node" in lines[i]:
+		if not "struct " in lines[i]:
 			numVars+=1
 		else:
 			break
 		i+=1
 
-	print "The number of vars is "
-	print numVars
+	##print "The number of vars is "
+	#print numVars
 	
 	multiplier=int(numVars)
 	if multiplier < 2:
@@ -150,11 +151,11 @@ def DLL(lines):
 		final = ""
 		output=lines[i]
 		final = final +"\n"+output
-		#print output
+		##print output
 		i+=1
 		output=lines[i]
 		final = final +"\n"+output
-		#print output
+		##print output
 		i+=1
 		j=0
 		tX=int(x)
@@ -162,12 +163,12 @@ def DLL(lines):
 		while j < numVars:
 			output=lines[i]
 			final = final +"\n"+output
-			#print output
+			##print output
 			i+=1
 			j+=1
 		#i+=2	
 		#i+=1
-		print final
+		#print final
 		#label = Text(Point(tX+40,tY+10), final)
 		#label.draw(win)
 		
@@ -206,8 +207,8 @@ def BTREE(lines):
 
 	fileLen=lineCount("draw.txt")
 	fileLen-=3
-	print "The file lenght is "
-	print fileLen
+	#print "The file lenght is "
+	#print fileLen
 	
 
 
@@ -221,17 +222,17 @@ def BTREE(lines):
 	while A==False:
 		if 2**height<int(numNodes):
 			height+=1
-			print height
-			print numNodes
+			#print height
+			#print numNodes
 		else:
 			A=True	
 	
-	print "The number of nodes is "
-	print numNodes
-	print "The height is "
-	print height
+	#print "The number of nodes is "
+	#print numNodes
+	#print "The height is "
+	#print height
 	total=math.pow(height,2)
-	from graphics import *	
+	#from graphics import *	
 	win = GraphWin("Binary Tree Visualiztion",800,300)
 	
 	#data starts at line index 3
@@ -737,16 +738,16 @@ def BTREE(lines):
 
 
 		index+=1
-
-		win.getMouse()
-		win.close()
+	win.getMouse()
+		
+	win.close()
 
 
 def main():
 	text = sys.argv[0]
 	#F = open("info.txt",'r',0)
 	lines = [line.strip() for line in open('draw.txt')]
-	print lines	
+	#print lines	
 	if lines[0]=="#!SLL":
 		DLL(lines)
 	elif lines[0]=="#!BTREE":
@@ -754,14 +755,14 @@ def main():
 	elif lines[0]=="#!DLL":
 		DLL(lines)
 	else:
-		print "nope"
+		pass
 	#string=F.read(10)
-	#print string
+	##print string
 	
 	#with open("info.txt") as f:
 	#	content = f.readlines()	
 
-	#print content
+	##print content
 	#func()
 
 

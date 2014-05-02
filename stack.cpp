@@ -29,12 +29,12 @@ void cstack::pop(){
 }
 void cstack::pushsstack(stack * s, frame *f){
 	if(!s->var.ident){
-		printf("its a varble\n");
+		//printf("its a varble\n");
 		if(find(f,s->var.name)>-1){
 			printf("variable already declared %s\n",s->var.name);
 			exit(-1);
 		}
-		printf("its a new varble\n");
+		//printf("its a new varble\n");
 	}
 	if(f->stacksize>=f->maxsize){
 		f->maxsize *=2;
@@ -48,6 +48,7 @@ int cstack::findstruct(frame * f, char * var){
 	while(ind < f->stacksize){
 		if(f->sstack[ind]->var.ident==1){
 			if(!strcmp(f->sstack[ind]->st.type,var)){
+				//printf("found da struct\n");
 				return ind;
 			}
 		}
@@ -59,19 +60,30 @@ int cstack::find(frame * f, char * var){
 	int ind = 0;
 	while(ind < f->stacksize){
 		if(f->sstack[ind]->var.ident==0){
-			printf("its a varble in da find\n");
 			if(!strcmp(f->sstack[ind]->var.name,var)){
+				//printf("its a varble in da find\n");
 				return ind;
 			}
 		}
 		else{
-			printf("its a structy\n");
 			if(f->sstack[ind]->st.name){
 				if(!strcmp(f->sstack[ind]->st.name,var)){
+					//printf("its a structy\n");
 					return ind;
 				}
 			}
 		}	
+		ind++;					
+	}
+	return -1;
+}
+int cstack::findfunc(char * func){
+	int ind = 0;
+	while(ind < funcount){
+		if(!strcmp(funcs[ind]->name,func)){
+			//printf("its a function\n");
+			return ind;
+		}
 		ind++;					
 	}
 	return -1;

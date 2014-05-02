@@ -10,6 +10,9 @@
 
 using namespace std;
 
+
+FILE * f;
+
 int tree[1000];
 int numNodes=0;
 int height;
@@ -21,7 +24,7 @@ char dllSend[1000];
 char sllSend[1000];
 
 
-
+void sendBTree();
 void printStack(int index, int offset){
 	//You need to compile as
 	//gcc bTree.c -lm
@@ -68,7 +71,7 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 	int leftPos=-1;
 	int rightPos=-1;	
 
-	for(int i=0;s->var[i+1]!=NULL;i++){
+	for(int i=0;i<s->size;i++){
 
 		if(strcmp(s->var[i]->name,infoVar)==0){
 			infoPos=i;
@@ -92,7 +95,7 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 	//printf("%d",(int *)v[i].value);
 	//printf("The derpy i want to save is %d\n",(int *)s->var[infoPos]->value);
 	char tmp[10];
-	sprintf(tmp,"%d",(int *)s->var[infoPos]->value);
+	sprintf(tmp,"%d",*(int *)s->var[infoPos]->value);
 	tree[index]=atoi(tmp);
 	
 	//int rly=(int *)s->var[infoPos]->value;
@@ -101,13 +104,13 @@ void setStack(struct sstruct *s,char * left, char * right, char * infoVar, int i
 	
 	//printf("The value of tree[index] is %d\n",tree[index]);
 	numNodes++;
-	if(s->var[leftPos]->value!=NULL){
+	if(*(int *)s->var[leftPos]->value!=NULL){
 			//setStack(root->left,((2*index)+1));
-			setStack((sstruct *)s->var[leftPos]->value,left,right,infoVar,((2*index)+1));
+			setStack(*(sstruct **)s->var[leftPos]->value,left,right,infoVar,((2*index)+1));
 	}	
-	if(s->var[rightPos]->value!=NULL){
+	if(*(int *)s->var[rightPos]->value!=NULL){
 			//setStack(root->right,((2*index)+2));
-			setStack((sstruct *)s->var[rightPos]->value,left,right,infoVar,((2*index)+2));
+			setStack(*(sstruct **)s->var[rightPos]->value,left,right,infoVar,((2*index)+2));
 	}
 }
 
@@ -118,13 +121,14 @@ void printBTree(struct sstruct *s){
 	//printf("Made it into b tree printing\n");
 	varble * v = new varble[10];
 	int count=0;
-	while(s->var[count+1]!=NULL){
+	while(count<s->size){
 		v[count].ident=0;
 		v[count].type=strdup(s->var[count]->type);
 		v[count].name=strdup(s->var[count]->name);
 		v[count].value=(void *)s->var[count]->value;
 		count++;
 	}
+	//printf("count %d\n",count);
 	char * leftCand=NULL;
 	char * rightCand=NULL;	
 	for(int i=0;i<count;i++){
@@ -178,7 +182,7 @@ void printBTree(struct sstruct *s){
 	char * right=NULL;	
 	printf("You have two self referencing pointers, %s and %s\n",leftCand,rightCand);
 	printf("If %s is your left pointer, enter 1, if %s is your left pointer, enter 2\n",leftCand,rightCand);
-	int response;
+	int response=0;
 	while(response !=1 && response !=2){
 		scanf("%d",&response);
 		printf("The response is %d\n",response);
@@ -195,8 +199,9 @@ void printBTree(struct sstruct *s){
 		}
 
 	}
-
+	//printf("im going in\n");
 	setStack(s,left,right,infoVar,0);
+	//printf("im coming out\n");
 	//printf("The number of nodes is %d\n",numNodes);
 	height=floor(log(numNodes)/log(2));
 	//printf("The height of this tree is %d\n",height);
@@ -216,34 +221,34 @@ void enqueSLL(struct varble * v, int count){
 		for(int i=0;i<count;i++){
 			printf("%s\t%s\t",v[i].type,v[i].name);
 			if(strcmp(v[i].type,"int")==0){
-				printf("%d",(int *)v[i].value);
+				printf("%d",*(int *)v[i].value);
 			}
 			else if(strcmp(v[i].type,"double")==0){
-				printf("%lf",(double *)v[i].value);
+				printf("%lf",*(double *)v[i].value);
 			}
 			else if(strcmp(v[i].type,"float")==0){
-				printf("%f",(float *)v[i].value);
+				printf("%f",*(float *)v[i].value);
 			}
 			else if(strcmp(v[i].type,"char")==0){
-				printf("%c",(int *)v[i].value);
+				printf("%c",*(int *)v[i].value);
 			}
 			else if(strcmp(v[i].type,"string")==0){
-				printf("%s",(int *)v[i].value);
+				printf("%s",*(int *)v[i].value);
 			}
 			else{
 				//this is the next pointer
-				if(v[i].value!=NULL){
-					printf("%p",v[i].value);
-					printf("\n\n");
+				if(*(int *)v[i].value!=NULL){
+					printf("%p",*(int *)v[i].value);
+					//printf("\n\n");
 					
 
 				}
 				else{
 					printf("NULL");
-				    printf("\n\n");
+				    //printf("\n\n");
 				}
 			}
-		
+			printf("\n");
 		}		
 	
 
@@ -257,32 +262,32 @@ void printNode(struct sstruct *s){
 	strcat(dllSend,header);
 	char typeName[100];
 	char var[100];
-	for(int i=0;s->var[i+1]!=NULL;i++){
+	for(int i=0;i<s->size;i++){
 		sprintf(typeName,"%s	%s	",s->var[i]->type,s->var[i]->name);
 		strcat(dllSend,typeName);
 		
 		if(strcmp(s->var[i]->type,"int")==0){
-			sprintf(var,"%d\n",(int *)(s->var[i]->value));	
+			sprintf(var,"%d\n",*(int *)(s->var[i]->value));	
 		}
 		else if(strcmp(s->var[i]->type,"double")==0){
-			sprintf(var,"%lf\n",(int *)(s->var[i]->value));	
+			sprintf(var,"%lf\n",*(double *)(s->var[i]->value));	
 		}
 		else if(strcmp(s->var[i]->type,"char")==0){
-			sprintf(var,"%c\n",(int *)(s->var[i]->value));	
+			sprintf(var,"%c\n",*(char *)(s->var[i]->value));	
 		}
 		else if(strcmp(s->var[i]->type,"float")==0){
-			sprintf(var,"%f\n",(int *)(s->var[i]->value));	
+			sprintf(var,"%f\n",*(float *)(s->var[i]->value));	
 		}
 		else if(strcmp(s->var[i]->type,"string")==0){
-			sprintf(var,"%s\n",(int *)(s->var[i]->value));	
+			sprintf(var,"%s\n",*(char **)(s->var[i]->value));	
 		}
 		else{
-			if(s->var[i]->value==NULL){
+			if((*(int *)s->var[i]->value==NULL)){
 				sprintf(var,"%s","NULL\n");
 				//continue;
 			}
 			else{
-				sprintf(var,"%p\n",s->var[i]->value);
+				sprintf(var,"%p\n",*(int *)s->var[i]->value);
 			}
 		}
 		strcat(dllSend,var);
@@ -299,16 +304,23 @@ void printNode(struct sstruct *s){
 
 void printSLL(struct sstruct *s){
 	//printf("Made it here\n");
+	
+	
+	
 
-	printf("-------struct %s [%s]------------\n",s->type,s->name);
+	//printf("-------struct %s [%s]------------\n",s->type,s->name);
 	varble * v=new varble[10];
 	int count=0;
-	for(int i=0;s->var[i]!=NULL;i++){
+	for(int i=0;i<s->size;i++){
+		//printf("loopyo\n");
 		v[i].type=strdup(s->var[i]->type);
+		//printf("type\n");
 		v[i].name=strdup(s->var[i]->name);
+		//printf("name\n");
 		v[i].value=(void *)s->var[i]->value;
 		count++;
 	}
+	//printf("out\n");
 		//char header[50];
 		//sprintf(header,"#!SLL\nnum vars %d\n",count);
 		//strcat(dllSend,header);
@@ -338,7 +350,7 @@ void printSLL(struct sstruct *s){
 			}
 			else{
 				//this is the next pointer
-				if(v[i].value!=NULL){
+				if(*(int *)v[i].value!=NULL){
 					//printf("%p",v[i].value);
 					//printf("\n\n");
 					next=i;
@@ -351,31 +363,32 @@ void printSLL(struct sstruct *s){
 			}
 
 			
-		printf("\n\n");
+		//printf("\n\n");
 		
 		}
 		//interate to next node if there is one
 		
 		if(next!=-1){
-			//	printf("SCOOOBY DOOBY DOOO!!!!!!!!!!\n");
+				//printf("SCOOOBY DOOBY DOOO!!!!!!!!!!\n");
 				//enqueSLL(v,count);
 				printNode(s);
-				printSLL((sstruct *)v[next].value);
+				//printf("noded printed %x\n",v[next].value);
+				printSLL(*(sstruct **)(v[next].value));
 		}	
 		else{
-				printf("\n\n");
+				//printf("\n\n");
 				printNode(s);
-				enqueSLL(v,count);
+				//enqueSLL(v,count);
 		}		
 
 
-			printf("\n\n");
+			//printf("\n\n");
 
 	
 }
 
 void printArray(struct sstruct *s, int * ptr){
-	printf("In array mode\n");
+	//printf("In array mode\n");
 	int drawMode=0;
 	if(ptr==NULL){
 		drawMode=1;
@@ -417,17 +430,19 @@ void printArray(struct sstruct *s, int * ptr){
 
 
 void printDLL(struct sstruct *s){
-	printf("got to the dll printing\n");
+	
+
+	//printf("got to the dll printing\n");
 	int count=0;
 	int infoVars=0;
 	varble * v = new varble[10];
-	for(int i=0;s->var[i+1]!=NULL;i++){
+	for(int i=0;i<s->size;i++){
 		v[i].type=strdup(s->var[i]->type);
 		v[i].name=strdup(s->var[i]->name);
 		v[i].value=(void *)s->var[i]->value;
 		count++;
 	}
-	printf("Made it to the next cand stuff\n");
+	//printf("Made it to the next cand stuff\n");
 	int nextCand;
 	int prevCand;
 	for(int i=0;i<count;i++){
@@ -495,12 +510,13 @@ void printDLL(struct sstruct *s){
 	sstruct * pTemp=(sstruct *)s;	
 	int prevIndex=0;
 	printf("The thing i want to save is %p\n",pTemp->var[previous]->value);	
-	while(pTemp->var[previous]->value!=NULL){ 
+	while(*(int *)pTemp->var[previous]->value!=NULL){ 
 		printf("\n");
-		printf("The thing i want to save is %p\n",pTemp->var[previous]->value);
+		printf("The thing you want to save is %p\n",pTemp->var[previous]->value);
 		//prevList[prevIndex]=(int *)pTemp->var[previous]->value;
 		prevList[prevIndex]=(void *)pTemp->var[previous]->value;
-		pTemp=(sstruct*)pTemp->var[previous]->value;
+		pTemp=*(sstruct**)pTemp->var[previous]->value;
+		prevIndex++;
 
 	}	
 
@@ -508,13 +524,13 @@ void printDLL(struct sstruct *s){
 	sstruct * nTemp=(sstruct *)s;	
 	int nextIndex=0;
 	printf("The thing i want to save is %p\n",nTemp->var[next]->value);	
-	while(nTemp->var[next]->value!=NULL){ 
+	while(*(int *)nTemp->var[next]->value!=NULL){ 
 		printf("\n");
 		printf("The thing i want to save is %p\n",nTemp->var[next]->value);
 		//prevList[prevIndex]=(int *)pTemp->var[previous]->value;
 		nextList[nextIndex]=(void *)nTemp->var[next]->value;
-		nTemp=(sstruct*)nTemp->var[next]->value;
-
+		nTemp=*(sstruct**)nTemp->var[next]->value;
+		nextIndex++;
 	}	
 
 
@@ -535,7 +551,7 @@ strcat(dllSend,"#!DLL\n");
 
 	for(int i=0;i<10;i++){
 		if(prevList[i]!=NULL){
-			pTemp=(sstruct*)prevList[i];
+			pTemp=*(sstruct**)prevList[i];
 			printf("The name of what I have gotten is %s\n",pTemp->name);
 			printNode(pTemp);
 		}
@@ -550,7 +566,7 @@ strcat(dllSend,"#!DLL\n");
 //print through the next nodes
 	for(int i=0;i<10;i++){
 		if(nextList[i]!=NULL){
-			nTemp=(sstruct*)nextList[i];			
+			nTemp=*(sstruct**)nextList[i];			
 			printNode(nTemp);
 			
 
@@ -608,20 +624,30 @@ void viz(union stack * s){
 
 
 	else{
+	
+		f=fopen("draw.txt","w");
+	
+	
 		//is a structure
 		struct sstruct *st=(sstruct*)s;
+		if(st->label==0){
+			printf("Invalid or unaccepted strucutre\n");
+			return;
+		}
 		if(strcmp(st->label,"SLL")==0){
 			//char header[50];
 		//sprintf(header,"#!SLL\nnum vars %d\n",count);
 		//strcat(dllSend,header);
+		
 			char lable[10];		
 			sprintf(lable,"#!SLL\n");
 			strcat(dllSend,lable);
-
 			printSLL(st);
+			fwrite(dllSend,sizeof(char),strlen(dllSend),f);
 		}
 		else if(strcmp(st->label,"DLL")==0){
 			printDLL(st);
+			fwrite(dllSend,sizeof(char),strlen(dllSend),f);
 		}
 		else if(strcmp(st->label,"ARRAY")==0){
 			printArray(st,NULL);
@@ -629,11 +655,13 @@ void viz(union stack * s){
 		}
 		else if(strcmp(st->label,"BTREE")==0){
 			printBTree(st);
+			sendBTree();
 		}
 		else{
 			printf("Invalid or unaccepted strucutre\n");
+			return;
 		}
-		
+		fclose(f);
 		pid_t pid;
 		pid=fork();
 		if(pid==0){
@@ -662,13 +690,13 @@ void viz(union stack * s){
 }
 
 void sendBTree(){
-	FILE * f;
+	//FILE * f;
   	//f = fopen ("bTreeTest.txt","w");
-  	f = fopen ("draw.txt","w");
+  	//f = fopen ("draw.txt","w");
 	char buffer[1500];
 	sprintf(buffer,"#!BTREE\nNum Nodes %d\nHeight %d\n",numNodes,height);
 	int upper=pow(2,height+1);
-
+	printf("sending tree\n");
 	fwrite(buffer,sizeof(char),strlen(buffer),f);
 	char buffB[10];
 	for(int i=0;i<upper;i++){
@@ -679,7 +707,7 @@ void sendBTree(){
 	}
 	sprintf(buffB,"---\n");
 	fwrite(buffB,sizeof(char),strlen(buffB),f);
-	fclose(f);
+	//fclose(f);
 
 
 }
